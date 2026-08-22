@@ -1,0 +1,1133 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics><meta name="design_doc_mode" content="canvas"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,300;1,6..72,400&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Archivo:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=Libre+Franklin:wght@300;400;500;600;700&display=swap" rel="stylesheet"><style>
+body{margin:0;background:#eceae5;font-family:"Public Sans",system-ui,sans-serif}
+a{color:#1a1a1a}a:hover{color:#A2621B}
+.dv-turn{padding:44px 48px 40px;border-bottom:1px solid rgba(0,0,0,.09);scroll-margin-top:16px}
+.dv-thd{display:flex;align-items:baseline;gap:10px;margin:0 0 26px}
+.dv-tid{font:600 10px ui-monospace,Menlo,monospace;padding:3px 7px;background:#1a1a1a;color:#fff;border-radius:3px;text-decoration:none}
+.dv-tname{font:600 13px/1.2 system-ui,sans-serif;color:#1a1a1a}
+.dv-opts{display:flex;flex-wrap:nowrap;gap:64px;align-items:flex-start}
+.dv-opt{flex:none;width:1280px;display:flex;flex-direction:column;gap:18px;scroll-margin-top:16px}
+.dv-oid{font:600 10.5px ui-monospace,Menlo,monospace;padding:3px 7px;background:rgba(0,0,0,.08);color:#1a1a1a;border-radius:4px;text-decoration:none}
+.dv-opt:target .dv-oid{background:#2a78d6;color:#fff}
+.dv-ohd{display:flex;flex-direction:column;gap:10px;max-width:780px}
+.dv-otitle{display:flex;align-items:baseline;gap:10px;font:600 15px/1.2 system-ui,sans-serif;color:#141414}
+.dv-onote{margin:0;font:400 12.5px/1.65 system-ui,sans-serif;color:rgba(0,0,0,.58);max-width:760px}
+.dv-onote b{color:#141414;font-weight:600}
+.dv-row{display:flex;flex-wrap:wrap;gap:22px;align-items:flex-start}
+.dv-scr{display:flex;flex-direction:column;gap:7px}
+.dv-cap{font:500 10px/1 ui-monospace,Menlo,monospace;letter-spacing:.09em;text-transform:uppercase;color:rgba(0,0,0,.4)}
+.dv-frame{border:1px solid rgba(0,0,0,.14);overflow:hidden;position:relative}
+.dv-next{margin:10px 0 0;font:12px/1.5 system-ui,sans-serif;color:rgba(0,0,0,.5)}
+</style></helmet>
+
+<section class="dv-turn" id="t2">
+<div class="dv-thd"><a class="dv-tid" href="#t2">2</a><span class="dv-tname">Le Dossier, augmenté — chaîne de preuves de <a class="dv-oid" href="#1b">1b</a> + module conséquences de <a class="dv-oid" href="#1c">1c</a></span></div>
+<div class="dv-opts">
+<div class="dv-opt" id="2a">
+<div class="dv-ohd">
+<div class="dv-otitle"><a class="dv-oid" href="#2a">2a</a>LE DOSSIER v2 — identité inchangée, deux mécanismes importés</div>
+<sc-if value="{{ showNotes }}" hint-placeholder-val="{{ true }}"><p class="dv-onote"><b>Ce qui est conservé de <a class="dv-oid" href="#1a">1a</a> :</b> papier chaud, Newsreader en titres, Public Sans en corps, mono pour l'appareil, filets d'un pixel, ocre sur trois usages seulement, aucune grille apparente. <b>Mécanisme 1 — la chaîne de preuves (de <a class="dv-oid" href="#1b">1b</a>) :</b> traduite dans la langue du Dossier — plus de vert ni de tableau à colonnes visibles, mais le partage <b>établi / non établi</b> et <b>obtenu / sans réponse</b> exprimé par le carré plein ou vide et par le mot. La pièce absente reste affichée&nbsp;: c'est un engagement éditorial, pas un trou. <b>Mécanisme 2 — « Ce que ça change » (de <a class="dv-oid" href="#1c">1c</a>) :</b> promu au rang de composant produit. Il apparaît sous trois formats — encart de homepage, bloc épinglé en bas de vérification, page pleine avec sélecteur de profil — toujours avec le chiffre en Newsreader ocre et l'hypothèse visible en dessous.</p></sc-if>
+</div>
+
+<div class="dv-row">
+<div class="dv-scr"><span class="dv-cap">2a · Homepage mobile — encart conséquences</span>
+<div class="dv-frame" style="width:390px;min-height:812px;background:#FAF8F4;font-family:'Public Sans',sans-serif;color:#17161a">
+<div style="display:flex;flex-direction:column;min-height:812px">
+<div style="display:flex;align-items:baseline;justify-content:space-between;padding:18px 20px 12px">
+<span style="font:500 21px/1 Newsreader,serif;letter-spacing:-.01em">Sene<span style="color:#A2621B">Source</span></span>
+<span style="font:400 9.5px/1 'IBM Plex Mono',monospace;letter-spacing:.08em;color:#6B665D">SAM. 22 AOÛT</span>
+</div>
+<div style="display:flex;gap:16px;padding:0 20px 12px;border-bottom:1px solid #17161a">
+<span style="font:500 9.5px/1 'IBM Plex Mono',monospace;letter-spacing:.09em">VÉRIFICATIONS</span>
+<span style="font:400 9.5px/1 'IBM Plex Mono',monospace;letter-spacing:.09em;color:#6B665D">DOCUMENTS</span>
+<span style="font:400 9.5px/1 'IBM Plex Mono',monospace;letter-spacing:.09em;color:#6B665D">CE QUE ÇA CHANGE</span>
+</div>
+<div style="padding:16px 20px 20px;border-bottom:1px solid #E0DBD1">
+<div style="display:flex;gap:10px;align-items:baseline;margin-bottom:10px"><span style="font:600 10px/1 'IBM Plex Mono',monospace;color:#A2621B;letter-spacing:.06em">DOSSIER 041</span><span style="font:400 10px/1 'IBM Plex Mono',monospace;color:#6B665D;letter-spacing:.06em">FISCALITÉ · CARBURANT</span></div>
+<h1 style="margin:0 0 14px;font:400 29px/1.14 Newsreader,serif;letter-spacing:-.015em;text-wrap:pretty">La taxe de 1 % sur les paiements en espèces dans les stations-service a-t-elle été créée pour maintenir le prix du carburant&nbsp;?</h1>
+<div style="display:flex;align-items:baseline;gap:9px;padding:9px 0;border-top:1px solid #17161a;border-bottom:1px solid #E0DBD1;margin-bottom:12px">
+<span style="font:500 9px/1 'IBM Plex Mono',monospace;letter-spacing:.1em;color:#6B665D">VERDICT</span>
+<span style="font:400 17px/1 Newsreader,serif;font-style:italic">Trompeur</span>
+<span style="margin-left:auto;font:400 9.5px/1 'IBM Plex Mono',monospace;color:#6B665D">4 PIÈCES SUR 6 OBTENUES</span>
+</div>
+<p style="margin:0 0 16px;font:400 15.5px/1.62 'Public Sans',sans-serif;color:#33312c;text-wrap:pretty">La taxe existe. Sa finalité déclarée est le recouvrement fiscal&nbsp;; aucun document ne la lie au prix à la pompe.</p>
+<div style="border:1px solid #17161a;padding:14px">
+<div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:12px"><span style="font:500 9px/1 'IBM Plex Mono',monospace;letter-spacing:.1em;color:#6B665D">CE QUE ÇA CHANGE POUR VOUS</span><span style="font:400 9px/1 'IBM Plex Mono',monospace;color:#A2621B">CHOISIR ▾</span></div>
+<div style="display:flex;align-items:flex-end;gap:12px"><span style="font:400 42px/.88 Newsreader,serif;color:#A2621B">+250 F</span><span style="font:400 12.5px/1.35 'Public Sans',sans-serif;color:#4a4741;padding-bottom:5px">par plein de 25 000 F<br>réglé en espèces</span></div>
+<div style="margin-top:12px;padding-top:10px;border-top:1px solid #E0DBD1;font:400 11.5px/1.5 'Public Sans',sans-serif;color:#6B665D">Profil actif&nbsp;: <span style="color:#17161a">automobiliste, un plein par semaine</span>. 0 F si vous payez par Wave ou par carte.</div>
+</div>
+</div>
+<div style="padding:16px 20px;border-bottom:1px solid #E0DBD1">
+<div style="display:flex;gap:10px;align-items:baseline;margin-bottom:8px"><span style="font:600 10px/1 'IBM Plex Mono',monospace;color:#A2621B;letter-spacing:.06em">DOSSIER 040</span><span style="font:400 10px/1 'IBM Plex Mono',monospace;color:#6B665D;letter-spacing:.06em">ÉNERGIE</span></div>
+<h2 style="margin:0 0 9px;font:400 21px/1.2 Newsreader,serif;letter-spacing:-.01em">Sénélec a-t-elle baissé le tarif de la tranche sociale&nbsp;?</h2>
+<div style="display:flex;align-items:baseline;gap:8px;margin-bottom:10px"><span style="font:500 9px/1 'IBM Plex Mono',monospace;letter-spacing:.1em;color:#6B665D">VERDICT</span><span style="font:400 14px/1 Newsreader,serif;font-style:italic">Exact, mais partiel</span></div>
+<div style="display:flex;align-items:baseline;gap:10px;padding-top:10px;border-top:1px solid #E0DBD1"><span style="font:400 26px/1 Newsreader,serif;color:#A2621B">1 sur 3</span><span style="font:400 11.5px/1.4 'Public Sans',sans-serif;color:#6B665D">ménages concernés par la baisse</span></div>
+</div>
+<div style="padding:16px 20px">
+<div style="display:flex;gap:10px;align-items:baseline;margin-bottom:8px"><span style="font:600 10px/1 'IBM Plex Mono',monospace;color:#A2621B;letter-spacing:.06em">DOSSIER 039</span><span style="font:400 10px/1 'IBM Plex Mono',monospace;color:#6B665D;letter-spacing:.06em">MOBILITÉ · DAKAR</span></div>
+<h2 style="margin:0 0 9px;font:400 21px/1.2 Newsreader,serif;letter-spacing:-.01em">Le ticket BRT passe-t-il à 500 F sur toute la ligne&nbsp;?</h2>
+<div style="display:flex;align-items:baseline;gap:8px"><span style="font:500 9px/1 'IBM Plex Mono',monospace;letter-spacing:.1em;color:#6B665D">VERDICT</span><span style="font:400 14px/1 Newsreader,serif;font-style:italic">Faux</span></div>
+</div>
+<div style="margin-top:auto;display:flex;align-items:center;justify-content:space-between;padding:15px 20px;background:#17161a;color:#FAF8F4">
+<span style="font:400 14px/1.2 Newsreader,serif">Une information à faire vérifier&nbsp;?</span>
+<span style="font:500 10px/1 'IBM Plex Mono',monospace;color:#D9A25E">DÉPOSER →</span>
+</div>
+</div>
+</div>
+</div>
+
+<div class="dv-scr"><span class="dv-cap">2a · Vérification — chaîne de preuves intégrée</span>
+<div class="dv-frame" style="width:390px;min-height:812px;background:#FAF8F4;font-family:'Public Sans',sans-serif;color:#17161a">
+<div style="display:flex;flex-direction:column;min-height:812px">
+<div style="display:flex;align-items:center;justify-content:space-between;padding:14px 20px;border-bottom:1px solid #17161a"><span style="font:500 10px/1 'IBM Plex Mono',monospace;letter-spacing:.09em">← DOSSIER 041</span><span style="font:400 10px/1 'IBM Plex Mono',monospace;color:#6B665D">v2 · 21.08.2026</span></div>
+<div style="padding:20px 20px 0">
+<span style="font:400 10px/1 'IBM Plex Mono',monospace;letter-spacing:.08em;color:#6B665D">L'AFFIRMATION VÉRIFIÉE</span>
+<p style="margin:10px 0 0;font:400 19px/1.35 Newsreader,serif;font-style:italic;border-left:2px solid #A2621B;padding-left:14px;text-wrap:pretty">« La taxe de 1 % sur les paiements en espèces dans les stations-service a été créée pour maintenir le prix du carburant. »</p>
+</div>
+<div style="margin:20px 20px 0;border-top:1px solid #17161a;border-bottom:1px solid #E0DBD1;padding:14px 0">
+<div style="display:flex;align-items:baseline;gap:10px"><span style="font:500 9px/1 'IBM Plex Mono',monospace;letter-spacing:.1em;color:#6B665D">VERDICT</span><span style="font:400 28px/1 Newsreader,serif;font-style:italic">Trompeur</span></div>
+<p style="margin:12px 0 0;font:400 15.5px/1.6 'Public Sans',sans-serif;color:#2b2925;text-wrap:pretty">Un fait exact est associé à une finalité qui n'apparaît dans aucun document officiel.</p>
+</div>
+<div style="padding:18px 20px 0">
+<span style="font:400 9.5px/1 'IBM Plex Mono',monospace;letter-spacing:.09em;color:#6B665D">CE QUI EST ÉTABLI, ET PAR QUOI</span>
+<div style="margin-top:12px;display:flex;flex-direction:column">
+<div style="display:flex;gap:11px;padding:11px 0;border-top:1px solid #E0DBD1;align-items:flex-start"><i style="width:8px;height:8px;background:#17161a;margin-top:6px;flex:none"></i><div style="flex:1"><div style="font:400 14.5px/1.45 'Public Sans',sans-serif">La taxe de 1 % est instituée par l'art. 12 de la LFR 2025.</div><div style="font:400 9.5px/1.5 'IBM Plex Mono',monospace;color:#6B665D;margin-top:4px">ÉTABLI · PIÈCE [1] · TEXTE DE LOI</div></div></div>
+<div style="display:flex;gap:11px;padding:11px 0;border-top:1px solid #E0DBD1;align-items:flex-start"><i style="width:8px;height:8px;background:#17161a;margin-top:6px;flex:none"></i><div style="flex:1"><div style="font:400 14.5px/1.45 'Public Sans',sans-serif">Sa finalité déclarée est le recouvrement et la traçabilité.</div><div style="font:400 9.5px/1.5 'IBM Plex Mono',monospace;color:#6B665D;margin-top:4px">ÉTABLI · PIÈCE [2] · EXPOSÉ DES MOTIFS</div></div></div>
+<div style="display:flex;gap:11px;padding:11px 0;border-top:1px solid #E0DBD1;align-items:flex-start"><i style="width:8px;height:8px;background:#17161a;margin-top:6px;flex:none"></i><div style="flex:1"><div style="font:400 14.5px/1.45 'Public Sans',sans-serif">Le prix à la pompe est fixé par arrêté mensuel.</div><div style="font:400 9.5px/1.5 'IBM Plex Mono',monospace;color:#6B665D;margin-top:4px">ÉTABLI · PIÈCES [3][4] · ARRÊTÉ + DGID</div></div></div>
+<div style="display:flex;gap:11px;padding:11px 0;border-top:1px solid #E0DBD1;border-bottom:1px solid #E0DBD1;align-items:flex-start;color:#6B665D"><i style="width:8px;height:8px;border:1px solid #A19A8D;margin-top:6px;flex:none;box-sizing:border-box"></i><div style="flex:1"><div style="font:400 14.5px/1.45 'Public Sans',sans-serif;font-style:italic">Un lien entre le produit de la taxe et le prix du carburant.</div><div style="font:400 9.5px/1.5 'IBM Plex Mono',monospace;margin-top:4px">NON ÉTABLI · 2 DEMANDES SANS RÉPONSE</div></div></div>
+</div>
+<div style="display:flex;align-items:center;gap:10px;margin-top:12px">
+<span style="display:flex;gap:3px"><i style="width:14px;height:6px;background:#17161a"></i><i style="width:14px;height:6px;background:#17161a"></i><i style="width:14px;height:6px;background:#17161a"></i><i style="width:14px;height:6px;background:#17161a"></i><i style="width:14px;height:6px;border:1px solid #A19A8D;box-sizing:border-box"></i><i style="width:14px;height:6px;border:1px solid #A19A8D;box-sizing:border-box"></i></span>
+<span style="font:400 9.5px/1 'IBM Plex Mono',monospace;color:#6B665D">4 PIÈCES OBTENUES · 2 MANQUANTES</span>
+</div>
+</div>
+<div style="padding:18px 20px 0">
+<span style="font:400 9.5px/1 'IBM Plex Mono',monospace;letter-spacing:.09em;color:#6B665D">LE TEXTE OFFICIEL</span>
+<div style="margin-top:10px;padding:14px;background:#F2EEE6;border-left:2px solid #17161a">
+<p style="margin:0 0 8px;font:400 14.5px/1.55 Newsreader,serif">« Il est institué un prélèvement de 1 % sur les paiements en espèces effectués auprès des distributeurs d'hydrocarbures… »</p>
+<span style="font:400 9.5px/1.4 'IBM Plex Mono',monospace;color:#6B665D">LFR 2025 · ART. 12 AL. 1 · P. 14 · <span style="color:#A2621B">OUVRIR</span></span>
+</div>
+</div>
+<div style="margin:18px 20px 20px;border:1px solid #17161a;padding:14px">
+<div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:12px"><span style="font:500 9px/1 'IBM Plex Mono',monospace;letter-spacing:.1em;color:#6B665D">CE QUE ÇA CHANGE POUR VOUS</span><span style="font:400 9px/1 'IBM Plex Mono',monospace;color:#A2621B">TAXI ▾</span></div>
+<div style="display:flex;align-items:flex-end;gap:12px"><span style="font:400 40px/.88 Newsreader,serif;color:#A2621B">78 000 F</span><span style="font:400 12px/1.35 'Public Sans',sans-serif;color:#4a4741;padding-bottom:5px">sur une année,<br>en payant en espèces</span></div>
+<div style="margin-top:12px;padding-top:10px;border-top:1px solid #E0DBD1;font:400 11px/1.5 'IBM Plex Mono',monospace;color:#6B665D">HYPOTHÈSE : 30 000 F/SEMAINE · 52 SEMAINES</div>
+</div>
+<div style="margin-top:auto;display:flex;justify-content:space-between;align-items:center;padding:14px 20px;border-top:1px solid #17161a"><span style="font:400 13.5px/1.2 Newsreader,serif">Voir les 6 pièces du dossier</span><span style="font:500 10px/1 'IBM Plex Mono',monospace;color:#A2621B">→</span></div>
+</div>
+</div>
+</div>
+
+<div class="dv-scr"><span class="dv-cap">2a · Composant « Ce que ça change » — page pleine</span>
+<div class="dv-frame" style="width:390px;min-height:812px;background:#FAF8F4;font-family:'Public Sans',sans-serif;color:#17161a">
+<div style="display:flex;flex-direction:column;min-height:812px">
+<div style="padding:14px 20px;border-bottom:1px solid #17161a;font:500 10px/1 'IBM Plex Mono',monospace;letter-spacing:.09em">← DOSSIER 041 · CONSÉQUENCES</div>
+<div style="padding:20px 20px 0">
+<h1 style="margin:0;font:400 27px/1.18 Newsreader,serif;letter-spacing:-.01em">Ce que la taxe change, selon qui vous êtes</h1>
+<p style="margin:10px 0 0;font:400 13px/1.55 'Public Sans',sans-serif;color:#57534b">Sélectionnez votre situation&nbsp;: les chiffres et les hypothèses se recalculent.</p>
+<div style="display:flex;gap:6px;margin-top:16px;flex-wrap:wrap">
+<span style="font:500 10px/1 'IBM Plex Mono',monospace;padding:8px 11px;background:#17161a;color:#FAF8F4">TAXI / VTC</span>
+<span style="font:400 10px/1 'IBM Plex Mono',monospace;padding:8px 11px;border:1px solid #D8D2C7;color:#57534b">AUTOMOBILISTE</span>
+<span style="font:400 10px/1 'IBM Plex Mono',monospace;padding:8px 11px;border:1px solid #D8D2C7;color:#57534b">TRANSPORTEUR</span>
+<span style="font:400 10px/1 'IBM Plex Mono',monospace;padding:8px 11px;border:1px solid #D8D2C7;color:#57534b">GÉRANT DE STATION</span>
+</div>
+</div>
+<div style="padding:22px 20px 0">
+<div style="border-top:1px solid #17161a;padding-top:14px">
+<span style="font:400 9.5px/1 'IBM Plex Mono',monospace;letter-spacing:.08em;color:#6B665D">SUR UNE ANNÉE, EN PAYANT EN ESPÈCES</span>
+<div style="display:flex;align-items:flex-end;gap:12px;margin-top:8px"><span style="font:400 52px/.9 Newsreader,serif;color:#A2621B">78 000 F</span></div>
+<p style="margin:10px 0 0;font:400 13.5px/1.6 'Public Sans',sans-serif;color:#4a4741">Soit environ trois jours de recette pour un taxi urbain à Dakar.</p>
+<div style="margin-top:10px;font:400 10.5px/1.5 'IBM Plex Mono',monospace;color:#6B665D">HYPOTHÈSE : 30 000 F DE CARBURANT/SEMAINE · 52 SEMAINES · 100 % ESPÈCES</div>
+</div>
+<div style="border-top:1px solid #E0DBD1;padding-top:14px;margin-top:18px">
+<span style="font:400 9.5px/1 'IBM Plex Mono',monospace;letter-spacing:.08em;color:#6B665D">LA MÊME ANNÉE, PAR WAVE OU PAR CARTE</span>
+<div style="display:flex;align-items:flex-end;gap:12px;margin-top:8px"><span style="font:400 52px/.9 Newsreader,serif">0 F</span><span style="font:400 12px/1.35 'Public Sans',sans-serif;color:#57534b;padding-bottom:6px">la taxe ne porte<br>que sur les espèces</span></div>
+</div>
+<div style="border-top:1px solid #E0DBD1;padding-top:14px;margin-top:18px">
+<span style="font:400 9.5px/1 'IBM Plex Mono',monospace;letter-spacing:.08em;color:#6B665D">PART DE VOTRE CARBURANT ANNUEL</span>
+<div style="display:flex;align-items:flex-end;gap:12px;margin-top:8px"><span style="font:400 40px/.9 Newsreader,serif">1 %</span><span style="font:400 12px/1.35 'Public Sans',sans-serif;color:#57534b;padding-bottom:5px">soit 78 000 F sur<br>7,8 M F de carburant</span></div>
+</div>
+</div>
+<div style="margin:22px 20px 0;padding:14px;background:#F2EEE6">
+<span style="font:400 9.5px/1 'IBM Plex Mono',monospace;letter-spacing:.08em;color:#6B665D">CE QUI NE CHANGE PAS</span>
+<p style="margin:8px 0 0;font:400 14px/1.55 'Public Sans',sans-serif">Le prix affiché du litre&nbsp;: 990 F le super, 755 F le gasoil en août 2026, fixés par arrêté.</p>
+</div>
+<div style="margin:18px 20px 0;padding-top:14px;border-top:1px solid #E0DBD1">
+<span style="font:400 9.5px/1 'IBM Plex Mono',monospace;letter-spacing:.08em;color:#6B665D">SUR QUOI CE CALCUL REPOSE</span>
+<div style="display:flex;gap:8px;margin-top:9px;font:400 12.5px/1.5 'Public Sans',sans-serif;color:#4a4741"><span style="color:#A2621B;font-family:'IBM Plex Mono',monospace;font-size:10px;line-height:1.7">[1][4]</span><span style="flex:1">Taux légal et structure de prix officielle. Méthode et feuille de calcul publiées.</span></div>
+</div>
+<div style="margin-top:auto;display:flex;justify-content:space-between;align-items:center;padding:14px 20px;background:#17161a;color:#FAF8F4"><span style="font:400 13.5px/1.2 Newsreader,serif">Retour à la vérification</span><span style="font:500 10px/1 'IBM Plex Mono',monospace;color:#D9A25E">←</span></div>
+</div>
+</div>
+</div>
+
+<div class="dv-scr"><span class="dv-cap">2a · Chaîne de preuves (mobile)</span>
+<div class="dv-frame" style="width:390px;min-height:812px;background:#FAF8F4;font-family:'Public Sans',sans-serif;color:#17161a">
+<div style="display:flex;flex-direction:column;min-height:812px">
+<div style="padding:14px 20px;border-bottom:1px solid #17161a;font:500 10px/1 'IBM Plex Mono',monospace;letter-spacing:.09em">← DOSSIER 041 · REGISTRE DES PIÈCES</div>
+<div style="padding:18px 20px 0">
+<h1 style="margin:0;font:400 24px/1.2 Newsreader,serif">Sur quoi repose ce verdict</h1>
+<div style="display:flex;align-items:center;gap:10px;margin-top:12px">
+<span style="display:flex;gap:3px"><i style="width:20px;height:6px;background:#17161a"></i><i style="width:20px;height:6px;background:#17161a"></i><i style="width:20px;height:6px;background:#17161a"></i><i style="width:20px;height:6px;background:#17161a"></i><i style="width:20px;height:6px;border:1px solid #A19A8D;box-sizing:border-box"></i><i style="width:20px;height:6px;border:1px solid #A19A8D;box-sizing:border-box"></i></span>
+<span style="font:400 9.5px/1 'IBM Plex Mono',monospace;color:#6B665D">4 / 6</span>
+</div>
+</div>
+<div style="padding:18px 20px 0;display:flex;flex-direction:column">
+<div style="padding:13px 0;border-top:1px solid #17161a">
+<div style="display:flex;gap:10px;align-items:baseline"><span style="font:500 10px/1.4 'IBM Plex Mono',monospace;color:#A2621B">[1]</span><span style="font:400 15px/1.35 'Public Sans',sans-serif;font-weight:500;flex:1">Loi de finances rectificative 2025, art. 12</span><i style="width:8px;height:8px;background:#17161a;flex:none"></i></div>
+<p style="margin:6px 0 0 26px;font:400 13px/1.55 'Public Sans',sans-serif;color:#57534b"><span style="color:#17161a">Prouve</span> l'existence et le taux de la taxe. Ne dit rien de son affectation.</p>
+<div style="margin:6px 0 0 26px;font:400 9.5px/1.5 'IBM Plex Mono',monospace;color:#6B665D">TEXTE DE LOI · OBTENU LE 19.08 · JO 7612</div>
+</div>
+<div style="padding:13px 0;border-top:1px solid #E0DBD1">
+<div style="display:flex;gap:10px;align-items:baseline"><span style="font:500 10px/1.4 'IBM Plex Mono',monospace;color:#A2621B">[2]</span><span style="font:400 15px/1.35 'Public Sans',sans-serif;font-weight:500;flex:1">Exposé des motifs, ministère des Finances</span><i style="width:8px;height:8px;background:#17161a;flex:none"></i></div>
+<p style="margin:6px 0 0 26px;font:400 13px/1.55 'Public Sans',sans-serif;color:#57534b"><span style="color:#17161a">Prouve</span> que la finalité déclarée est le recouvrement et la traçabilité.</p>
+<div style="margin:6px 0 0 26px;font:400 9.5px/1.5 'IBM Plex Mono',monospace;color:#6B665D">DOCUMENT OFFICIEL · OBTENU LE 19.08</div>
+</div>
+<div style="padding:13px 0;border-top:1px solid #E0DBD1">
+<div style="display:flex;gap:10px;align-items:baseline"><span style="font:500 10px/1.4 'IBM Plex Mono',monospace;color:#A2621B">[3]</span><span style="font:400 15px/1.35 'Public Sans',sans-serif;font-weight:500;flex:1">Arrêté de fixation des prix, août 2026</span><i style="width:8px;height:8px;background:#17161a;flex:none"></i></div>
+<p style="margin:6px 0 0 26px;font:400 13px/1.55 'Public Sans',sans-serif;color:#57534b"><span style="color:#17161a">Prouve</span> que la structure du prix affiché ne comporte pas cette taxe.</p>
+<div style="margin:6px 0 0 26px;font:400 9.5px/1.5 'IBM Plex Mono',monospace;color:#6B665D">TEXTE DE LOI · OBTENU LE 20.08</div>
+</div>
+<div style="padding:13px 0;border-top:1px solid #E0DBD1">
+<div style="display:flex;gap:10px;align-items:baseline"><span style="font:500 10px/1.4 'IBM Plex Mono',monospace;color:#A2621B">[4]</span><span style="font:400 15px/1.35 'Public Sans',sans-serif;font-weight:500;flex:1">Réponse écrite de la DGID</span><i style="width:8px;height:8px;background:#17161a;flex:none"></i></div>
+<p style="margin:6px 0 0 26px;font:400 13px/1.55 'Public Sans',sans-serif;color:#57534b"><span style="color:#17161a">Confirme</span> l'absence d'affectation au prix du carburant.</p>
+<div style="margin:6px 0 0 26px;font:400 9.5px/1.5 'IBM Plex Mono',monospace;color:#6B665D">RÉPONSE ADMINISTRATIVE · OBTENUE LE 21.08</div>
+</div>
+<div style="padding:13px 0;border-top:1px solid #E0DBD1;color:#6B665D">
+<div style="display:flex;gap:10px;align-items:baseline"><span style="font:500 10px/1.4 'IBM Plex Mono',monospace">[5]</span><span style="font:400 15px/1.35 'Public Sans',sans-serif;flex:1;font-style:italic">Note interne, ministère du Commerce</span><i style="width:8px;height:8px;border:1px solid #A19A8D;box-sizing:border-box;flex:none"></i></div>
+<p style="margin:6px 0 0 26px;font:400 13px/1.55 'Public Sans',sans-serif">Demandée le 4 août. Aurait précisé l'affectation du produit de la taxe.</p>
+<div style="margin:6px 0 0 26px;font:400 9.5px/1.5 'IBM Plex Mono',monospace">DEMANDE D'ACCÈS · SANS RÉPONSE À CE JOUR</div>
+</div>
+<div style="padding:13px 0;border-top:1px solid #E0DBD1;border-bottom:1px solid #17161a;color:#6B665D">
+<div style="display:flex;gap:10px;align-items:baseline"><span style="font:500 10px/1.4 'IBM Plex Mono',monospace">[6]</span><span style="font:400 15px/1.35 'Public Sans',sans-serif;flex:1;font-style:italic">Publication d'origine, 18 août</span><i style="width:8px;height:8px;border:1px solid #A19A8D;box-sizing:border-box;flex:none"></i></div>
+<p style="margin:6px 0 0 26px;font:400 13px/1.55 'Public Sans',sans-serif">Aucune source citée. Point de départ de l'affirmation, non probante.</p>
+</div>
+</div>
+<div style="margin:18px 20px 0;padding:14px;background:#F2EEE6">
+<span style="font:400 9.5px/1.3 'IBM Plex Mono',monospace;letter-spacing:.08em;color:#6B665D">NOTRE ENGAGEMENT</span>
+<p style="margin:8px 0 0;font:400 14.5px/1.5 Newsreader,serif">Les pièces manquantes restent affichées. Si nous les obtenons, ce dossier sera republié en version 3.</p>
+</div>
+<div style="margin-top:auto;padding:14px 20px;border-top:1px solid #E0DBD1;font:400 10px/1.5 'IBM Plex Mono',monospace;color:#6B665D">TOUTES LES PIÈCES SONT TÉLÉCHARGEABLES · EMPREINTES PUBLIÉES</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="dv-row">
+<div class="dv-scr"><span class="dv-cap">2a · Homepage desktop — les deux mécanismes</span>
+<div class="dv-frame" style="width:1280px;min-height:860px;background:#FAF8F4;font-family:'Public Sans',sans-serif;color:#17161a">
+<div style="display:flex;align-items:baseline;justify-content:space-between;padding:22px 48px 16px;border-bottom:1px solid #17161a">
+<span style="font:500 26px/1 Newsreader,serif;letter-spacing:-.01em">Sene<span style="color:#A2621B">Source</span></span>
+<div style="display:flex;gap:26px;font:400 10.5px/1 'IBM Plex Mono',monospace;letter-spacing:.09em;color:#6B665D"><span style="color:#17161a;font-weight:500">VÉRIFICATIONS</span><span>PIÈCES</span><span>CE QUE ÇA CHANGE</span><span>MÉTHODE</span></div>
+<span style="font:400 10.5px/1 'IBM Plex Mono',monospace;letter-spacing:.08em;color:#6B665D">SAM. 22 AOÛT 2026 · DAKAR</span>
+</div>
+<div style="display:grid;grid-template-columns:1fr 400px">
+<div style="padding:34px 40px 30px 48px;border-right:1px solid #E0DBD1">
+<div style="display:flex;gap:12px;align-items:baseline;margin-bottom:16px"><span style="font:600 11px/1 'IBM Plex Mono',monospace;color:#A2621B;letter-spacing:.06em">DOSSIER 041</span><span style="font:400 11px/1 'IBM Plex Mono',monospace;color:#6B665D;letter-spacing:.06em">FISCALITÉ · CARBURANT · OUVERT LE 18.08</span></div>
+<h1 style="margin:0 0 22px;font:400 54px/1.06 Newsreader,serif;letter-spacing:-.02em;max-width:15ch;text-wrap:pretty">La taxe de 1 % sur les paiements en espèces a-t-elle été créée pour maintenir le prix du carburant&nbsp;?</h1>
+<div style="display:flex;align-items:baseline;gap:14px;padding:12px 0;border-top:1px solid #17161a;border-bottom:1px solid #E0DBD1;max-width:660px">
+<span style="font:500 9.5px/1 'IBM Plex Mono',monospace;letter-spacing:.1em;color:#6B665D">VERDICT</span>
+<span style="font:400 24px/1 Newsreader,serif;font-style:italic">Trompeur</span>
+<span style="margin-left:auto;display:flex;align-items:center;gap:10px"><span style="display:flex;gap:3px"><i style="width:18px;height:6px;background:#17161a"></i><i style="width:18px;height:6px;background:#17161a"></i><i style="width:18px;height:6px;background:#17161a"></i><i style="width:18px;height:6px;background:#17161a"></i><i style="width:18px;height:6px;border:1px solid #A19A8D;box-sizing:border-box"></i><i style="width:18px;height:6px;border:1px solid #A19A8D;box-sizing:border-box"></i></span><span style="font:400 9.5px/1 'IBM Plex Mono',monospace;color:#6B665D">4 PIÈCES SUR 6</span></span>
+</div>
+<div style="display:grid;grid-template-columns:1.1fr .9fr;gap:36px;margin-top:22px;max-width:700px">
+<div>
+<p style="margin:0 0 18px;font:400 16.5px/1.65 'Public Sans',sans-serif;color:#33312c;text-wrap:pretty">La taxe est instituée par l'article 12 de la loi de finances rectificative. L'exposé des motifs la justifie par le recouvrement fiscal et la traçabilité des paiements&nbsp;: aucun document ne l'associe au prix à la pompe.</p>
+<div style="display:flex;flex-direction:column;gap:9px">
+<div style="display:flex;gap:10px;align-items:flex-start"><i style="width:7px;height:7px;background:#17161a;margin-top:6px;flex:none"></i><span style="font:400 13.5px/1.5 'Public Sans',sans-serif;flex:1">Existence et taux de la taxe <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:#A2621B">[1]</span></span></div>
+<div style="display:flex;gap:10px;align-items:flex-start"><i style="width:7px;height:7px;background:#17161a;margin-top:6px;flex:none"></i><span style="font:400 13.5px/1.5 'Public Sans',sans-serif;flex:1">Finalité déclarée&nbsp;: recouvrement, traçabilité <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:#A2621B">[2]</span></span></div>
+<div style="display:flex;gap:10px;align-items:flex-start"><i style="width:7px;height:7px;background:#17161a;margin-top:6px;flex:none"></i><span style="font:400 13.5px/1.5 'Public Sans',sans-serif;flex:1">Prix fixé par arrêté mensuel <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:#A2621B">[3][4]</span></span></div>
+<div style="display:flex;gap:10px;align-items:flex-start;color:#6B665D"><i style="width:7px;height:7px;border:1px solid #A19A8D;box-sizing:border-box;margin-top:6px;flex:none"></i><span style="font:400 13.5px/1.5 'Public Sans',sans-serif;flex:1;font-style:italic">Lien entre la taxe et le prix — non établi, 2 demandes sans réponse</span></div>
+</div>
+</div>
+<div style="border:1px solid #17161a;padding:18px;align-self:start">
+<div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:14px"><span style="font:500 9px/1 'IBM Plex Mono',monospace;letter-spacing:.1em;color:#6B665D">CE QUE ÇA CHANGE POUR VOUS</span><span style="font:400 9px/1 'IBM Plex Mono',monospace;color:#A2621B">TAXI ▾</span></div>
+<div style="font:400 44px/.9 Newsreader,serif;color:#A2621B">78 000 F</div>
+<p style="margin:10px 0 0;font:400 13px/1.5 'Public Sans',sans-serif;color:#4a4741">sur une année, en payant le carburant en espèces. 0 F par Wave ou par carte.</p>
+<div style="margin-top:14px;padding-top:10px;border-top:1px solid #E0DBD1;font:400 10px/1.5 'IBM Plex Mono',monospace;color:#6B665D">HYPOTHÈSE : 30 000 F/SEMAINE · 52 SEMAINES<br>CHANGER DE PROFIL →</div>
+</div>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:36px;margin-top:32px;padding-top:22px;border-top:1px solid #17161a;max-width:700px">
+<div>
+<div style="display:flex;gap:10px;align-items:baseline;margin-bottom:8px"><span style="font:600 10px/1 'IBM Plex Mono',monospace;color:#A2621B">DOSSIER 040</span><span style="font:400 10px/1 'IBM Plex Mono',monospace;color:#6B665D">ÉNERGIE</span></div>
+<h2 style="margin:0 0 10px;font:400 23px/1.16 Newsreader,serif;letter-spacing:-.01em">Sénélec a-t-elle baissé le tarif de la tranche sociale&nbsp;?</h2>
+<div style="display:flex;gap:8px;align-items:baseline;margin-bottom:10px"><span style="font:500 9px/1 'IBM Plex Mono',monospace;color:#6B665D;letter-spacing:.1em">VERDICT</span><span style="font:400 15px/1 Newsreader,serif;font-style:italic">Exact, mais partiel</span></div>
+<div style="display:flex;gap:10px;align-items:baseline;padding-top:10px;border-top:1px solid #E0DBD1"><span style="font:400 24px/1 Newsreader,serif;color:#A2621B">1 sur 3</span><span style="font:400 11.5px/1.4 'Public Sans',sans-serif;color:#6B665D">ménages concernés</span></div>
+</div>
+<div>
+<div style="display:flex;gap:10px;align-items:baseline;margin-bottom:8px"><span style="font:600 10px/1 'IBM Plex Mono',monospace;color:#A2621B">DOSSIER 039</span><span style="font:400 10px/1 'IBM Plex Mono',monospace;color:#6B665D">MOBILITÉ</span></div>
+<h2 style="margin:0 0 10px;font:400 23px/1.16 Newsreader,serif;letter-spacing:-.01em">Le ticket BRT passe-t-il à 500 F sur toute la ligne&nbsp;?</h2>
+<div style="display:flex;gap:8px;align-items:baseline;margin-bottom:10px"><span style="font:500 9px/1 'IBM Plex Mono',monospace;color:#6B665D;letter-spacing:.1em">VERDICT</span><span style="font:400 15px/1 Newsreader,serif;font-style:italic">Faux</span></div>
+<div style="display:flex;gap:10px;align-items:baseline;padding-top:10px;border-top:1px solid #E0DBD1"><span style="font:400 24px/1 Newsreader,serif;color:#A2621B">300–500 F</span><span style="font:400 11.5px/1.4 'Public Sans',sans-serif;color:#6B665D">selon la distance</span></div>
+</div>
+</div>
+</div>
+<div style="padding:34px 48px 30px 32px;display:flex;flex-direction:column;gap:24px">
+<div>
+<span style="font:400 9.5px/1 'IBM Plex Mono',monospace;letter-spacing:.09em;color:#6B665D">CE QUE NOUS AVONS OBTENU · CE QUI MANQUE</span>
+<div style="margin-top:12px;display:flex;flex-direction:column">
+<div style="display:flex;gap:11px;padding:10px 0;border-top:1px solid #E0DBD1;align-items:flex-start"><i style="width:7px;height:7px;background:#17161a;margin-top:6px;flex:none"></i><div style="flex:1"><div style="font:400 13px/1.45 'Public Sans',sans-serif">Loi de finances rectificative 2025, art. 12</div><div style="font:400 9px/1.5 'IBM Plex Mono',monospace;color:#6B665D;margin-top:3px">OBTENU 19.08 · PDF 48 P.</div></div></div>
+<div style="display:flex;gap:11px;padding:10px 0;border-top:1px solid #E0DBD1;align-items:flex-start"><i style="width:7px;height:7px;background:#17161a;margin-top:6px;flex:none"></i><div style="flex:1"><div style="font:400 13px/1.45 'Public Sans',sans-serif">Arrêté prix des hydrocarbures, août 2026</div><div style="font:400 9px/1.5 'IBM Plex Mono',monospace;color:#6B665D;margin-top:3px">OBTENU 20.08 · JO 7619</div></div></div>
+<div style="display:flex;gap:11px;padding:10px 0;border-top:1px solid #E0DBD1;align-items:flex-start"><i style="width:7px;height:7px;background:#17161a;margin-top:6px;flex:none"></i><div style="flex:1"><div style="font:400 13px/1.45 'Public Sans',sans-serif">Réponse écrite de la DGID</div><div style="font:400 9px/1.5 'IBM Plex Mono',monospace;color:#6B665D;margin-top:3px">OBTENUE 21.08 · 2 P.</div></div></div>
+<div style="display:flex;gap:11px;padding:10px 0;border-top:1px solid #E0DBD1;border-bottom:1px solid #E0DBD1;align-items:flex-start;color:#6B665D"><i style="width:7px;height:7px;border:1px solid #A19A8D;box-sizing:border-box;margin-top:6px;flex:none"></i><div style="flex:1"><div style="font:400 13px/1.45 'Public Sans',sans-serif;font-style:italic">Note interne, ministère du Commerce</div><div style="font:400 9px/1.5 'IBM Plex Mono',monospace;margin-top:3px">DEMANDÉE 04.08 · SANS RÉPONSE</div></div></div>
+</div>
+</div>
+<div style="padding:18px;background:#F2EEE6">
+<span style="font:400 9.5px/1 'IBM Plex Mono',monospace;letter-spacing:.09em;color:#6B665D">VOTRE PROFIL</span>
+<p style="margin:10px 0 12px;font:400 15px/1.5 Newsreader,serif">Dites-nous comment vous payez et ce que vous conduisez&nbsp;: chaque dossier affichera d'abord vos chiffres.</p>
+<span style="display:inline-block;font:500 10px/1 'IBM Plex Mono',monospace;letter-spacing:.08em;border:1px solid #17161a;padding:10px 14px">DÉFINIR MON PROFIL</span>
+</div>
+<div style="margin-top:auto;padding:20px 0 0;border-top:1px solid #17161a">
+<p style="margin:0 0 12px;font:400 20px/1.25 Newsreader,serif">Une information circule&nbsp;? Faites-la vérifier.</p>
+<span style="display:inline-block;font:500 10.5px/1 'IBM Plex Mono',monospace;letter-spacing:.08em;background:#17161a;color:#FAF8F4;padding:12px 16px">OUVRIR UN SIGNALEMENT →</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+<p class="dv-next">Essayez ensuite&nbsp;: « pousse <a class="dv-oid" href="#2a">2a</a> en site complet avec navigation et états » · « ajoute le mode profil persistant sur mobile » · « décline <a class="dv-oid" href="#2a">2a</a> en version wolof »</p>
+</section>
+
+<section class="dv-turn" id="t1">
+<div class="dv-thd"><a class="dv-tid" href="#t1">1</a><span class="dv-tname">SeneSource — trois directions artistiques</span></div>
+<div class="dv-opts">
+
+<div class="dv-opt" id="1a">
+<div class="dv-ohd">
+<div class="dv-otitle"><a class="dv-oid" href="#1a">1a</a>LE DOSSIER — le média comme greffe</div>
+<sc-if value="{{ showNotes }}" hint-placeholder-val="{{ true }}"><p class="dv-onote"><b>Intention éditoriale :</b> chaque sujet est un <b>dossier numéroté</b>, ouvert, daté, versionné. Le lecteur ne consomme pas un article, il consulte un dossier. <b>UX :</b> une seule colonne, filets fins, un verdict écrit en mots (pas en badge coloré) et une <b>échelle de fiabilité en encoches</b>. Les pièces sont un registre numéroté [1]…[6] cité dans le corps du texte. L'ocre ne sert qu'à trois choses : le numéro de dossier, le renvoi de pièce, le chiffre-conséquence.</p></sc-if>
+</div>
+
+<div class="dv-row">
+
+<div class="dv-scr"><span class="dv-cap">1a · Homepage mobile</span>
+<div class="dv-frame" style="width:390px;min-height:812px;background:#FAF8F4;font-family:'Public Sans',sans-serif;color:#17161a">
+<div style="display:flex;flex-direction:column;min-height:812px">
+<div style="display:flex;align-items:baseline;justify-content:space-between;padding:18px 20px 12px">
+<span style="font:500 21px/1 Newsreader,serif;letter-spacing:-.01em">Sene<span style="color:#A2621B">Source</span></span>
+<span style="font:400 9.5px/1 'IBM Plex Mono',monospace;letter-spacing:.08em;color:#6B665D">SAM. 22 AOÛT</span>
+</div>
+<div style="display:flex;gap:16px;padding:0 20px 12px;border-bottom:1px solid #17161a">
+<span style="font:500 9.5px/1 'IBM Plex Mono',monospace;letter-spacing:.09em">VÉRIFICATIONS</span>
+<span style="font:400 9.5px/1 'IBM Plex Mono',monospace;letter-spacing:.09em;color:#6B665D">DOCUMENTS</span>
+<span style="font:400 9.5px/1 'IBM Plex Mono',monospace;letter-spacing:.09em;color:#6B665D">CE QUE ÇA CHANGE</span>
+</div>
+<div style="display:flex;justify-content:space-between;align-items:baseline;padding:14px 20px 0">
+<span style="font:400 9.5px/1 'IBM Plex Mono',monospace;letter-spacing:.09em;color:#6B665D">OUVERTS CETTE SEMAINE</span>
+<span style="font:400 9.5px/1 'IBM Plex Mono',monospace;color:#6B665D">03</span>
+</div>
+<div style="padding:16px 20px 22px;border-bottom:1px solid #E0DBD1">
+<div style="display:flex;gap:10px;align-items:baseline;margin-bottom:10px"><span style="font:600 10px/1 'IBM Plex Mono',monospace;color:#A2621B;letter-spacing:.06em">DOSSIER 041</span><span style="font:400 10px/1 'IBM Plex Mono',monospace;color:#6B665D;letter-spacing:.06em">FISCALITÉ · CARBURANT</span></div>
+<h1 style="margin:0 0 14px;font:400 30px/1.14 Newsreader,serif;letter-spacing:-.015em;text-wrap:pretty">La taxe de 1 % sur les paiements en espèces dans les stations-service a-t-elle été créée pour maintenir le prix du carburant&nbsp;?</h1>
+<div style="display:flex;align-items:baseline;gap:9px;padding:9px 0;border-top:1px solid #17161a;border-bottom:1px solid #E0DBD1;margin-bottom:12px">
+<span style="font:500 9px/1 'IBM Plex Mono',monospace;letter-spacing:.1em;color:#6B665D">VERDICT</span>
+<span style="font:400 17px/1 Newsreader,serif;font-style:italic">Trompeur</span>
+<span style="margin-left:auto;display:flex;gap:3px;align-items:flex-end">
+<i style="display:block;width:5px;height:14px;background:#17161a"></i><i style="display:block;width:5px;height:14px;background:#17161a"></i><i style="display:block;width:5px;height:14px;background:#E0DBD1"></i><i style="display:block;width:5px;height:14px;background:#E0DBD1"></i><i style="display:block;width:5px;height:14px;background:#E0DBD1"></i></span>
+</div>
+<p style="margin:0 0 14px;font:400 15.5px/1.62 'Public Sans',sans-serif;color:#33312c;text-wrap:pretty">La taxe existe bien, mais elle figure dans la loi de finances comme mesure de recouvrement fiscal. Aucun texte ne la lie à la stabilisation du prix à la pompe.</p>
+<div style="display:flex;align-items:baseline;gap:12px;padding:11px 12px;background:#F2EEE6">
+<span style="font:500 8.5px/1.3 'IBM Plex Mono',monospace;letter-spacing:.08em;color:#6B665D;max-width:74px">CE QUE ÇA CHANGE</span>
+<span style="font:400 26px/1 Newsreader,serif;color:#A2621B">+250 F</span>
+<span style="font:400 11.5px/1.35 'Public Sans',sans-serif;color:#4a4741">sur un plein de 25 000 F réglé en espèces</span>
+</div>
+<div style="display:flex;gap:14px;margin-top:12px;font:400 10px/1 'IBM Plex Mono',monospace;color:#6B665D"><span>6 PIÈCES</span><span>·</span><span>LFR 2025, ART. 12</span><span>·</span><span>MAJ 21.08</span></div>
+</div>
+<div style="padding:16px 20px;border-bottom:1px solid #E0DBD1">
+<div style="display:flex;gap:10px;align-items:baseline;margin-bottom:8px"><span style="font:600 10px/1 'IBM Plex Mono',monospace;color:#A2621B;letter-spacing:.06em">DOSSIER 040</span><span style="font:400 10px/1 'IBM Plex Mono',monospace;color:#6B665D;letter-spacing:.06em">ÉNERGIE</span></div>
+<h2 style="margin:0 0 9px;font:400 21px/1.2 Newsreader,serif;letter-spacing:-.01em">Sénélec a-t-elle baissé le tarif de la tranche sociale&nbsp;?</h2>
+<div style="display:flex;align-items:baseline;gap:8px"><span style="font:500 9px/1 'IBM Plex Mono',monospace;letter-spacing:.1em;color:#6B665D">VERDICT</span><span style="font:400 14px/1 Newsreader,serif;font-style:italic">Exact, mais partiel</span></div>
+<p style="margin:8px 0 0;font:400 13.5px/1.55 'Public Sans',sans-serif;color:#57534b">La baisse ne concerne que les compteurs de moins de 150 kWh/mois. 4 pièces.</p>
+</div>
+<div style="padding:16px 20px">
+<div style="display:flex;gap:10px;align-items:baseline;margin-bottom:8px"><span style="font:600 10px/1 'IBM Plex Mono',monospace;color:#A2621B;letter-spacing:.06em">DOSSIER 039</span><span style="font:400 10px/1 'IBM Plex Mono',monospace;color:#6B665D;letter-spacing:.06em">MOBILITÉ · DAKAR</span></div>
+<h2 style="margin:0 0 9px;font:400 21px/1.2 Newsreader,serif;letter-spacing:-.01em">Le ticket BRT passe-t-il à 500 F sur toute la ligne&nbsp;?</h2>
+<div style="display:flex;align-items:baseline;gap:8px"><span style="font:500 9px/1 'IBM Plex Mono',monospace;letter-spacing:.1em;color:#6B665D">VERDICT</span><span style="font:400 14px/1 Newsreader,serif;font-style:italic">Faux</span></div>
+</div>
+<div style="margin-top:auto;display:flex;align-items:center;justify-content:space-between;padding:15px 20px;background:#17161a;color:#FAF8F4">
+<span style="font:400 14px/1.2 Newsreader,serif">Une information à faire vérifier&nbsp;?</span>
+<span style="font:500 10px/1 'IBM Plex Mono',monospace;color:#D9A25E">DÉPOSER →</span>
+</div>
+</div>
+</div>
+</div>
+
+<div class="dv-scr"><span class="dv-cap">1a · Page de vérification (mobile)</span>
+<div class="dv-frame" style="width:390px;min-height:812px;background:#FAF8F4;font-family:'Public Sans',sans-serif;color:#17161a">
+<div style="display:flex;flex-direction:column;min-height:812px">
+<div style="display:flex;align-items:center;justify-content:space-between;padding:14px 20px;border-bottom:1px solid #17161a"><span style="font:500 10px/1 'IBM Plex Mono',monospace;letter-spacing:.09em">← DOSSIER 041</span><span style="font:400 10px/1 'IBM Plex Mono',monospace;color:#6B665D">v2 · 21.08.2026</span></div>
+<div style="padding:20px 20px 0">
+<span style="font:400 10px/1 'IBM Plex Mono',monospace;letter-spacing:.08em;color:#6B665D">L'AFFIRMATION VÉRIFIÉE</span>
+<p style="margin:10px 0 0;font:400 19px/1.35 Newsreader,serif;font-style:italic;border-left:2px solid #A2621B;padding-left:14px;text-wrap:pretty">« La taxe de 1 % sur les paiements en espèces dans les stations-service a été créée pour maintenir le prix du carburant. »</p>
+<div style="margin-top:9px;padding-left:16px;font:400 10px/1.4 'IBM Plex Mono',monospace;color:#6B665D">PUBLICATION FACEBOOK · 18 AOÛT · 12 400 PARTAGES</div>
+</div>
+<div style="margin:22px 20px 0;border-top:1px solid #17161a;border-bottom:1px solid #17161a;padding:16px 0">
+<div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:10px"><span style="font:500 9px/1 'IBM Plex Mono',monospace;letter-spacing:.1em;color:#6B665D">VERDICT</span><span style="font:400 9px/1 'IBM Plex Mono',monospace;color:#6B665D">2/5 FIABILITÉ</span></div>
+<div style="font:400 34px/1 Newsreader,serif;font-style:italic;margin-bottom:12px">Trompeur</div>
+<div style="display:flex;gap:4px;margin-bottom:14px"><i style="flex:1;height:3px;background:#17161a"></i><i style="flex:1;height:3px;background:#17161a"></i><i style="flex:1;height:3px;background:#E0DBD1"></i><i style="flex:1;height:3px;background:#E0DBD1"></i><i style="flex:1;height:3px;background:#E0DBD1"></i></div>
+<p style="margin:0;font:400 16px/1.6 'Public Sans',sans-serif;color:#2b2925;text-wrap:pretty">La taxe existe <span style="border-bottom:1px solid #A2621B">[1]</span>. Sa finalité déclarée est le recouvrement fiscal et la traçabilité des paiements <span style="border-bottom:1px solid #A2621B">[2]</span>. Le prix à la pompe est fixé par arrêté mensuel, indépendamment de cette taxe <span style="border-bottom:1px solid #A2621B">[4]</span>.</p>
+</div>
+<div style="padding:18px 20px 0">
+<span style="font:400 9.5px/1 'IBM Plex Mono',monospace;letter-spacing:.09em;color:#6B665D">CE QUE DIT LE TEXTE OFFICIEL</span>
+<div style="margin-top:10px;padding:14px;background:#F2EEE6;border-left:2px solid #17161a">
+<p style="margin:0 0 8px;font:400 14.5px/1.55 Newsreader,serif">« Il est institué un prélèvement de 1 % sur les paiements en espèces effectués auprès des distributeurs d'hydrocarbures, recouvré par le distributeur pour le compte du Trésor. »</p>
+<span style="font:400 9.5px/1.4 'IBM Plex Mono',monospace;color:#6B665D">LFR 2025 · ART. 12 AL. 1 · P. 14</span>
+</div>
+</div>
+<div style="padding:18px 20px 0">
+<div style="display:flex;justify-content:space-between;align-items:baseline"><span style="font:400 9.5px/1 'IBM Plex Mono',monospace;letter-spacing:.09em;color:#6B665D">LES PIÈCES</span><span style="font:400 9.5px/1 'IBM Plex Mono',monospace;color:#A2621B">VOIR LES 6 →</span></div>
+<div style="margin-top:10px;display:flex;flex-direction:column">
+<div style="display:flex;gap:10px;padding:9px 0;border-top:1px solid #E0DBD1"><span style="font:500 10px/1.5 'IBM Plex Mono',monospace;color:#A2621B">[1]</span><span style="font:400 13px/1.45 'Public Sans',sans-serif;flex:1">Loi de finances rectificative 2025, art. 12</span><span style="font:400 9.5px/1.5 'IBM Plex Mono',monospace;color:#6B665D">PDF</span></div>
+<div style="display:flex;gap:10px;padding:9px 0;border-top:1px solid #E0DBD1"><span style="font:500 10px/1.5 'IBM Plex Mono',monospace;color:#A2621B">[2]</span><span style="font:400 13px/1.45 'Public Sans',sans-serif;flex:1">Exposé des motifs, ministère des Finances</span><span style="font:400 9.5px/1.5 'IBM Plex Mono',monospace;color:#6B665D">PDF</span></div>
+<div style="display:flex;gap:10px;padding:9px 0;border-top:1px solid #E0DBD1"><span style="font:500 10px/1.5 'IBM Plex Mono',monospace;color:#A2621B">[4]</span><span style="font:400 13px/1.45 'Public Sans',sans-serif;flex:1">Arrêté de fixation des prix, août 2026</span><span style="font:400 9.5px/1.5 'IBM Plex Mono',monospace;color:#6B665D">JO</span></div>
+</div>
+</div>
+<div style="margin-top:auto;display:flex;justify-content:space-between;align-items:center;padding:14px 20px;border-top:1px solid #17161a"><span style="font:400 13.5px/1.2 Newsreader,serif">Ce que ça change pour vous</span><span style="font:500 10px/1 'IBM Plex Mono',monospace;color:#A2621B">→</span></div>
+</div>
+</div>
+</div>
+
+<div class="dv-scr"><span class="dv-cap">1a · « Ce que ça change pour vous »</span>
+<div class="dv-frame" style="width:390px;min-height:812px;background:#FAF8F4;font-family:'Public Sans',sans-serif;color:#17161a">
+<div style="display:flex;flex-direction:column;min-height:812px">
+<div style="padding:14px 20px;border-bottom:1px solid #17161a;font:500 10px/1 'IBM Plex Mono',monospace;letter-spacing:.09em">← DOSSIER 041 · CONSÉQUENCES</div>
+<div style="padding:20px 20px 0">
+<h1 style="margin:0;font:400 26px/1.2 Newsreader,serif;letter-spacing:-.01em">Ce que la taxe change, selon qui vous êtes</h1>
+<div style="display:flex;gap:6px;margin-top:16px;flex-wrap:wrap">
+<span style="font:500 10px/1 'IBM Plex Mono',monospace;padding:7px 10px;background:#17161a;color:#FAF8F4">AUTOMOBILISTE</span>
+<span style="font:400 10px/1 'IBM Plex Mono',monospace;padding:7px 10px;border:1px solid #D8D2C7;color:#57534b">TAXI / VTC</span>
+<span style="font:400 10px/1 'IBM Plex Mono',monospace;padding:7px 10px;border:1px solid #D8D2C7;color:#57534b">TRANSPORTEUR</span>
+<span style="font:400 10px/1 'IBM Plex Mono',monospace;padding:7px 10px;border:1px solid #D8D2C7;color:#57534b">GÉRANT DE STATION</span>
+</div>
+</div>
+<div style="padding:22px 20px 0">
+<div style="border-top:1px solid #17161a;padding-top:14px">
+<span style="font:400 9.5px/1 'IBM Plex Mono',monospace;letter-spacing:.08em;color:#6B665D">SI VOUS PAYEZ EN ESPÈCES</span>
+<div style="display:flex;align-items:flex-end;gap:10px;margin-top:8px"><span style="font:400 52px/.9 Newsreader,serif;color:#A2621B">+250 F</span><span style="font:400 12px/1.3 'Public Sans',sans-serif;color:#57534b;padding-bottom:6px">par plein de<br>25 000 F</span></div>
+</div>
+<div style="border-top:1px solid #E0DBD1;padding-top:14px;margin-top:16px">
+<span style="font:400 9.5px/1 'IBM Plex Mono',monospace;letter-spacing:.08em;color:#6B665D">SI VOUS PAYEZ PAR CARTE OU WAVE</span>
+<div style="display:flex;align-items:flex-end;gap:10px;margin-top:8px"><span style="font:400 52px/.9 Newsreader,serif">0 F</span><span style="font:400 12px/1.3 'Public Sans',sans-serif;color:#57534b;padding-bottom:6px">la taxe ne<br>s'applique pas</span></div>
+</div>
+<div style="border-top:1px solid #E0DBD1;padding-top:14px;margin-top:16px">
+<span style="font:400 9.5px/1 'IBM Plex Mono',monospace;letter-spacing:.08em;color:#6B665D">SUR UNE ANNÉE, TAXI À DAKAR</span>
+<div style="display:flex;align-items:flex-end;gap:10px;margin-top:8px"><span style="font:400 52px/.9 Newsreader,serif;color:#A2621B">≈ 78 000 F</span></div>
+<p style="margin:8px 0 0;font:400 13px/1.55 'Public Sans',sans-serif;color:#57534b">Hypothèse : 30 000 F de carburant par semaine, payés en espèces, 52 semaines.</p>
+</div>
+</div>
+<div style="margin:22px 20px 0;padding:14px;background:#F2EEE6">
+<span style="font:400 9.5px/1 'IBM Plex Mono',monospace;letter-spacing:.08em;color:#6B665D">CE QUI NE CHANGE PAS</span>
+<p style="margin:8px 0 0;font:400 14px/1.55 'Public Sans',sans-serif">Le prix affiché du litre. Il reste fixé par arrêté&nbsp;: 990 F le super, 755 F le gasoil en août 2026.</p>
+</div>
+<div style="margin-top:auto;padding:14px 20px;border-top:1px solid #E0DBD1;font:400 10px/1.5 'IBM Plex Mono',monospace;color:#6B665D">CALCULS SENESOURCE · MÉTHODE ET HYPOTHÈSES PUBLIÉES [6]</div>
+</div>
+</div>
+</div>
+
+<div class="dv-scr"><span class="dv-cap">1a · Formulaire « Faites vérifier »</span>
+<div class="dv-frame" style="width:390px;min-height:812px;background:#17161a;color:#FAF8F4;font-family:'Public Sans',sans-serif">
+<div style="display:flex;flex-direction:column;min-height:812px">
+<div style="padding:16px 20px;border-bottom:1px solid #33312c;font:500 10px/1 'IBM Plex Mono',monospace;letter-spacing:.09em;color:#A79E90">FERMER ✕</div>
+<div style="padding:28px 20px 0">
+<h1 style="margin:0;font:400 30px/1.15 Newsreader,serif;letter-spacing:-.01em">Faites vérifier une information</h1>
+<p style="margin:12px 0 0;font:400 14.5px/1.6 'Public Sans',sans-serif;color:#B5AC9D;max-width:300px">Nous ouvrons un dossier si l'affirmation est vérifiable et si elle a des conséquences concrètes.</p>
+</div>
+<div style="padding:26px 20px 0;display:flex;flex-direction:column;gap:22px">
+<div><span style="font:500 9.5px/1 'IBM Plex Mono',monospace;letter-spacing:.09em;color:#A79E90">01 · L'AFFIRMATION, EN UNE PHRASE</span><div style="margin-top:10px;border-bottom:1px solid #4d4a43;padding-bottom:9px;font:400 17px/1.4 Newsreader,serif;color:#F2EEE6">La taxe de 1 % a été créée pour…</div></div>
+<div><span style="font:500 9.5px/1 'IBM Plex Mono',monospace;letter-spacing:.09em;color:#A79E90">02 · OÙ L'AVEZ-VOUS VUE&nbsp;?</span><div style="display:flex;gap:6px;margin-top:10px;flex-wrap:wrap"><span style="font:400 10px/1 'IBM Plex Mono',monospace;padding:7px 10px;border:1px solid #FAF8F4">WHATSAPP</span><span style="font:400 10px/1 'IBM Plex Mono',monospace;padding:7px 10px;border:1px solid #4d4a43;color:#A79E90">TIKTOK</span><span style="font:400 10px/1 'IBM Plex Mono',monospace;padding:7px 10px;border:1px solid #4d4a43;color:#A79E90">FACEBOOK</span><span style="font:400 10px/1 'IBM Plex Mono',monospace;padding:7px 10px;border:1px solid #4d4a43;color:#A79E90">RADIO / TV</span><span style="font:400 10px/1 'IBM Plex Mono',monospace;padding:7px 10px;border:1px solid #4d4a43;color:#A79E90">AUTRE</span></div></div>
+<div><span style="font:500 9.5px/1 'IBM Plex Mono',monospace;letter-spacing:.09em;color:#A79E90">03 · PIÈCE JOINTE (FACULTATIF)</span><div style="margin-top:10px;border:1px dashed #4d4a43;padding:18px;text-align:center;font:400 11px/1.4 'IBM Plex Mono',monospace;color:#A79E90">CAPTURE, AUDIO, LIEN<br>DÉPOSER ICI</div></div>
+<div><span style="font:500 9.5px/1 'IBM Plex Mono',monospace;letter-spacing:.09em;color:#A79E90">04 · VOUS CONTACTER&nbsp;?</span><div style="margin-top:10px;border-bottom:1px solid #4d4a43;padding-bottom:9px;font:400 13px/1.4 'Public Sans',sans-serif;color:#A79E90">Numéro ou e-mail — facultatif</div></div>
+</div>
+<div style="margin-top:auto;padding:18px 20px;border-top:1px solid #33312c;display:flex;align-items:center;justify-content:space-between">
+<span style="font:400 10px/1.5 'IBM Plex Mono',monospace;color:#A79E90">RÉPONSE SOUS 72 H</span>
+<span style="font:500 11px/1 'IBM Plex Mono',monospace;letter-spacing:.08em;background:#A2621B;color:#FAF8F4;padding:12px 18px">ENVOYER →</span>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+<div class="dv-row">
+<div class="dv-scr"><span class="dv-cap">1a · Homepage desktop</span>
+<div class="dv-frame" style="width:1280px;min-height:820px;background:#FAF8F4;font-family:'Public Sans',sans-serif;color:#17161a">
+<div style="display:flex;align-items:baseline;justify-content:space-between;padding:22px 48px 16px;border-bottom:1px solid #17161a">
+<span style="font:500 26px/1 Newsreader,serif;letter-spacing:-.01em">Sene<span style="color:#A2621B">Source</span></span>
+<div style="display:flex;gap:26px;font:400 10.5px/1 'IBM Plex Mono',monospace;letter-spacing:.09em;color:#6B665D"><span style="color:#17161a;font-weight:500">VÉRIFICATIONS</span><span>DOCUMENTS</span><span>CE QUE ÇA CHANGE</span><span>MÉTHODE</span></div>
+<span style="font:400 10.5px/1 'IBM Plex Mono',monospace;letter-spacing:.08em;color:#6B665D">SAM. 22 AOÛT 2026 · DAKAR</span>
+</div>
+<div style="display:grid;grid-template-columns:1fr 380px">
+<div style="padding:34px 40px 0 48px;border-right:1px solid #E0DBD1">
+<div style="display:flex;gap:12px;align-items:baseline;margin-bottom:16px"><span style="font:600 11px/1 'IBM Plex Mono',monospace;color:#A2621B;letter-spacing:.06em">DOSSIER 041</span><span style="font:400 11px/1 'IBM Plex Mono',monospace;color:#6B665D;letter-spacing:.06em">FISCALITÉ · CARBURANT · OUVERT LE 18.08</span></div>
+<h1 style="margin:0 0 22px;font:400 56px/1.06 Newsreader,serif;letter-spacing:-.02em;max-width:15ch;text-wrap:pretty">La taxe de 1 % sur les paiements en espèces a-t-elle été créée pour maintenir le prix du carburant&nbsp;?</h1>
+<div style="display:flex;align-items:baseline;gap:14px;padding:12px 0;border-top:1px solid #17161a;border-bottom:1px solid #E0DBD1;max-width:640px">
+<span style="font:500 9.5px/1 'IBM Plex Mono',monospace;letter-spacing:.1em;color:#6B665D">VERDICT</span>
+<span style="font:400 24px/1 Newsreader,serif;font-style:italic">Trompeur</span>
+<span style="margin-left:auto;display:flex;gap:4px"><i style="width:22px;height:4px;background:#17161a"></i><i style="width:22px;height:4px;background:#17161a"></i><i style="width:22px;height:4px;background:#E0DBD1"></i><i style="width:22px;height:4px;background:#E0DBD1"></i><i style="width:22px;height:4px;background:#E0DBD1"></i></span>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:34px;margin-top:20px;max-width:700px">
+<p style="margin:0;font:400 16.5px/1.65 'Public Sans',sans-serif;color:#33312c;text-wrap:pretty">La taxe existe bien&nbsp;: elle est instituée par l'article 12 de la loi de finances rectificative. Mais l'exposé des motifs la justifie par le recouvrement fiscal et la traçabilité des paiements, pas par la stabilisation du prix à la pompe.</p>
+<div>
+<span style="font:400 9.5px/1 'IBM Plex Mono',monospace;letter-spacing:.08em;color:#6B665D">CE QUE ÇA CHANGE</span>
+<div style="display:flex;align-items:flex-end;gap:10px;margin-top:8px"><span style="font:400 44px/.9 Newsreader,serif;color:#A2621B">+250 F</span><span style="font:400 12.5px/1.35 'Public Sans',sans-serif;color:#57534b;padding-bottom:5px">par plein de 25 000 F<br>réglé en espèces</span></div>
+<div style="display:flex;gap:14px;margin-top:14px;font:400 10px/1 'IBM Plex Mono',monospace;color:#6B665D"><span>6 PIÈCES</span><span>·</span><span>3 DOCUMENTS OFFICIELS</span></div>
+</div>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:36px;margin-top:36px;padding-top:22px;border-top:1px solid #17161a;max-width:700px">
+<div>
+<div style="display:flex;gap:10px;align-items:baseline;margin-bottom:8px"><span style="font:600 10px/1 'IBM Plex Mono',monospace;color:#A2621B">DOSSIER 040</span><span style="font:400 10px/1 'IBM Plex Mono',monospace;color:#6B665D">ÉNERGIE</span></div>
+<h2 style="margin:0 0 8px;font:400 23px/1.16 Newsreader,serif;letter-spacing:-.01em">Sénélec a-t-elle baissé le tarif de la tranche sociale&nbsp;?</h2>
+<div style="display:flex;gap:8px;align-items:baseline"><span style="font:500 9px/1 'IBM Plex Mono',monospace;color:#6B665D;letter-spacing:.1em">VERDICT</span><span style="font:400 15px/1 Newsreader,serif;font-style:italic">Exact, mais partiel</span></div>
+</div>
+<div>
+<div style="display:flex;gap:10px;align-items:baseline;margin-bottom:8px"><span style="font:600 10px/1 'IBM Plex Mono',monospace;color:#A2621B">DOSSIER 039</span><span style="font:400 10px/1 'IBM Plex Mono',monospace;color:#6B665D">MOBILITÉ</span></div>
+<h2 style="margin:0 0 8px;font:400 23px/1.16 Newsreader,serif;letter-spacing:-.01em">Le ticket BRT passe-t-il à 500 F sur toute la ligne&nbsp;?</h2>
+<div style="display:flex;gap:8px;align-items:baseline"><span style="font:500 9px/1 'IBM Plex Mono',monospace;color:#6B665D;letter-spacing:.1em">VERDICT</span><span style="font:400 15px/1 Newsreader,serif;font-style:italic">Faux</span></div>
+</div>
+</div>
+</div>
+<div style="padding:34px 48px 0 32px;display:flex;flex-direction:column;gap:26px">
+<div>
+<span style="font:400 9.5px/1 'IBM Plex Mono',monospace;letter-spacing:.09em;color:#6B665D">DERNIERS DOCUMENTS VERSÉS</span>
+<div style="margin-top:12px;display:flex;flex-direction:column">
+<div style="display:flex;gap:12px;padding:10px 0;border-top:1px solid #E0DBD1"><span style="font:400 9.5px/1.6 'IBM Plex Mono',monospace;color:#A2621B">PDF</span><span style="font:400 13px/1.45 'Public Sans',sans-serif;flex:1">Loi de finances rectificative 2025 — art. 12</span></div>
+<div style="display:flex;gap:12px;padding:10px 0;border-top:1px solid #E0DBD1"><span style="font:400 9.5px/1.6 'IBM Plex Mono',monospace;color:#A2621B">JO</span><span style="font:400 13px/1.45 'Public Sans',sans-serif;flex:1">Arrêté prix des hydrocarbures — août 2026</span></div>
+<div style="display:flex;gap:12px;padding:10px 0;border-top:1px solid #E0DBD1"><span style="font:400 9.5px/1.6 'IBM Plex Mono',monospace;color:#A2621B">XLS</span><span style="font:400 13px/1.45 'Public Sans',sans-serif;flex:1">Recettes fiscales mensuelles — DGID</span></div>
+<div style="display:flex;gap:12px;padding:10px 0;border-top:1px solid #E0DBD1;border-bottom:1px solid #E0DBD1"><span style="font:400 9.5px/1.6 'IBM Plex Mono',monospace;color:#A2621B">PDF</span><span style="font:400 13px/1.45 'Public Sans',sans-serif;flex:1">Rapport ARTP — paiements mobiles T2</span></div>
+</div>
+</div>
+<div style="padding:18px;background:#F2EEE6">
+<span style="font:400 9.5px/1 'IBM Plex Mono',monospace;letter-spacing:.09em;color:#6B665D">EN COURS D'INSTRUCTION</span>
+<p style="margin:10px 0 0;font:400 15px/1.5 Newsreader,serif">« L'État a-t-il payé la totalité des bourses du second semestre&nbsp;? » — 2 pièces obtenues sur 5 demandées.</p>
+</div>
+<div style="margin-top:auto;padding:20px 0 24px;border-top:1px solid #17161a">
+<p style="margin:0 0 12px;font:400 20px/1.25 Newsreader,serif">Une information circule&nbsp;? Faites-la vérifier.</p>
+<span style="display:inline-block;font:500 10.5px/1 'IBM Plex Mono',monospace;letter-spacing:.08em;background:#17161a;color:#FAF8F4;padding:12px 16px">OUVRIR UN SIGNALEMENT →</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="dv-row">
+<div class="dv-scr"><span class="dv-cap">1a · Visualisation des sources / chaîne de preuves</span>
+<div class="dv-frame" style="width:628px;height:648px;background:#FAF8F4;font-family:'Public Sans',sans-serif;color:#17161a">
+<div style="padding:24px 30px 0;border-bottom:1px solid #17161a;padding-bottom:14px;display:flex;justify-content:space-between;align-items:baseline"><span style="font:400 19px/1 Newsreader,serif">Registre des pièces — Dossier 041</span><span style="font:400 10px/1 'IBM Plex Mono',monospace;color:#6B665D">6 PIÈCES · 3 OFFICIELLES</span></div>
+<div style="padding:18px 30px 0">
+<div style="display:grid;grid-template-columns:34px 1fr 92px 70px;gap:0;font:400 9px/1 'IBM Plex Mono',monospace;letter-spacing:.08em;color:#6B665D;padding-bottom:8px;border-bottom:1px solid #E0DBD1"><span>N°</span><span>PIÈCE</span><span>NATURE</span><span>PORTÉE</span></div>
+<div style="display:grid;grid-template-columns:34px 1fr 92px 70px;align-items:start;padding:13px 0;border-bottom:1px solid #E0DBD1">
+<span style="font:500 11px/1.4 'IBM Plex Mono',monospace;color:#A2621B">[1]</span>
+<div><div style="font:400 15px/1.35 'Public Sans',sans-serif;font-weight:500">Loi de finances rectificative 2025, art. 12</div><div style="font:400 12.5px/1.5 'Public Sans',sans-serif;color:#57534b;margin-top:3px">Institue le prélèvement de 1 %. Ne mentionne pas le prix du carburant.</div></div>
+<span style="font:400 10px/1.4 'IBM Plex Mono',monospace;color:#17161a">TEXTE DE LOI</span>
+<span style="display:flex;gap:3px;padding-top:3px"><i style="width:8px;height:8px;background:#17161a"></i><i style="width:8px;height:8px;background:#17161a"></i><i style="width:8px;height:8px;background:#17161a"></i></span>
+</div>
+<div style="display:grid;grid-template-columns:34px 1fr 92px 70px;align-items:start;padding:13px 0;border-bottom:1px solid #E0DBD1">
+<span style="font:500 11px/1.4 'IBM Plex Mono',monospace;color:#A2621B">[2]</span>
+<div><div style="font:400 15px/1.35 'Public Sans',sans-serif;font-weight:500">Exposé des motifs — ministère des Finances</div><div style="font:400 12.5px/1.5 'Public Sans',sans-serif;color:#57534b;margin-top:3px">Justifie la mesure par la traçabilité et le recouvrement.</div></div>
+<span style="font:400 10px/1.4 'IBM Plex Mono',monospace;color:#17161a">DOC OFFICIEL</span>
+<span style="display:flex;gap:3px;padding-top:3px"><i style="width:8px;height:8px;background:#17161a"></i><i style="width:8px;height:8px;background:#17161a"></i><i style="width:8px;height:8px;background:#E0DBD1"></i></span>
+</div>
+<div style="display:grid;grid-template-columns:34px 1fr 92px 70px;align-items:start;padding:13px 0;border-bottom:1px solid #E0DBD1">
+<span style="font:500 11px/1.4 'IBM Plex Mono',monospace;color:#A2621B">[3]</span>
+<div><div style="font:400 15px/1.35 'Public Sans',sans-serif;font-weight:500">Entretien — direction générale des Impôts</div><div style="font:400 12.5px/1.5 'Public Sans',sans-serif;color:#57534b;margin-top:3px">Confirme l'absence de lien avec la formule des prix. Enregistré, 14 min.</div></div>
+<span style="font:400 10px/1.4 'IBM Plex Mono',monospace;color:#17161a">TÉMOIGNAGE</span>
+<span style="display:flex;gap:3px;padding-top:3px"><i style="width:8px;height:8px;background:#17161a"></i><i style="width:8px;height:8px;background:#E0DBD1"></i><i style="width:8px;height:8px;background:#E0DBD1"></i></span>
+</div>
+<div style="display:grid;grid-template-columns:34px 1fr 92px 70px;align-items:start;padding:13px 0;border-bottom:1px solid #E0DBD1">
+<span style="font:500 11px/1.4 'IBM Plex Mono',monospace;color:#A2621B">[4]</span>
+<div><div style="font:400 15px/1.35 'Public Sans',sans-serif;font-weight:500">Arrêté mensuel de fixation des prix, août 2026</div><div style="font:400 12.5px/1.5 'Public Sans',sans-serif;color:#57534b;margin-top:3px">Prix du super&nbsp;: 990 F/l. Structure de prix détaillée, taxe absente.</div></div>
+<span style="font:400 10px/1.4 'IBM Plex Mono',monospace;color:#17161a">TEXTE DE LOI</span>
+<span style="display:flex;gap:3px;padding-top:3px"><i style="width:8px;height:8px;background:#17161a"></i><i style="width:8px;height:8px;background:#17161a"></i><i style="width:8px;height:8px;background:#17161a"></i></span>
+</div>
+<div style="display:grid;grid-template-columns:34px 1fr 92px 70px;align-items:start;padding:13px 0;border-bottom:1px solid #E0DBD1">
+<span style="font:500 11px/1.4 'IBM Plex Mono',monospace;color:#6B665D">[5]</span>
+<div><div style="font:400 15px/1.35 'Public Sans',sans-serif;font-weight:500">Publication virale du 18 août</div><div style="font:400 12.5px/1.5 'Public Sans',sans-serif;color:#57534b;margin-top:3px">Origine de l'affirmation. Aucune source citée.</div></div>
+<span style="font:400 10px/1.4 'IBM Plex Mono',monospace;color:#6B665D">RÉSEAU SOCIAL</span>
+<span style="display:flex;gap:3px;padding-top:3px"><i style="width:8px;height:8px;background:#E0DBD1"></i><i style="width:8px;height:8px;background:#E0DBD1"></i><i style="width:8px;height:8px;background:#E0DBD1"></i></span>
+</div>
+</div>
+<div style="margin:20px 30px 0;padding:14px 16px;background:#F2EEE6;display:flex;gap:22px;align-items:center">
+<span style="font:400 9.5px/1.3 'IBM Plex Mono',monospace;letter-spacing:.08em;color:#6B665D;max-width:96px">DEMANDES RESTÉES SANS RÉPONSE</span>
+<span style="font:400 15px/1.45 Newsreader,serif;flex:1">Deux demandes d'accès adressées au ministère du Commerce, 4 et 11 août&nbsp;: sans réponse à ce jour.</span>
+</div>
+</div>
+</div>
+
+<div class="dv-scr"><span class="dv-cap">1a · Page document</span>
+<div class="dv-frame" style="width:628px;height:648px;background:#FAF8F4;font-family:'Public Sans',sans-serif;color:#17161a">
+<div style="display:flex;justify-content:space-between;align-items:baseline;padding:20px 26px 12px;border-bottom:1px solid #17161a"><div><div style="font:400 17px/1.25 Newsreader,serif">Loi de finances rectificative 2025</div><div style="font:400 9.5px/1 'IBM Plex Mono',monospace;color:#6B665D;margin-top:6px">PIÈCE [1] · PDF 48 P. · DÉPOSÉ LE 19.08.2026 · SHA 4f9c…21b</div></div><span style="font:500 10px/1 'IBM Plex Mono',monospace;color:#A2621B">TÉLÉCHARGER ↓</span></div>
+<div style="display:grid;grid-template-columns:1fr 210px;height:calc(100% - 68px)">
+<div style="padding:20px 26px;background:#EFEBE3;overflow:hidden">
+<div style="background:#fff;border:1px solid #DCD6CB;padding:26px 28px;height:100%;box-sizing:border-box">
+<div style="font:400 9px/1 'IBM Plex Mono',monospace;color:#8b8579;letter-spacing:.1em;margin-bottom:18px">PAGE 14 / 48 — TITRE II, CHAPITRE 3</div>
+<div style="font:400 13px/1.85 Newsreader,serif;color:#2b2925">
+<p style="margin:0 0 12px">Art. 11 — Les dispositions de l'article 355 du Code général des impôts sont complétées ainsi qu'il suit&nbsp;: les redevables soumis au régime réel acquittent…</p>
+<p style="margin:0 0 12px;background:#F6E3C4;box-shadow:0 0 0 4px #F6E3C4;border-left:2px solid #A2621B;padding-left:10px">Art. 12 — Il est institué un prélèvement de 1 % sur les paiements en espèces effectués auprès des distributeurs d'hydrocarbures, recouvré par le distributeur pour le compte du Trésor public. Le produit du prélèvement est affecté au budget général.</p>
+<p style="margin:0 0 12px">Art. 13 — Les modalités d'application de l'article 12 sont fixées par arrêté du ministre chargé des Finances, dans un délai de soixante jours…</p>
+<p style="margin:0">Art. 14 — Sont abrogées toutes dispositions antérieures contraires à la présente loi…</p>
+</div>
+</div>
+</div>
+<div style="border-left:1px solid #E0DBD1;padding:20px;display:flex;flex-direction:column;gap:20px">
+<div><span style="font:400 9px/1 'IBM Plex Mono',monospace;letter-spacing:.09em;color:#6B665D">PASSAGE CITÉ</span><p style="margin:8px 0 0;font:400 13px/1.55 'Public Sans',sans-serif">Art. 12, al. 1 — cité dans le dossier 041, réponse courte.</p></div>
+<div><span style="font:400 9px/1 'IBM Plex Mono',monospace;letter-spacing:.09em;color:#6B665D">CE QUE LE TEXTE NE DIT PAS</span><p style="margin:8px 0 0;font:400 13px/1.55 'Public Sans',sans-serif;color:#57534b">Aucune mention du prix à la pompe, ni d'un mécanisme de compensation.</p></div>
+<div><span style="font:400 9px/1 'IBM Plex Mono',monospace;letter-spacing:.09em;color:#6B665D">PROVENANCE</span><p style="margin:8px 0 0;font:400 12.5px/1.55 'Public Sans',sans-serif;color:#57534b">Journal officiel n° 7612, obtenu le 19.08.2026. Copie conservée par SeneSource.</p></div>
+<div style="margin-top:auto;padding-top:14px;border-top:1px solid #E0DBD1;font:400 9.5px/1.5 'IBM Plex Mono',monospace;color:#6B665D">AUTRES DOSSIERS CITANT<br>CE DOCUMENT · 3</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+<div class="dv-opt" id="1b">
+<div class="dv-ohd">
+<div class="dv-otitle"><a class="dv-oid" href="#1b">1b</a>LE REGISTRE — la preuve comme structure</div>
+<sc-if value="{{ showNotes }}" hint-placeholder-val="{{ true }}"><p class="dv-onote"><b>Intention éditoriale :</b> SeneSource n'écrit pas des articles, elle tient un <b>registre public</b>. Tout est daté, indexé, traçable&nbsp;: chaque affirmation porte un identifiant, chaque pièce une date d'obtention. <b>UX :</b> la grille est visible — colonne d'index à gauche, filets qui traversent l'écran, chiffres tabulaires. Le verdict est un mot entre crochets, jamais une pastille de couleur. Le vert n'apparaît que sur ce qui est <b>établi</b> (pièce obtenue, fait confirmé)&nbsp;; l'absence de preuve reste grise.</p></sc-if>
+</div>
+
+<div class="dv-row">
+<div class="dv-scr"><span class="dv-cap">1b · Homepage mobile</span>
+<div class="dv-frame" style="width:390px;min-height:812px;background:#fff;font-family:'IBM Plex Sans',sans-serif;color:#101010">
+<div style="display:flex;flex-direction:column;min-height:812px">
+<div style="display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid #101010">
+<span style="font:700 15px/1 Archivo,sans-serif;letter-spacing:-.02em;text-transform:uppercase">SeneSource</span>
+<span style="font:400 9.5px/1 'IBM Plex Mono',monospace;color:#7A7A76;font-variant-numeric:tabular-nums">2026-08-22 · 07:40 GMT</span>
+</div>
+<div style="display:grid;grid-template-columns:46px 1fr;border-bottom:1px solid #E3E3DE">
+<div style="border-right:1px solid #E3E3DE;padding:12px 0;text-align:center;font:500 9px/1 'IBM Plex Mono',monospace;color:#7A7A76">IDX</div>
+<div style="padding:12px 18px;font:500 9.5px/1 'IBM Plex Mono',monospace;letter-spacing:.1em;color:#7A7A76">REGISTRE DES VÉRIFICATIONS · 3 ENTRÉES ACTIVES</div>
+</div>
+<div style="display:grid;grid-template-columns:46px 1fr;border-bottom:1px solid #101010">
+<div style="border-right:1px solid #E3E3DE;padding:18px 0 0;text-align:center;font:500 11px/1 'IBM Plex Mono',monospace;font-variant-numeric:tabular-nums">041</div>
+<div style="padding:18px 18px 20px">
+<div style="font:500 9px/1 'IBM Plex Mono',monospace;letter-spacing:.1em;color:#7A7A76;margin-bottom:10px">FISCALITÉ · CARBURANT</div>
+<h1 style="margin:0 0 14px;font:600 27px/1.14 Archivo,sans-serif;letter-spacing:-.028em;text-wrap:pretty">La taxe de 1 % sur les paiements en espèces en station a-t-elle été créée pour maintenir le prix du carburant&nbsp;?</h1>
+<div style="display:inline-flex;align-items:center;gap:7px;border:1px solid #101010;padding:6px 9px;margin-bottom:14px"><span style="font:600 10px/1 'IBM Plex Mono',monospace;letter-spacing:.14em">[ TROMPEUR ]</span></div>
+<p style="margin:0 0 16px;font:400 15.5px/1.6 'IBM Plex Sans',sans-serif;color:#3a3a37;text-wrap:pretty">La taxe existe. Sa finalité déclarée est fiscale. Aucun texte ne l'associe au prix à la pompe.</p>
+<div style="display:grid;grid-template-columns:1fr 1fr;border-top:1px solid #E3E3DE">
+<div style="padding:11px 0;border-right:1px solid #E3E3DE"><div style="font:500 8.5px/1 'IBM Plex Mono',monospace;letter-spacing:.1em;color:#7A7A76">PIÈCES OBTENUES</div><div style="font:500 20px/1 'IBM Plex Mono',monospace;margin-top:7px;color:#1E6B4C;font-variant-numeric:tabular-nums">4 / 6</div></div>
+<div style="padding:11px 0 11px 14px"><div style="font:500 8.5px/1 'IBM Plex Mono',monospace;letter-spacing:.1em;color:#7A7A76">COÛT / PLEIN 25 000 F</div><div style="font:500 20px/1 'IBM Plex Mono',monospace;margin-top:7px;font-variant-numeric:tabular-nums">+250 F</div></div>
+</div>
+</div>
+</div>
+<div style="display:grid;grid-template-columns:46px 1fr;border-bottom:1px solid #E3E3DE">
+<div style="border-right:1px solid #E3E3DE;padding:14px 0 0;text-align:center;font:500 11px/1 'IBM Plex Mono',monospace">040</div>
+<div style="padding:14px 18px 16px">
+<div style="font:500 9px/1 'IBM Plex Mono',monospace;letter-spacing:.1em;color:#7A7A76;margin-bottom:8px">ÉNERGIE</div>
+<h2 style="margin:0 0 10px;font:600 19px/1.2 Archivo,sans-serif;letter-spacing:-.022em">Sénélec a-t-elle baissé le tarif de la tranche sociale&nbsp;?</h2>
+<span style="font:600 9.5px/1 'IBM Plex Mono',monospace;letter-spacing:.14em;border:1px solid #C9C9C3;padding:5px 8px;color:#3a3a37">[ EXACT EN PARTIE ]</span>
+</div>
+</div>
+<div style="display:grid;grid-template-columns:46px 1fr;border-bottom:1px solid #E3E3DE">
+<div style="border-right:1px solid #E3E3DE;padding:14px 0 0;text-align:center;font:500 11px/1 'IBM Plex Mono',monospace">039</div>
+<div style="padding:14px 18px 16px">
+<div style="font:500 9px/1 'IBM Plex Mono',monospace;letter-spacing:.1em;color:#7A7A76;margin-bottom:8px">MOBILITÉ · DAKAR</div>
+<h2 style="margin:0 0 10px;font:600 19px/1.2 Archivo,sans-serif;letter-spacing:-.022em">Le ticket BRT passe-t-il à 500 F sur toute la ligne&nbsp;?</h2>
+<span style="font:600 9.5px/1 'IBM Plex Mono',monospace;letter-spacing:.14em;border:1px solid #C9C9C3;padding:5px 8px;color:#3a3a37">[ FAUX ]</span>
+</div>
+</div>
+<div style="display:grid;grid-template-columns:46px 1fr;border-bottom:1px solid #E3E3DE;background:#F6F6F3">
+<div style="border-right:1px solid #E3E3DE;padding:14px 0 0;text-align:center;font:500 10px/1 'IBM Plex Mono',monospace;color:#7A7A76">—</div>
+<div style="padding:14px 18px 16px">
+<div style="font:500 9px/1 'IBM Plex Mono',monospace;letter-spacing:.1em;color:#7A7A76;margin-bottom:8px">EN INSTRUCTION · 2 DEMANDES D'ACCÈS EN ATTENTE</div>
+<p style="margin:0;font:400 14.5px/1.5 'IBM Plex Sans',sans-serif">« L'État a-t-il versé la totalité des bourses du second semestre&nbsp;? »</p>
+</div>
+</div>
+<div style="margin-top:auto;display:grid;grid-template-columns:46px 1fr;border-top:1px solid #101010">
+<div style="border-right:1px solid #E3E3DE"></div>
+<div style="padding:15px 18px;display:flex;justify-content:space-between;align-items:center"><span style="font:500 12.5px/1.2 'IBM Plex Sans',sans-serif">Soumettre une affirmation</span><span style="font:600 10px/1 'IBM Plex Mono',monospace;color:#1E6B4C">→</span></div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="dv-scr"><span class="dv-cap">1b · Page de vérification (mobile)</span>
+<div class="dv-frame" style="width:390px;min-height:812px;background:#fff;font-family:'IBM Plex Sans',sans-serif;color:#101010">
+<div style="display:flex;flex-direction:column;min-height:812px">
+<div style="display:flex;justify-content:space-between;padding:13px 18px;border-bottom:1px solid #101010;font:500 9.5px/1 'IBM Plex Mono',monospace;letter-spacing:.1em"><span>← REGISTRE / 041</span><span style="color:#7A7A76">RÉV. 02</span></div>
+<div style="padding:18px;border-bottom:1px solid #E3E3DE">
+<div style="font:500 9px/1 'IBM Plex Mono',monospace;letter-spacing:.1em;color:#7A7A76;margin-bottom:10px">AFFIRMATION SOUMISE AU CONTRÔLE</div>
+<p style="margin:0;font:400 17px/1.45 'IBM Plex Sans',sans-serif;padding:12px;background:#F6F6F3;border-left:2px solid #101010">« La taxe de 1 % sur les paiements en espèces dans les stations-service a été créée pour maintenir le prix du carburant. »</p>
+<div style="display:flex;gap:14px;margin-top:10px;font:400 9.5px/1 'IBM Plex Mono',monospace;color:#7A7A76;font-variant-numeric:tabular-nums"><span>SOURCE : FACEBOOK</span><span>2026-08-18</span><span>12 400 PARTAGES</span></div>
+</div>
+<div style="padding:18px;border-bottom:1px solid #101010">
+<div style="display:flex;align-items:center;justify-content:space-between"><span style="font:500 9px/1 'IBM Plex Mono',monospace;letter-spacing:.1em;color:#7A7A76">CONCLUSION</span><span style="font:400 9.5px/1 'IBM Plex Mono',monospace;color:#7A7A76">4 PIÈCES SUR 6 OBTENUES</span></div>
+<div style="margin-top:12px;border:1px solid #101010;padding:14px;display:flex;flex-direction:column;gap:10px">
+<span style="font:700 21px/1 Archivo,sans-serif;letter-spacing:.02em">[ TROMPEUR ]</span>
+<p style="margin:0;font:400 15px/1.6 'IBM Plex Sans',sans-serif;color:#3a3a37">Un fait exact — la taxe existe — est associé à une finalité qui n'apparaît dans aucun document officiel.</p>
+</div>
+<div style="margin-top:14px;display:flex;flex-direction:column;gap:8px">
+<div style="display:flex;gap:10px;align-items:baseline"><span style="font:500 9.5px/1.4 'IBM Plex Mono',monospace;color:#1E6B4C;width:64px">ÉTABLI</span><span style="font:400 13.5px/1.45 'IBM Plex Sans',sans-serif;flex:1">La taxe de 1 % est instituée par l'art. 12 de la LFR 2025.</span></div>
+<div style="display:flex;gap:10px;align-items:baseline"><span style="font:500 9.5px/1.4 'IBM Plex Mono',monospace;color:#1E6B4C;width:64px">ÉTABLI</span><span style="font:400 13.5px/1.45 'IBM Plex Sans',sans-serif;flex:1">Le prix à la pompe est fixé par arrêté mensuel.</span></div>
+<div style="display:flex;gap:10px;align-items:baseline"><span style="font:500 9.5px/1.4 'IBM Plex Mono',monospace;color:#7A7A76;width:64px">NON ÉTABLI</span><span style="font:400 13.5px/1.45 'IBM Plex Sans',sans-serif;flex:1;color:#3a3a37">Un lien entre le produit de la taxe et le prix du carburant.</span></div>
+</div>
+</div>
+<div style="padding:18px;border-bottom:1px solid #E3E3DE">
+<div style="font:500 9px/1 'IBM Plex Mono',monospace;letter-spacing:.1em;color:#7A7A76;margin-bottom:10px">TEXTE OFFICIEL · EXTRAIT LITTÉRAL</div>
+<p style="margin:0;font:400 14px/1.7 'IBM Plex Mono',monospace;color:#101010;background:#F6F6F3;padding:12px">« Il est institué un prélèvement de 1 % sur les paiements en espèces effectués auprès des distributeurs d'hydrocarbures… »</p>
+<div style="margin-top:8px;font:400 9.5px/1 'IBM Plex Mono',monospace;color:#7A7A76">LFR 2025 · ART. 12 AL. 1 · PAGE 14 · <span style="color:#1E6B4C">OUVRIR LE DOCUMENT</span></div>
+</div>
+<div style="padding:18px">
+<div style="font:500 9px/1 'IBM Plex Mono',monospace;letter-spacing:.1em;color:#7A7A76;margin-bottom:12px">CHRONOLOGIE</div>
+<div style="display:flex;flex-direction:column;gap:9px;font-variant-numeric:tabular-nums">
+<div style="display:flex;gap:12px"><span style="font:400 10px/1.4 'IBM Plex Mono',monospace;color:#7A7A76;width:66px">2025-12-30</span><span style="font:400 13px/1.4 'IBM Plex Sans',sans-serif;flex:1">Promulgation de la LFR 2025.</span></div>
+<div style="display:flex;gap:12px"><span style="font:400 10px/1.4 'IBM Plex Mono',monospace;color:#7A7A76;width:66px">2026-08-18</span><span style="font:400 13px/1.4 'IBM Plex Sans',sans-serif;flex:1">Apparition de l'affirmation en ligne.</span></div>
+<div style="display:flex;gap:12px"><span style="font:400 10px/1.4 'IBM Plex Mono',monospace;color:#1E6B4C;width:66px">2026-08-21</span><span style="font:400 13px/1.4 'IBM Plex Sans',sans-serif;flex:1">Confirmation écrite de la DGID.</span></div>
+</div>
+</div>
+<div style="margin-top:auto;padding:14px 18px;border-top:1px solid #101010;display:flex;justify-content:space-between;align-items:center"><span style="font:500 12.5px/1.2 'IBM Plex Sans',sans-serif">Ce que ça change pour vous</span><span style="font:600 10px/1 'IBM Plex Mono',monospace;color:#1E6B4C">→</span></div>
+</div>
+</div>
+</div>
+
+<div class="dv-scr"><span class="dv-cap">1b · « Ce que ça change pour vous »</span>
+<div class="dv-frame" style="width:390px;min-height:812px;background:#fff;font-family:'IBM Plex Sans',sans-serif;color:#101010">
+<div style="display:flex;flex-direction:column;min-height:812px">
+<div style="padding:13px 18px;border-bottom:1px solid #101010;font:500 9.5px/1 'IBM Plex Mono',monospace;letter-spacing:.1em">← 041 / CONSÉQUENCES</div>
+<div style="padding:18px 18px 0">
+<h1 style="margin:0;font:600 25px/1.16 Archivo,sans-serif;letter-spacing:-.025em">Effet réel de la taxe, cas par cas</h1>
+<p style="margin:10px 0 0;font:400 13.5px/1.55 'IBM Plex Sans',sans-serif;color:#5c5c58">Calculs SeneSource. Hypothèses affichées sous chaque ligne.</p>
+</div>
+<div style="margin-top:18px;border-top:1px solid #101010">
+<div style="display:grid;grid-template-columns:1fr 96px;padding:8px 18px;border-bottom:1px solid #E3E3DE;font:500 8.5px/1 'IBM Plex Mono',monospace;letter-spacing:.1em;color:#7A7A76"><span>PROFIL</span><span style="text-align:right">SURCOÛT / AN</span></div>
+<div style="display:grid;grid-template-columns:1fr 96px;padding:14px 18px;border-bottom:1px solid #E3E3DE;align-items:center"><div><div style="font:500 15px/1.3 'IBM Plex Sans',sans-serif">Ménage, une voiture</div><div style="font:400 10px/1.4 'IBM Plex Mono',monospace;color:#7A7A76;margin-top:4px">2 PLEINS / MOIS, ESPÈCES</div></div><span style="font:500 17px/1 'IBM Plex Mono',monospace;text-align:right;font-variant-numeric:tabular-nums">6 000 F</span></div>
+<div style="display:grid;grid-template-columns:1fr 96px;padding:14px 18px;border-bottom:1px solid #E3E3DE;align-items:center;background:#F6F6F3"><div><div style="font:500 15px/1.3 'IBM Plex Sans',sans-serif">Taxi urbain, Dakar</div><div style="font:400 10px/1.4 'IBM Plex Mono',monospace;color:#7A7A76;margin-top:4px">30 000 F / SEMAINE, ESPÈCES</div></div><span style="font:500 17px/1 'IBM Plex Mono',monospace;text-align:right;font-variant-numeric:tabular-nums">78 000 F</span></div>
+<div style="display:grid;grid-template-columns:1fr 96px;padding:14px 18px;border-bottom:1px solid #E3E3DE;align-items:center"><div><div style="font:500 15px/1.3 'IBM Plex Sans',sans-serif">Transporteur, 3 camions</div><div style="font:400 10px/1.4 'IBM Plex Mono',monospace;color:#7A7A76;margin-top:4px">1,2 M F / MOIS, ESPÈCES</div></div><span style="font:500 17px/1 'IBM Plex Mono',monospace;text-align:right;font-variant-numeric:tabular-nums">144 000 F</span></div>
+<div style="display:grid;grid-template-columns:1fr 96px;padding:14px 18px;border-bottom:1px solid #101010;align-items:center"><div><div style="font:500 15px/1.3 'IBM Plex Sans',sans-serif">Paiement carte, Wave, Orange Money</div><div style="font:400 10px/1.4 'IBM Plex Mono',monospace;color:#1E6B4C;margin-top:4px">HORS CHAMP DE LA TAXE</div></div><span style="font:500 17px/1 'IBM Plex Mono',monospace;text-align:right;color:#1E6B4C;font-variant-numeric:tabular-nums">0 F</span></div>
+</div>
+<div style="padding:18px">
+<div style="font:500 9px/1 'IBM Plex Mono',monospace;letter-spacing:.1em;color:#7A7A76;margin-bottom:10px">INCHANGÉ</div>
+<div style="display:flex;gap:18px;align-items:baseline"><div><div style="font:500 22px/1 'IBM Plex Mono',monospace;font-variant-numeric:tabular-nums">990 F</div><div style="font:400 10px/1.4 'IBM Plex Mono',monospace;color:#7A7A76;margin-top:5px">SUPER / LITRE</div></div><div><div style="font:500 22px/1 'IBM Plex Mono',monospace;font-variant-numeric:tabular-nums">755 F</div><div style="font:400 10px/1.4 'IBM Plex Mono',monospace;color:#7A7A76;margin-top:5px">GASOIL / LITRE</div></div><p style="margin:0;font:400 12.5px/1.5 'IBM Plex Sans',sans-serif;color:#5c5c58;flex:1">Prix affichés fixés par arrêté d'août 2026.</p></div>
+</div>
+<div style="margin-top:auto;padding:14px 18px;border-top:1px solid #E3E3DE;font:400 9.5px/1.5 'IBM Plex Mono',monospace;color:#7A7A76">MÉTHODE ET FEUILLE DE CALCUL PUBLIÉES · CSV DISPONIBLE</div>
+</div>
+</div>
+</div>
+
+<div class="dv-scr"><span class="dv-cap">1b · Formulaire « Faites vérifier »</span>
+<div class="dv-frame" style="width:390px;min-height:812px;background:#fff;font-family:'IBM Plex Sans',sans-serif;color:#101010">
+<div style="display:flex;flex-direction:column;min-height:812px">
+<div style="padding:13px 18px;border-bottom:1px solid #101010;display:flex;justify-content:space-between;font:500 9.5px/1 'IBM Plex Mono',monospace;letter-spacing:.1em"><span>NOUVELLE ENTRÉE</span><span style="color:#7A7A76">✕</span></div>
+<div style="padding:20px 18px 0"><h1 style="margin:0;font:600 24px/1.15 Archivo,sans-serif;letter-spacing:-.025em">Faites vérifier une information</h1><p style="margin:10px 0 0;font:400 14px/1.6 'IBM Plex Sans',sans-serif;color:#5c5c58">Trois champs suffisent. Nous répondons même quand nous refusons d'ouvrir un dossier.</p></div>
+<div style="margin-top:20px;border-top:1px solid #101010">
+<div style="display:grid;grid-template-columns:34px 1fr;border-bottom:1px solid #E3E3DE"><div style="border-right:1px solid #E3E3DE;padding-top:14px;text-align:center;font:500 10px/1 'IBM Plex Mono',monospace;color:#7A7A76">01</div><div style="padding:14px 18px"><div style="font:500 9px/1 'IBM Plex Mono',monospace;letter-spacing:.1em;color:#7A7A76">L'AFFIRMATION</div><div style="margin-top:9px;font:400 16px/1.45 'IBM Plex Sans',sans-serif;color:#101010">La taxe de 1 % a été créée pour…</div><div style="margin-top:9px;height:1px;background:#101010"></div><div style="margin-top:7px;font:400 9.5px/1 'IBM Plex Mono',monospace;color:#7A7A76">240 CARACTÈRES MAX · 38 UTILISÉS</div></div></div>
+<div style="display:grid;grid-template-columns:34px 1fr;border-bottom:1px solid #E3E3DE"><div style="border-right:1px solid #E3E3DE;padding-top:14px;text-align:center;font:500 10px/1 'IBM Plex Mono',monospace;color:#7A7A76">02</div><div style="padding:14px 18px"><div style="font:500 9px/1 'IBM Plex Mono',monospace;letter-spacing:.1em;color:#7A7A76">CANAL D'ORIGINE</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;margin-top:10px;background:#E3E3DE;border:1px solid #E3E3DE"><span style="background:#101010;color:#fff;padding:9px;font:500 10px/1 'IBM Plex Mono',monospace;text-align:center">WHATSAPP</span><span style="background:#fff;padding:9px;font:400 10px/1 'IBM Plex Mono',monospace;text-align:center;color:#5c5c58">TIKTOK</span><span style="background:#fff;padding:9px;font:400 10px/1 'IBM Plex Mono',monospace;text-align:center;color:#5c5c58">FACEBOOK</span><span style="background:#fff;padding:9px;font:400 10px/1 'IBM Plex Mono',monospace;text-align:center;color:#5c5c58">RADIO / TV</span></div></div></div>
+<div style="display:grid;grid-template-columns:34px 1fr;border-bottom:1px solid #E3E3DE"><div style="border-right:1px solid #E3E3DE;padding-top:14px;text-align:center;font:500 10px/1 'IBM Plex Mono',monospace;color:#7A7A76">03</div><div style="padding:14px 18px"><div style="font:500 9px/1 'IBM Plex Mono',monospace;letter-spacing:.1em;color:#7A7A76">PIÈCE À L'APPUI</div><div style="margin-top:10px;border:1px solid #E3E3DE;padding:16px;font:400 10.5px/1.5 'IBM Plex Mono',monospace;color:#7A7A76;text-align:center">CAPTURE · AUDIO · LIEN<br>FACULTATIF</div></div></div>
+<div style="display:grid;grid-template-columns:34px 1fr;border-bottom:1px solid #101010"><div style="border-right:1px solid #E3E3DE;padding-top:14px;text-align:center;font:500 10px/1 'IBM Plex Mono',monospace;color:#7A7A76">04</div><div style="padding:14px 18px"><div style="font:500 9px/1 'IBM Plex Mono',monospace;letter-spacing:.1em;color:#7A7A76">CONTACT · FACULTATIF</div><div style="margin-top:9px;font:400 14px/1.45 'IBM Plex Sans',sans-serif;color:#9a9a95">+221 …</div><div style="margin-top:9px;height:1px;background:#E3E3DE"></div></div></div>
+</div>
+<div style="padding:16px 18px;background:#F6F6F3;margin:0;font:400 12.5px/1.55 'IBM Plex Sans',sans-serif;color:#3a3a37">Nous priorisons les affirmations qui touchent l'argent public, les prix et l'accès aux services.</div>
+<div style="margin-top:auto;display:grid;grid-template-columns:1fr auto;border-top:1px solid #101010;align-items:center"><span style="padding:0 18px;font:400 9.5px/1.4 'IBM Plex Mono',monospace;color:#7A7A76">DÉLAI DE RÉPONSE : 72 H</span><span style="background:#1E6B4C;color:#fff;padding:16px 22px;font:600 10.5px/1 'IBM Plex Mono',monospace;letter-spacing:.1em">DÉPOSER</span></div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="dv-row">
+<div class="dv-scr"><span class="dv-cap">1b · Homepage desktop</span>
+<div class="dv-frame" style="width:1280px;min-height:820px;background:#fff;font-family:'IBM Plex Sans',sans-serif;color:#101010">
+<div style="display:flex;align-items:center;justify-content:space-between;padding:18px 40px;border-bottom:1px solid #101010">
+<span style="font:700 19px/1 Archivo,sans-serif;letter-spacing:-.02em;text-transform:uppercase">SeneSource</span>
+<div style="display:flex;gap:24px;font:500 10px/1 'IBM Plex Mono',monospace;letter-spacing:.11em;color:#7A7A76"><span style="color:#101010">REGISTRE</span><span>DOCUMENTS</span><span>CONSÉQUENCES</span><span>MÉTHODE</span><span>À PROPOS</span></div>
+<span style="font:400 10px/1 'IBM Plex Mono',monospace;color:#7A7A76;font-variant-numeric:tabular-nums">DERNIÈRE MISE À JOUR 2026-08-22 07:40</span>
+</div>
+<div style="display:grid;grid-template-columns:56px 1fr 340px;height:calc(100% - 55px)">
+<div style="border-right:1px solid #E3E3DE;display:flex;flex-direction:column">
+<div style="padding:20px 0;text-align:center;font:500 10px/1 'IBM Plex Mono',monospace;color:#7A7A76;border-bottom:1px solid #E3E3DE">IDX</div>
+<div style="padding:26px 0;text-align:center;font:500 13px/1 'IBM Plex Mono',monospace;border-bottom:1px solid #E3E3DE">041</div>
+<div style="padding:26px 0;text-align:center;font:500 13px/1 'IBM Plex Mono',monospace;color:#7A7A76;border-bottom:1px solid #E3E3DE">040</div>
+<div style="padding:26px 0;text-align:center;font:500 13px/1 'IBM Plex Mono',monospace;color:#7A7A76">039</div>
+</div>
+<div style="border-right:1px solid #101010">
+<div style="padding:16px 34px;border-bottom:1px solid #E3E3DE;font:500 9.5px/1 'IBM Plex Mono',monospace;letter-spacing:.11em;color:#7A7A76">REGISTRE PUBLIC DES VÉRIFICATIONS</div>
+<div style="padding:30px 34px 32px;border-bottom:1px solid #E3E3DE">
+<div style="font:500 9.5px/1 'IBM Plex Mono',monospace;letter-spacing:.11em;color:#7A7A76;margin-bottom:14px">FISCALITÉ · CARBURANT · OUVERT 2026-08-18</div>
+<h1 style="margin:0 0 18px;font:600 46px/1.06 Archivo,sans-serif;letter-spacing:-.032em;max-width:19ch;text-wrap:pretty">La taxe de 1 % sur les paiements en espèces a-t-elle été créée pour maintenir le prix du carburant&nbsp;?</h1>
+<div style="display:flex;align-items:center;gap:16px;margin-bottom:20px"><span style="font:700 15px/1 Archivo,sans-serif;letter-spacing:.02em;border:1px solid #101010;padding:8px 12px">[ TROMPEUR ]</span><span style="font:400 11px/1 'IBM Plex Mono',monospace;color:#7A7A76">CONCLUSION FIXÉE LE 2026-08-21 · RÉV. 02</span></div>
+<div style="display:grid;grid-template-columns:1.25fr 1fr;gap:38px;max-width:760px">
+<p style="margin:0;font:400 16.5px/1.65 'IBM Plex Sans',sans-serif;color:#3a3a37;text-wrap:pretty">La taxe est instituée par l'article 12 de la loi de finances rectificative. L'exposé des motifs la justifie par la traçabilité des paiements et le recouvrement fiscal. Le prix à la pompe, lui, reste fixé par arrêté mensuel&nbsp;: aucun document n'établit de lien entre les deux.</p>
+<div style="display:flex;flex-direction:column;border-top:1px solid #101010">
+<div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #E3E3DE;font-variant-numeric:tabular-nums"><span style="font:400 10px/1.5 'IBM Plex Mono',monospace;color:#7A7A76">PIÈCES OBTENUES</span><span style="font:500 13px/1.3 'IBM Plex Mono',monospace;color:#1E6B4C">4 / 6</span></div>
+<div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #E3E3DE;font-variant-numeric:tabular-nums"><span style="font:400 10px/1.5 'IBM Plex Mono',monospace;color:#7A7A76">DOCUMENTS OFFICIELS</span><span style="font:500 13px/1.3 'IBM Plex Mono',monospace">3</span></div>
+<div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #E3E3DE;font-variant-numeric:tabular-nums"><span style="font:400 10px/1.5 'IBM Plex Mono',monospace;color:#7A7A76">SURCOÛT / PLEIN ESPÈCES</span><span style="font:500 13px/1.3 'IBM Plex Mono',monospace">+250 F</span></div>
+<div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #E3E3DE;font-variant-numeric:tabular-nums"><span style="font:400 10px/1.5 'IBM Plex Mono',monospace;color:#7A7A76">DEMANDES SANS RÉPONSE</span><span style="font:500 13px/1.3 'IBM Plex Mono',monospace;color:#7A7A76">2</span></div>
+</div>
+</div>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr">
+<div style="padding:24px 34px 24px;border-right:1px solid #E3E3DE">
+<div style="font:500 9.5px/1 'IBM Plex Mono',monospace;letter-spacing:.11em;color:#7A7A76;margin-bottom:12px">ÉNERGIE · 2026-08-14</div>
+<h2 style="margin:0 0 14px;font:600 24px/1.18 Archivo,sans-serif;letter-spacing:-.025em">Sénélec a-t-elle baissé le tarif de la tranche sociale&nbsp;?</h2>
+<span style="font:600 10px/1 'IBM Plex Mono',monospace;letter-spacing:.13em;border:1px solid #C9C9C3;padding:6px 9px;color:#3a3a37">[ EXACT EN PARTIE ]</span>
+<p style="margin:14px 0 0;font:400 14px/1.6 'IBM Plex Sans',sans-serif;color:#5c5c58">La baisse ne s'applique qu'en dessous de 150 kWh par mois.</p>
+</div>
+<div style="padding:24px 34px 24px">
+<div style="font:500 9.5px/1 'IBM Plex Mono',monospace;letter-spacing:.11em;color:#7A7A76;margin-bottom:12px">MOBILITÉ · 2026-08-11</div>
+<h2 style="margin:0 0 14px;font:600 24px/1.18 Archivo,sans-serif;letter-spacing:-.025em">Le ticket BRT passe-t-il à 500 F sur toute la ligne&nbsp;?</h2>
+<span style="font:600 10px/1 'IBM Plex Mono',monospace;letter-spacing:.13em;border:1px solid #C9C9C3;padding:6px 9px;color:#3a3a37">[ FAUX ]</span>
+<p style="margin:14px 0 0;font:400 14px/1.6 'IBM Plex Sans',sans-serif;color:#5c5c58">Le tarif dépend du nombre de stations parcourues&nbsp;: 300 à 500 F.</p>
+</div>
+</div>
+</div>
+<div style="display:flex;flex-direction:column">
+<div style="padding:16px 24px;border-bottom:1px solid #E3E3DE;font:500 9.5px/1 'IBM Plex Mono',monospace;letter-spacing:.11em;color:#7A7A76">FONDS DOCUMENTAIRE</div>
+<div style="padding:18px 24px;border-bottom:1px solid #E3E3DE;display:flex;flex-direction:column;gap:12px">
+<div style="display:flex;justify-content:space-between;font-variant-numeric:tabular-nums"><span style="font:400 12.5px/1.4 'IBM Plex Sans',sans-serif">Textes de loi</span><span style="font:500 12px/1.4 'IBM Plex Mono',monospace">118</span></div>
+<div style="display:flex;justify-content:space-between;font-variant-numeric:tabular-nums"><span style="font:400 12.5px/1.4 'IBM Plex Sans',sans-serif">Arrêtés et décrets</span><span style="font:500 12px/1.4 'IBM Plex Mono',monospace">74</span></div>
+<div style="display:flex;justify-content:space-between;font-variant-numeric:tabular-nums"><span style="font:400 12.5px/1.4 'IBM Plex Sans',sans-serif">Rapports publics</span><span style="font:500 12px/1.4 'IBM Plex Mono',monospace">39</span></div>
+<div style="display:flex;justify-content:space-between;font-variant-numeric:tabular-nums"><span style="font:400 12.5px/1.4 'IBM Plex Sans',sans-serif">Jeux de données</span><span style="font:500 12px/1.4 'IBM Plex Mono',monospace">12</span></div>
+</div>
+<div style="padding:18px 24px;border-bottom:1px solid #E3E3DE">
+<div style="font:500 9.5px/1 'IBM Plex Mono',monospace;letter-spacing:.11em;color:#7A7A76;margin-bottom:12px">DERNIERS VERSEMENTS</div>
+<div style="display:flex;flex-direction:column;gap:11px">
+<div><div style="font:400 13px/1.4 'IBM Plex Sans',sans-serif">Arrêté prix des hydrocarbures — août 2026</div><div style="font:400 9.5px/1 'IBM Plex Mono',monospace;color:#7A7A76;margin-top:4px">JO N° 7619 · 2026-08-19</div></div>
+<div><div style="font:400 13px/1.4 'IBM Plex Sans',sans-serif">Recettes fiscales mensuelles — DGID</div><div style="font:400 9.5px/1 'IBM Plex Mono',monospace;color:#7A7A76;margin-top:4px">XLSX · 2026-08-16</div></div>
+<div><div style="font:400 13px/1.4 'IBM Plex Sans',sans-serif">Rapport ARTP — paiements mobiles T2</div><div style="font:400 9.5px/1 'IBM Plex Mono',monospace;color:#7A7A76;margin-top:4px">PDF 62 P. · 2026-08-12</div></div>
+</div>
+</div>
+<div style="padding:18px 24px;border-bottom:1px solid #E3E3DE"><div style="font:500 9.5px/1 'IBM Plex Mono',monospace;letter-spacing:.11em;color:#7A7A76;margin-bottom:10px">TRANSPARENCE</div><p style="margin:0;font:400 13px/1.6 'IBM Plex Sans',sans-serif;color:#3a3a37">6 demandes d'accès à l'information déposées ce mois-ci. 2 réponses obtenues.</p></div>
+<div style="margin-top:auto;padding:22px 24px;background:#101010;color:#fff"><p style="margin:0 0 14px;font:600 19px/1.25 Archivo,sans-serif;letter-spacing:-.02em">Une information circule&nbsp;? Ouvrez une entrée au registre.</p><span style="display:inline-block;font:600 10px/1 'IBM Plex Mono',monospace;letter-spacing:.11em;background:#fff;color:#101010;padding:11px 15px">SOUMETTRE →</span></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="dv-row">
+<div class="dv-scr"><span class="dv-cap">1b · Visualisation des sources / preuves</span>
+<div class="dv-frame" style="width:628px;height:648px;background:#fff;font-family:'IBM Plex Sans',sans-serif;color:#101010">
+<div style="padding:20px 26px 14px;border-bottom:1px solid #101010;display:flex;justify-content:space-between;align-items:baseline"><span style="font:600 18px/1 Archivo,sans-serif;letter-spacing:-.02em">Chaîne de preuves — 041</span><span style="font:400 9.5px/1 'IBM Plex Mono',monospace;color:#7A7A76">6 PIÈCES · 4 OBTENUES · 2 REFUSÉES</span></div>
+<div style="padding:18px 26px 0">
+<div style="font:500 9px/1 'IBM Plex Mono',monospace;letter-spacing:.11em;color:#7A7A76;margin-bottom:12px">CE QUE CHAQUE PIÈCE PERMET D'ÉTABLIR</div>
+<div style="display:flex;flex-direction:column">
+<div style="display:grid;grid-template-columns:30px 1fr 120px 54px;gap:12px;padding:12px 0;border-top:1px solid #E3E3DE;align-items:start"><span style="font:500 10px/1.5 'IBM Plex Mono',monospace;color:#1E6B4C">01</span><div><div style="font:500 14px/1.35 'IBM Plex Sans',sans-serif">LFR 2025, art. 12</div><div style="font:400 12px/1.5 'IBM Plex Sans',sans-serif;color:#5c5c58;margin-top:3px">Établit l'existence et le taux de la taxe.</div></div><span style="font:400 9.5px/1.6 'IBM Plex Mono',monospace;color:#101010">TEXTE DE LOI</span><span style="font:500 9.5px/1.6 'IBM Plex Mono',monospace;color:#1E6B4C">OBTENU</span></div>
+<div style="display:grid;grid-template-columns:30px 1fr 120px 54px;gap:12px;padding:12px 0;border-top:1px solid #E3E3DE;align-items:start"><span style="font:500 10px/1.5 'IBM Plex Mono',monospace;color:#1E6B4C">02</span><div><div style="font:500 14px/1.35 'IBM Plex Sans',sans-serif">Exposé des motifs, Finances</div><div style="font:400 12px/1.5 'IBM Plex Sans',sans-serif;color:#5c5c58;margin-top:3px">Établit la finalité déclarée&nbsp;: recouvrement, traçabilité.</div></div><span style="font:400 9.5px/1.6 'IBM Plex Mono',monospace;color:#101010">DOC OFFICIEL</span><span style="font:500 9.5px/1.6 'IBM Plex Mono',monospace;color:#1E6B4C">OBTENU</span></div>
+<div style="display:grid;grid-template-columns:30px 1fr 120px 54px;gap:12px;padding:12px 0;border-top:1px solid #E3E3DE;align-items:start"><span style="font:500 10px/1.5 'IBM Plex Mono',monospace;color:#1E6B4C">03</span><div><div style="font:500 14px/1.35 'IBM Plex Sans',sans-serif">Arrêté de fixation des prix, 08/2026</div><div style="font:400 12px/1.5 'IBM Plex Sans',sans-serif;color:#5c5c58;margin-top:3px">Établit la structure du prix à la pompe, sans la taxe.</div></div><span style="font:400 9.5px/1.6 'IBM Plex Mono',monospace;color:#101010">TEXTE DE LOI</span><span style="font:500 9.5px/1.6 'IBM Plex Mono',monospace;color:#1E6B4C">OBTENU</span></div>
+<div style="display:grid;grid-template-columns:30px 1fr 120px 54px;gap:12px;padding:12px 0;border-top:1px solid #E3E3DE;align-items:start"><span style="font:500 10px/1.5 'IBM Plex Mono',monospace;color:#1E6B4C">04</span><div><div style="font:500 14px/1.35 'IBM Plex Sans',sans-serif">Réponse écrite de la DGID</div><div style="font:400 12px/1.5 'IBM Plex Sans',sans-serif;color:#5c5c58;margin-top:3px">Confirme l'absence d'affectation au prix du carburant.</div></div><span style="font:400 9.5px/1.6 'IBM Plex Mono',monospace;color:#101010">RÉPONSE ADMIN.</span><span style="font:500 9.5px/1.6 'IBM Plex Mono',monospace;color:#1E6B4C">OBTENU</span></div>
+<div style="display:grid;grid-template-columns:30px 1fr 120px 54px;gap:12px;padding:12px 0;border-top:1px solid #E3E3DE;align-items:start;color:#7A7A76"><span style="font:500 10px/1.5 'IBM Plex Mono',monospace">05</span><div><div style="font:500 14px/1.35 'IBM Plex Sans',sans-serif">Note interne, ministère du Commerce</div><div style="font:400 12px/1.5 'IBM Plex Sans',sans-serif;margin-top:3px">Aurait précisé l'affectation du produit de la taxe.</div></div><span style="font:400 9.5px/1.6 'IBM Plex Mono',monospace">DEMANDE D'ACCÈS</span><span style="font:500 9.5px/1.6 'IBM Plex Mono',monospace">SANS RÉP.</span></div>
+<div style="display:grid;grid-template-columns:30px 1fr 120px 54px;gap:12px;padding:12px 0;border-top:1px solid #E3E3DE;border-bottom:1px solid #101010;align-items:start;color:#7A7A76"><span style="font:500 10px/1.5 'IBM Plex Mono',monospace">06</span><div><div style="font:500 14px/1.35 'IBM Plex Sans',sans-serif">Publication d'origine, 18 août</div><div style="font:400 12px/1.5 'IBM Plex Sans',sans-serif;margin-top:3px">Aucune source citée. Point de départ de la rumeur.</div></div><span style="font:400 9.5px/1.6 'IBM Plex Mono',monospace">RÉSEAU SOCIAL</span><span style="font:500 9.5px/1.6 'IBM Plex Mono',monospace">NON PROBANT</span></div>
+</div>
+</div>
+<div style="padding:18px 26px 0">
+<div style="font:500 9px/1 'IBM Plex Mono',monospace;letter-spacing:.11em;color:#7A7A76;margin-bottom:10px">DATES D'OBTENTION</div>
+<div style="display:flex;align-items:flex-end;gap:0;height:44px;border-bottom:1px solid #101010">
+<div style="flex:1;display:flex;align-items:flex-end;gap:5px;height:100%"><i style="width:7px;height:34px;background:#1E6B4C"></i><i style="width:7px;height:34px;background:#1E6B4C"></i></div>
+<div style="flex:1;display:flex;align-items:flex-end;gap:5px;height:100%"><i style="width:7px;height:34px;background:#1E6B4C"></i></div>
+<div style="flex:1;display:flex;align-items:flex-end;gap:5px;height:100%"><i style="width:7px;height:34px;background:#1E6B4C"></i><i style="width:7px;height:14px;background:#D8D8D2"></i><i style="width:7px;height:14px;background:#D8D8D2"></i></div>
+</div>
+<div style="display:flex;font:400 9px/1 'IBM Plex Mono',monospace;color:#7A7A76;padding-top:7px"><span style="flex:1">2026-08-19</span><span style="flex:1">08-20</span><span style="flex:1">08-21</span></div>
+</div>
+</div>
+</div>
+
+<div class="dv-scr"><span class="dv-cap">1b · Page document</span>
+<div class="dv-frame" style="width:628px;height:648px;background:#fff;font-family:'IBM Plex Sans',sans-serif;color:#101010">
+<div style="padding:16px 26px;border-bottom:1px solid #101010;display:flex;justify-content:space-between;align-items:center"><div><div style="font:600 15px/1.2 Archivo,sans-serif;letter-spacing:-.02em">LFR 2025 — Loi de finances rectificative</div><div style="font:400 9.5px/1 'IBM Plex Mono',monospace;color:#7A7A76;margin-top:6px">PIÈCE 01 · 48 P. · JO 7612 · EMPREINTE SHA-256 4F9C…21B</div></div><span style="font:600 9.5px/1 'IBM Plex Mono',monospace;letter-spacing:.1em;border:1px solid #101010;padding:8px 11px">PDF ↓</span></div>
+<div style="display:grid;grid-template-columns:210px 1fr;height:calc(100% - 66px)">
+<div style="border-right:1px solid #E3E3DE;padding:16px 18px;display:flex;flex-direction:column;gap:16px">
+<div><div style="font:500 9px/1 'IBM Plex Mono',monospace;letter-spacing:.11em;color:#7A7A76;margin-bottom:9px">PASSAGES CITÉS</div><div style="display:flex;flex-direction:column;gap:8px"><div style="border-left:2px solid #1E6B4C;padding-left:9px;font:400 12.5px/1.45 'IBM Plex Sans',sans-serif">Art. 12 al. 1 — institution de la taxe</div><div style="border-left:2px solid #E3E3DE;padding-left:9px;font:400 12.5px/1.45 'IBM Plex Sans',sans-serif;color:#7A7A76">Art. 13 — modalités d'application</div></div></div>
+<div><div style="font:500 9px/1 'IBM Plex Mono',monospace;letter-spacing:.11em;color:#7A7A76;margin-bottom:9px">CITÉ DANS</div><div style="font:400 12.5px/1.5 'IBM Plex Sans',sans-serif">041 · Taxe de 1 % en station<br>037 · Recettes fiscales 2026<br>031 · Paiements en espèces</div></div>
+<div style="margin-top:auto"><div style="font:500 9px/1 'IBM Plex Mono',monospace;letter-spacing:.11em;color:#7A7A76;margin-bottom:9px">PROVENANCE</div><div style="font:400 11.5px/1.55 'IBM Plex Sans',sans-serif;color:#5c5c58">Journal officiel, obtenu le 2026-08-19. Copie archivée par SeneSource, non modifiée.</div></div>
+</div>
+<div style="padding:18px 22px;background:#F6F6F3;overflow:hidden">
+<div style="background:#fff;border:1px solid #E3E3DE;height:100%;box-sizing:border-box;padding:22px 24px">
+<div style="display:flex;justify-content:space-between;font:400 9px/1 'IBM Plex Mono',monospace;color:#9a9a95;letter-spacing:.1em;padding-bottom:14px;border-bottom:1px solid #EDEDE9"><span>TITRE II — CHAP. 3</span><span>P. 14 / 48</span></div>
+<div style="font:400 12.5px/1.9 'IBM Plex Sans',sans-serif;color:#3a3a37;padding-top:14px">
+<p style="margin:0 0 12px">Art. 11 — Les dispositions de l'article 355 du Code général des impôts sont complétées ainsi qu'il suit…</p>
+<p style="margin:0 0 12px;background:#E6F0EA;border-left:2px solid #1E6B4C;padding:8px 10px;color:#101010">Art. 12 — Il est institué un prélèvement de 1 % sur les paiements en espèces effectués auprès des distributeurs d'hydrocarbures, recouvré par le distributeur pour le compte du Trésor public. Le produit du prélèvement est affecté au budget général.</p>
+<p style="margin:0 0 12px">Art. 13 — Les modalités d'application de l'article 12 sont fixées par arrêté du ministre chargé des Finances…</p>
+<p style="margin:0">Art. 14 — Sont abrogées toutes dispositions antérieures contraires…</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="dv-opt" id="1c">
+<div class="dv-ohd">
+<div class="dv-otitle"><a class="dv-oid" href="#1c">1c</a>LA CONSÉQUENCE — l'information mesurée en francs</div>
+<sc-if value="{{ showNotes }}" hint-placeholder-val="{{ true }}"><p class="dv-onote"><b>Intention éditoriale :</b> l'unité de base n'est pas l'article mais <b>l'écart entre ce qui est dit et ce qui est vrai</b>, puis <b>ce que ça coûte</b>. La homepage tient trois sujets, chacun réduit à une phrase et à un chiffre. <b>UX :</b> bandeaux d'encre pleine pour la parole rapportée, papier blanc pour la vérification&nbsp;; titres en serif de caractère, corps en sans très lisible. Le vermillon ne touche que le chiffre-conséquence et le mot du verdict — nulle part ailleurs.</p></sc-if>
+</div>
+
+<div class="dv-row">
+<div class="dv-scr"><span class="dv-cap">1c · Homepage mobile</span>
+<div class="dv-frame" style="width:390px;min-height:812px;background:#FCFCFB;font-family:'Libre Franklin',sans-serif;color:#0E0E0D">
+<div style="display:flex;flex-direction:column;min-height:812px">
+<div style="display:flex;align-items:baseline;justify-content:space-between;padding:16px 22px 14px">
+<span style="font:400 24px/1 'Instrument Serif',serif;letter-spacing:-.01em">SeneSource</span>
+<span style="font:500 9px/1 'Libre Franklin',sans-serif;letter-spacing:.14em;color:#8A8A85">22.08.26</span>
+</div>
+<div style="padding:0 22px 18px"><p style="margin:0;font:400 12.5px/1.5 'Libre Franklin',sans-serif;color:#5F5F5A;max-width:290px">Trois affirmations vérifiées cette semaine, et ce qu'elles changent réellement pour vous.</p></div>
+<div style="background:#0E0E0D;color:#FCFCFB;padding:20px 22px">
+<div style="font:500 8.5px/1 'Libre Franklin',sans-serif;letter-spacing:.16em;color:#8A8A85;margin-bottom:12px">CE QUI CIRCULE · 12 400 PARTAGES</div>
+<p style="margin:0;font:400 21px/1.35 'Instrument Serif',serif;font-style:italic;color:#F2F1EE">« La taxe de 1 % sur les paiements en espèces dans les stations-service a été créée pour maintenir le prix du carburant. »</p>
+</div>
+<div style="padding:22px 22px 24px;border-bottom:1px solid #0E0E0D">
+<div style="display:flex;align-items:baseline;gap:10px;margin-bottom:14px"><span style="font:500 8.5px/1 'Libre Franklin',sans-serif;letter-spacing:.16em;color:#8A8A85">CE QUI EST VRAI</span><span style="font:400 15px/1 'Instrument Serif',serif;font-style:italic;color:#C8402A">trompeur</span></div>
+<h1 style="margin:0 0 16px;font:400 32px/1.12 'Instrument Serif',serif;letter-spacing:-.01em;text-wrap:pretty">La taxe existe. Le lien avec le prix du carburant, non.</h1>
+<p style="margin:0 0 20px;font:400 15.5px/1.65 'Libre Franklin',sans-serif;color:#3B3B37;text-wrap:pretty">Elle est instituée par l'article 12 de la loi de finances rectificative, au titre du recouvrement fiscal. Le prix à la pompe reste fixé par arrêté mensuel.</p>
+<div style="border-top:1px solid #0E0E0D;padding-top:14px">
+<div style="font:500 8.5px/1 'Libre Franklin',sans-serif;letter-spacing:.16em;color:#8A8A85;margin-bottom:10px">CE QUE ÇA VOUS COÛTE</div>
+<div style="display:flex;align-items:flex-end;gap:12px"><span style="font:400 54px/.86 'Instrument Serif',serif;color:#C8402A">250 F</span><span style="font:400 13px/1.35 'Libre Franklin',sans-serif;color:#5F5F5A;padding-bottom:6px">par plein de 25 000 F<br>réglé en espèces</span></div>
+</div>
+<div style="display:flex;gap:8px;margin-top:18px;align-items:center"><span style="font:500 9px/1 'Libre Franklin',sans-serif;letter-spacing:.14em;color:#8A8A85">6 PIÈCES</span><i style="width:34px;height:1px;background:#D6D5D0"></i><span style="font:500 9px/1 'Libre Franklin',sans-serif;letter-spacing:.14em;color:#0E0E0D">LIRE LA VÉRIFICATION →</span></div>
+</div>
+<div style="padding:20px 22px;border-bottom:1px solid #E4E3DE">
+<div style="font:500 8.5px/1 'Libre Franklin',sans-serif;letter-spacing:.16em;color:#8A8A85;margin-bottom:10px">ÉNERGIE · <span style="color:#C8402A">exact en partie</span></div>
+<h2 style="margin:0 0 12px;font:400 23px/1.2 'Instrument Serif',serif">La baisse du tarif Sénélec s'arrête à 150 kWh</h2>
+<div style="display:flex;align-items:flex-end;gap:10px"><span style="font:400 30px/.9 'Instrument Serif',serif">1 ménage sur 3</span><span style="font:400 12px/1.3 'Libre Franklin',sans-serif;color:#5F5F5A;padding-bottom:4px">concerné</span></div>
+</div>
+<div style="padding:20px 22px">
+<div style="font:500 8.5px/1 'Libre Franklin',sans-serif;letter-spacing:.16em;color:#8A8A85;margin-bottom:10px">MOBILITÉ · <span style="color:#C8402A">faux</span></div>
+<h2 style="margin:0 0 12px;font:400 23px/1.2 'Instrument Serif',serif">Le BRT ne passe pas à 500 F partout</h2>
+<div style="display:flex;align-items:flex-end;gap:10px"><span style="font:400 30px/.9 'Instrument Serif',serif">300 – 500 F</span><span style="font:400 12px/1.3 'Libre Franklin',sans-serif;color:#5F5F5A;padding-bottom:4px">selon la distance</span></div>
+</div>
+<div style="margin-top:auto;padding:18px 22px;border-top:1px solid #0E0E0D;display:flex;justify-content:space-between;align-items:center"><span style="font:400 17px/1.2 'Instrument Serif',serif">Faites vérifier une information</span><span style="font:500 9px/1 'Libre Franklin',sans-serif;letter-spacing:.14em;color:#C8402A">→</span></div>
+</div>
+</div>
+</div>
+
+<div class="dv-scr"><span class="dv-cap">1c · Page de vérification (mobile)</span>
+<div class="dv-frame" style="width:390px;min-height:812px;background:#FCFCFB;font-family:'Libre Franklin',sans-serif;color:#0E0E0D">
+<div style="display:flex;flex-direction:column;min-height:812px">
+<div style="display:flex;justify-content:space-between;padding:15px 22px;font:500 9px/1 'Libre Franklin',sans-serif;letter-spacing:.14em;color:#8A8A85"><span>← RETOUR</span><span>VÉRIFICATION 041</span></div>
+<div style="background:#0E0E0D;color:#FCFCFB;padding:18px 22px">
+<div style="font:500 8.5px/1 'Libre Franklin',sans-serif;letter-spacing:.16em;color:#8A8A85;margin-bottom:10px">L'AFFIRMATION · FACEBOOK, 18 AOÛT</div>
+<p style="margin:0;font:400 18px/1.4 'Instrument Serif',serif;font-style:italic;color:#F2F1EE">« La taxe de 1 % sur les paiements en espèces dans les stations-service a été créée pour maintenir le prix du carburant. »</p>
+</div>
+<div style="padding:22px 22px 20px;border-bottom:1px solid #E4E3DE">
+<div style="display:flex;align-items:baseline;gap:10px;margin-bottom:12px"><span style="font:500 8.5px/1 'Libre Franklin',sans-serif;letter-spacing:.16em;color:#8A8A85">VERDICT</span><span style="font:400 26px/1 'Instrument Serif',serif;font-style:italic;color:#C8402A">Trompeur</span></div>
+<p style="margin:0;font:400 16.5px/1.62 'Libre Franklin',sans-serif;color:#26261F;text-wrap:pretty">L'affirmation part d'un fait exact — la taxe de 1 % existe — pour lui prêter une finalité qu'<b>aucun document officiel ne mentionne</b>.</p>
+</div>
+<div style="padding:20px 22px;border-bottom:1px solid #E4E3DE">
+<div style="font:500 8.5px/1 'Libre Franklin',sans-serif;letter-spacing:.16em;color:#8A8A85;margin-bottom:14px">EN TROIS TEMPS</div>
+<div style="display:flex;flex-direction:column;gap:14px">
+<div style="display:flex;gap:12px"><span style="font:400 22px/.95 'Instrument Serif',serif;color:#C8CAC4;width:22px">1</span><p style="margin:0;font:400 14.5px/1.55 'Libre Franklin',sans-serif;flex:1">La taxe est bien instituée par l'art. 12 de la LFR 2025.</p></div>
+<div style="display:flex;gap:12px"><span style="font:400 22px/.95 'Instrument Serif',serif;color:#C8CAC4;width:22px">2</span><p style="margin:0;font:400 14.5px/1.55 'Libre Franklin',sans-serif;flex:1">L'exposé des motifs invoque la traçabilité des paiements, jamais le prix du carburant.</p></div>
+<div style="display:flex;gap:12px"><span style="font:400 22px/.95 'Instrument Serif',serif;color:#C8CAC4;width:22px">3</span><p style="margin:0;font:400 14.5px/1.55 'Libre Franklin',sans-serif;flex:1">Le prix à la pompe est fixé chaque mois par arrêté, selon une structure de prix publiée.</p></div>
+</div>
+</div>
+<div style="padding:20px 22px;border-bottom:1px solid #E4E3DE">
+<div style="font:500 8.5px/1 'Libre Franklin',sans-serif;letter-spacing:.16em;color:#8A8A85;margin-bottom:12px">LE TEXTE, MOT POUR MOT</div>
+<p style="margin:0;font:400 16px/1.6 'Instrument Serif',serif;padding-left:14px;border-left:2px solid #C8402A">« Il est institué un prélèvement de 1 % sur les paiements en espèces effectués auprès des distributeurs d'hydrocarbures… Le produit du prélèvement est affecté au budget général. »</p>
+<div style="margin-top:10px;padding-left:16px;font:500 9px/1.5 'Libre Franklin',sans-serif;letter-spacing:.12em;color:#8A8A85">LFR 2025, ART. 12 · P. 14 · <span style="color:#0E0E0D">VOIR LE DOCUMENT</span></div>
+</div>
+<div style="padding:20px 22px">
+<div style="font:500 8.5px/1 'Libre Franklin',sans-serif;letter-spacing:.16em;color:#8A8A85;margin-bottom:12px">CE QUE ÇA CHANGE</div>
+<div style="display:flex;align-items:flex-end;gap:14px"><span style="font:400 44px/.86 'Instrument Serif',serif;color:#C8402A">250 F</span><span style="font:400 12.5px/1.4 'Libre Franklin',sans-serif;color:#5F5F5A;padding-bottom:5px">par plein en espèces.<br>0 F par carte ou Wave.</span></div>
+</div>
+<div style="margin-top:auto;padding:16px 22px;border-top:1px solid #0E0E0D;display:flex;justify-content:space-between;align-items:center"><span style="font:400 16px/1.2 'Instrument Serif',serif">Les 6 pièces du dossier</span><span style="font:500 9px/1 'Libre Franklin',sans-serif;letter-spacing:.14em;color:#C8402A">→</span></div>
+</div>
+</div>
+</div>
+
+<div class="dv-scr"><span class="dv-cap">1c · « Ce que ça change pour vous »</span>
+<div class="dv-frame" style="width:390px;min-height:812px;background:#FCFCFB;font-family:'Libre Franklin',sans-serif;color:#0E0E0D">
+<div style="display:flex;flex-direction:column;min-height:812px">
+<div style="padding:15px 22px;font:500 9px/1 'Libre Franklin',sans-serif;letter-spacing:.14em;color:#8A8A85">← VÉRIFICATION 041</div>
+<div style="padding:6px 22px 18px"><h1 style="margin:0;font:400 30px/1.14 'Instrument Serif',serif">Ce que ça change pour vous</h1><p style="margin:10px 0 0;font:400 13.5px/1.55 'Libre Franklin',sans-serif;color:#5F5F5A">Choisissez votre situation. Les hypothèses de calcul restent affichées.</p></div>
+<div style="display:flex;gap:22px;padding:0 22px 14px;border-bottom:1px solid #0E0E0D">
+<span style="font:500 10.5px/1 'Libre Franklin',sans-serif;letter-spacing:.1em;border-bottom:2px solid #C8402A;padding-bottom:8px">TAXI</span>
+<span style="font:400 10.5px/1 'Libre Franklin',sans-serif;letter-spacing:.1em;color:#8A8A85">MÉNAGE</span>
+<span style="font:400 10.5px/1 'Libre Franklin',sans-serif;letter-spacing:.1em;color:#8A8A85">TRANSPORTEUR</span>
+<span style="font:400 10.5px/1 'Libre Franklin',sans-serif;letter-spacing:.1em;color:#8A8A85">STATION</span>
+</div>
+<div style="padding:24px 22px 0">
+<div style="font:500 8.5px/1 'Libre Franklin',sans-serif;letter-spacing:.16em;color:#8A8A85">SUR UNE ANNÉE, SI VOUS PAYEZ EN ESPÈCES</div>
+<div style="font:400 62px/.92 'Instrument Serif',serif;color:#C8402A;margin-top:12px">78 000 F</div>
+<p style="margin:12px 0 0;font:400 14px/1.6 'Libre Franklin',sans-serif;color:#3B3B37">Soit environ <b>trois jours de recette</b> pour un taxi urbain à Dakar.</p>
+<div style="margin-top:16px;font:400 11.5px/1.5 'Libre Franklin',sans-serif;color:#8A8A85">Hypothèse&nbsp;: 30 000 F de carburant par semaine, 52 semaines, paiement intégral en espèces.</div>
+</div>
+<div style="margin:22px 22px 0;padding-top:18px;border-top:1px solid #E4E3DE">
+<div style="font:500 8.5px/1 'Libre Franklin',sans-serif;letter-spacing:.16em;color:#8A8A85;margin-bottom:14px">LA MÊME ANNÉE, EN PAYANT PAR WAVE OU CARTE</div>
+<div style="display:flex;align-items:flex-end;gap:14px"><span style="font:400 44px/.9 'Instrument Serif',serif">0 F</span><span style="font:400 13px/1.4 'Libre Franklin',sans-serif;color:#5F5F5A;padding-bottom:5px">la taxe ne s'applique<br>qu'aux espèces</span></div>
+</div>
+<div style="margin:22px 22px 0;padding:16px 18px;background:#0E0E0D;color:#F2F1EE">
+<div style="font:500 8.5px/1 'Libre Franklin',sans-serif;letter-spacing:.16em;color:#8A8A85;margin-bottom:10px">CE QUI NE BOUGE PAS</div>
+<p style="margin:0;font:400 16px/1.45 'Instrument Serif',serif">Le prix affiché du litre&nbsp;: 990 F le super, 755 F le gasoil en août 2026.</p>
+</div>
+<div style="margin-top:auto;padding:15px 22px;border-top:1px solid #E4E3DE;font:400 10.5px/1.5 'Libre Franklin',sans-serif;color:#8A8A85">Calculs SeneSource · feuille de calcul téléchargeable</div>
+</div>
+</div>
+</div>
+
+<div class="dv-scr"><span class="dv-cap">1c · Formulaire « Faites vérifier »</span>
+<div class="dv-frame" style="width:390px;min-height:812px;background:#FCFCFB;font-family:'Libre Franklin',sans-serif;color:#0E0E0D">
+<div style="display:flex;flex-direction:column;min-height:812px">
+<div style="padding:15px 22px;display:flex;justify-content:space-between;font:500 9px/1 'Libre Franklin',sans-serif;letter-spacing:.14em;color:#8A8A85"><span>SENESOURCE</span><span>FERMER ✕</span></div>
+<div style="padding:14px 22px 0"><h1 style="margin:0;font:400 34px/1.1 'Instrument Serif',serif;max-width:300px">Vous avez entendu quelque chose. Nous allons le vérifier.</h1></div>
+<div style="padding:22px 22px 0;display:flex;flex-direction:column;gap:26px">
+<div>
+<div style="font:500 8.5px/1 'Libre Franklin',sans-serif;letter-spacing:.16em;color:#8A8A85">CE QUE VOUS AVEZ ENTENDU OU LU</div>
+<div style="margin-top:12px;padding:14px;background:#0E0E0D;color:#F2F1EE;font:400 17px/1.4 'Instrument Serif',serif;font-style:italic">La taxe de 1 % a été créée pour…<span style="color:#C8402A">|</span></div>
+<div style="margin-top:8px;font:400 10.5px/1.4 'Libre Franklin',sans-serif;color:#8A8A85">Une phrase suffit. Écrivez comme on vous l'a dit, en français ou en wolof.</div>
+</div>
+<div>
+<div style="font:500 8.5px/1 'Libre Franklin',sans-serif;letter-spacing:.16em;color:#8A8A85">OÙ&nbsp;?</div>
+<div style="display:flex;flex-wrap:wrap;gap:7px;margin-top:12px"><span style="font:500 10.5px/1 'Libre Franklin',sans-serif;letter-spacing:.06em;padding:9px 12px;background:#0E0E0D;color:#FCFCFB">WHATSAPP</span><span style="font:400 10.5px/1 'Libre Franklin',sans-serif;letter-spacing:.06em;padding:9px 12px;border:1px solid #D6D5D0;color:#5F5F5A">TIKTOK</span><span style="font:400 10.5px/1 'Libre Franklin',sans-serif;letter-spacing:.06em;padding:9px 12px;border:1px solid #D6D5D0;color:#5F5F5A">FACEBOOK</span><span style="font:400 10.5px/1 'Libre Franklin',sans-serif;letter-spacing:.06em;padding:9px 12px;border:1px solid #D6D5D0;color:#5F5F5A">RADIO</span><span style="font:400 10.5px/1 'Libre Franklin',sans-serif;letter-spacing:.06em;padding:9px 12px;border:1px solid #D6D5D0;color:#5F5F5A">DANS LA RUE</span></div>
+</div>
+<div>
+<div style="font:500 8.5px/1 'Libre Franklin',sans-serif;letter-spacing:.16em;color:#8A8A85">UNE PREUVE, SI VOUS EN AVEZ</div>
+<div style="margin-top:12px;display:flex;gap:8px"><span style="flex:1;text-align:center;padding:14px 0;border:1px solid #D6D5D0;font:400 10.5px/1 'Libre Franklin',sans-serif;letter-spacing:.08em;color:#5F5F5A">CAPTURE</span><span style="flex:1;text-align:center;padding:14px 0;border:1px solid #D6D5D0;font:400 10.5px/1 'Libre Franklin',sans-serif;letter-spacing:.08em;color:#5F5F5A">AUDIO</span><span style="flex:1;text-align:center;padding:14px 0;border:1px solid #D6D5D0;font:400 10.5px/1 'Libre Franklin',sans-serif;letter-spacing:.08em;color:#5F5F5A">LIEN</span></div>
+</div>
+<div>
+<div style="font:500 8.5px/1 'Libre Franklin',sans-serif;letter-spacing:.16em;color:#8A8A85">POUR VOUS RÉPONDRE · FACULTATIF</div>
+<div style="margin-top:12px;border-bottom:1px solid #D6D5D0;padding-bottom:9px;font:400 14px/1.4 'Libre Franklin',sans-serif;color:#A5A5A0">Numéro WhatsApp ou e-mail</div>
+</div>
+</div>
+<div style="margin-top:auto;padding:18px 22px;border-top:1px solid #0E0E0D;display:flex;align-items:center;justify-content:space-between">
+<span style="font:400 11px/1.4 'Libre Franklin',sans-serif;color:#8A8A85">Nous répondons sous 72 h,<br>même en cas de refus.</span>
+<span style="font:500 11px/1 'Libre Franklin',sans-serif;letter-spacing:.1em;background:#C8402A;color:#fff;padding:14px 20px">ENVOYER</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="dv-row">
+<div class="dv-scr"><span class="dv-cap">1c · Homepage desktop</span>
+<div class="dv-frame" style="width:1280px;min-height:1004px;background:#FCFCFB;font-family:'Libre Franklin',sans-serif;color:#0E0E0D">
+<div style="display:flex;align-items:baseline;justify-content:space-between;padding:22px 52px 18px">
+<span style="font:400 30px/1 'Instrument Serif',serif;letter-spacing:-.01em">SeneSource</span>
+<div style="display:flex;gap:30px;font:500 10px/1 'Libre Franklin',sans-serif;letter-spacing:.14em;color:#8A8A85"><span style="color:#0E0E0D">VÉRIFICATIONS</span><span>CONSÉQUENCES</span><span>DOCUMENTS</span><span>MÉTHODE</span></div>
+<span style="font:500 10px/1 'Libre Franklin',sans-serif;letter-spacing:.14em;color:#8A8A85">SAMEDI 22 AOÛT 2026</span>
+</div>
+<div style="display:grid;grid-template-columns:1.55fr 1fr;border-top:1px solid #0E0E0D">
+<div style="padding:0 44px 0 52px;border-right:1px solid #E4E3DE">
+<div style="background:#0E0E0D;color:#FCFCFB;padding:22px 28px;margin:26px 0 0">
+<div style="font:500 9px/1 'Libre Franklin',sans-serif;letter-spacing:.16em;color:#8A8A85;margin-bottom:12px">CE QUI CIRCULE · 12 400 PARTAGES DEPUIS LE 18 AOÛT</div>
+<p style="margin:0;font:400 25px/1.35 'Instrument Serif',serif;font-style:italic;color:#F2F1EE;max-width:26ch">« La taxe de 1 % sur les paiements en espèces dans les stations-service a été créée pour maintenir le prix du carburant. »</p>
+</div>
+<div style="padding:26px 0 0">
+<div style="display:flex;align-items:baseline;gap:12px;margin-bottom:16px"><span style="font:500 9px/1 'Libre Franklin',sans-serif;letter-spacing:.16em;color:#8A8A85">VERDICT</span><span style="font:400 20px/1 'Instrument Serif',serif;font-style:italic;color:#C8402A">trompeur</span></div>
+<h1 style="margin:0 0 20px;font:400 62px/1.04 'Instrument Serif',serif;letter-spacing:-.015em;max-width:17ch;text-wrap:pretty">La taxe existe. Le lien avec le prix du carburant, non.</h1>
+<div style="display:grid;grid-template-columns:1.15fr .85fr;gap:44px;padding-top:22px;border-top:1px solid #0E0E0D">
+<p style="margin:0;font:400 17px/1.68 'Libre Franklin',sans-serif;color:#33332E;text-wrap:pretty">Le prélèvement est bien institué par l'article 12 de la loi de finances rectificative. Mais l'exposé des motifs le justifie par la traçabilité des paiements et le recouvrement fiscal, et le produit est versé au budget général. Le prix à la pompe, lui, est fixé chaque mois par arrêté.</p>
+<div>
+<div style="font:500 9px/1 'Libre Franklin',sans-serif;letter-spacing:.16em;color:#8A8A85">CE QUE ÇA VOUS COÛTE</div>
+<div style="font:400 58px/.9 'Instrument Serif',serif;color:#C8402A;margin-top:10px">250 F</div>
+<p style="margin:10px 0 0;font:400 13px/1.5 'Libre Franklin',sans-serif;color:#5F5F5A">par plein de 25 000 F réglé en espèces. 0 F par carte, Wave ou Orange Money.</p>
+<div style="margin-top:18px;font:500 9.5px/1 'Libre Franklin',sans-serif;letter-spacing:.14em">6 PIÈCES · LIRE →</div>
+</div>
+</div>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-top:34px;padding-top:24px;border-top:1px solid #E4E3DE">
+<div>
+<div style="font:500 9px/1 'Libre Franklin',sans-serif;letter-spacing:.16em;color:#8A8A85;margin-bottom:12px">ÉNERGIE · <span style="color:#C8402A">exact en partie</span></div>
+<h2 style="margin:0 0 14px;font:400 27px/1.16 'Instrument Serif',serif">La baisse du tarif Sénélec s'arrête à 150 kWh</h2>
+<div style="display:flex;align-items:flex-end;gap:10px"><span style="font:400 30px/.9 'Instrument Serif',serif">1 ménage sur 3</span><span style="font:400 12.5px/1.3 'Libre Franklin',sans-serif;color:#5F5F5A;padding-bottom:4px">concerné</span></div>
+</div>
+<div>
+<div style="font:500 9px/1 'Libre Franklin',sans-serif;letter-spacing:.16em;color:#8A8A85;margin-bottom:12px">MOBILITÉ · <span style="color:#C8402A">faux</span></div>
+<h2 style="margin:0 0 14px;font:400 27px/1.16 'Instrument Serif',serif">Le BRT ne passe pas à 500 F sur toute la ligne</h2>
+<div style="display:flex;align-items:flex-end;gap:10px"><span style="font:400 30px/.9 'Instrument Serif',serif">300 – 500 F</span><span style="font:400 12.5px/1.3 'Libre Franklin',sans-serif;color:#5F5F5A;padding-bottom:4px">selon la distance</span></div>
+</div>
+</div>
+</div>
+<div style="padding:26px 52px 0 34px;display:flex;flex-direction:column;gap:26px">
+<div>
+<div style="font:500 9px/1 'Libre Franklin',sans-serif;letter-spacing:.16em;color:#8A8A85;margin-bottom:14px">CE QUE NOUS AVONS OBTENU CETTE SEMAINE</div>
+<div style="display:flex;flex-direction:column;gap:14px">
+<div style="padding-bottom:14px;border-bottom:1px solid #E4E3DE"><div style="font:400 16px/1.35 'Instrument Serif',serif">Loi de finances rectificative 2025</div><div style="font:500 9px/1.4 'Libre Franklin',sans-serif;letter-spacing:.12em;color:#8A8A85;margin-top:6px">48 PAGES · JOURNAL OFFICIEL</div></div>
+<div style="padding-bottom:14px;border-bottom:1px solid #E4E3DE"><div style="font:400 16px/1.35 'Instrument Serif',serif">Arrêté des prix des hydrocarbures</div><div style="font:500 9px/1.4 'Libre Franklin',sans-serif;letter-spacing:.12em;color:#8A8A85;margin-top:6px">AOÛT 2026 · STRUCTURE DE PRIX</div></div>
+<div><div style="font:400 16px/1.35 'Instrument Serif',serif">Réponse écrite de la DGID</div><div style="font:500 9px/1.4 'Libre Franklin',sans-serif;letter-spacing:.12em;color:#8A8A85;margin-top:6px">2 PAGES · OBTENUE LE 21 AOÛT</div></div>
+</div>
+</div>
+<div style="padding:20px;background:#F3F2EE">
+<div style="font:500 9px/1 'Libre Franklin',sans-serif;letter-spacing:.16em;color:#8A8A85;margin-bottom:12px">CE QUE NOUS N'AVONS PAS OBTENU</div>
+<p style="margin:0;font:400 17px/1.45 'Instrument Serif',serif">Deux demandes adressées au ministère du Commerce, restées sans réponse.</p>
+</div>
+<div style="margin-top:auto;padding:24px 0 26px;border-top:1px solid #0E0E0D">
+<p style="margin:0 0 16px;font:400 26px/1.2 'Instrument Serif',serif">Vous avez entendu quelque chose&nbsp;?</p>
+<span style="display:inline-block;font:500 10px/1 'Libre Franklin',sans-serif;letter-spacing:.14em;background:#C8402A;color:#fff;padding:14px 20px">FAIRE VÉRIFIER</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="dv-row">
+<div class="dv-scr"><span class="dv-cap">1c · Visualisation des sources / preuves</span>
+<div class="dv-frame" style="width:628px;height:648px;background:#FCFCFB;font-family:'Libre Franklin',sans-serif;color:#0E0E0D">
+<div style="padding:22px 30px 16px;border-bottom:1px solid #0E0E0D"><div style="font:400 24px/1.1 'Instrument Serif',serif">Sur quoi repose ce verdict</div><p style="margin:8px 0 0;font:400 12.5px/1.5 'Libre Franklin',sans-serif;color:#5F5F5A">Six pièces. Ce qu'elles prouvent, et ce qu'elles ne prouvent pas.</p></div>
+<div style="padding:18px 30px 0;display:flex;flex-direction:column;gap:16px">
+<div style="display:grid;grid-template-columns:96px 1fr;gap:18px;padding-bottom:16px;border-bottom:1px solid #E4E3DE">
+<div><div style="font:400 30px/.9 'Instrument Serif',serif;color:#C8402A">01</div><div style="font:500 8.5px/1.4 'Libre Franklin',sans-serif;letter-spacing:.14em;color:#8A8A85;margin-top:8px">TEXTE DE LOI<br>19 AOÛT</div></div>
+<div><div style="font:400 18px/1.3 'Instrument Serif',serif">Loi de finances rectificative 2025, art. 12</div><p style="margin:7px 0 0;font:400 13.5px/1.6 'Libre Franklin',sans-serif;color:#3B3B37"><b>Prouve</b> que la taxe existe et que son taux est de 1 %. <span style="color:#8A8A85"><b>Ne prouve pas</b> l'affectation invoquée.</span></p></div>
+</div>
+<div style="display:grid;grid-template-columns:96px 1fr;gap:18px;padding-bottom:16px;border-bottom:1px solid #E4E3DE">
+<div><div style="font:400 30px/.9 'Instrument Serif',serif;color:#C8402A">02</div><div style="font:500 8.5px/1.4 'Libre Franklin',sans-serif;letter-spacing:.14em;color:#8A8A85;margin-top:8px">DOC OFFICIEL<br>19 AOÛT</div></div>
+<div><div style="font:400 18px/1.3 'Instrument Serif',serif">Exposé des motifs, ministère des Finances</div><p style="margin:7px 0 0;font:400 13.5px/1.6 'Libre Franklin',sans-serif;color:#3B3B37"><b>Prouve</b> que la finalité déclarée est le recouvrement et la traçabilité des paiements.</p></div>
+</div>
+<div style="display:grid;grid-template-columns:96px 1fr;gap:18px;padding-bottom:16px;border-bottom:1px solid #E4E3DE">
+<div><div style="font:400 30px/.9 'Instrument Serif',serif;color:#C8402A">03</div><div style="font:500 8.5px/1.4 'Libre Franklin',sans-serif;letter-spacing:.14em;color:#8A8A85;margin-top:8px">ARRÊTÉ<br>20 AOÛT</div></div>
+<div><div style="font:400 18px/1.3 'Instrument Serif',serif">Structure du prix des hydrocarbures, août 2026</div><p style="margin:7px 0 0;font:400 13.5px/1.6 'Libre Franklin',sans-serif;color:#3B3B37"><b>Prouve</b> que le prix affiché ne comporte aucune ligne liée à cette taxe.</p></div>
+</div>
+<div style="display:grid;grid-template-columns:96px 1fr;gap:18px;padding-bottom:16px;border-bottom:1px solid #E4E3DE">
+<div><div style="font:400 30px/.9 'Instrument Serif',serif;color:#C8402A">04</div><div style="font:500 8.5px/1.4 'Libre Franklin',sans-serif;letter-spacing:.14em;color:#8A8A85;margin-top:8px">RÉPONSE ÉCRITE<br>21 AOÛT</div></div>
+<div><div style="font:400 18px/1.3 'Instrument Serif',serif">Direction générale des Impôts et Domaines</div><p style="margin:7px 0 0;font:400 13.5px/1.6 'Libre Franklin',sans-serif;color:#3B3B37"><b>Confirme</b> par écrit l'absence d'affectation au prix du carburant.</p></div>
+</div>
+<div style="display:grid;grid-template-columns:96px 1fr;gap:18px;color:#8A8A85">
+<div><div style="font:400 26px/.9 'Instrument Serif',serif;color:#C8CAC4">05 · 06</div><div style="font:500 8.5px/1.4 'Libre Franklin',sans-serif;letter-spacing:.14em;margin-top:8px">SANS RÉPONSE</div></div>
+<div><div style="font:400 18px/1.3 'Instrument Serif',serif;color:#5F5F5A">Note interne du ministère du Commerce · publication d'origine</div><p style="margin:7px 0 0;font:400 13.5px/1.6 'Libre Franklin',sans-serif">Demandées les 4 et 11 août. Nous publierons ces pièces si nous les obtenons.</p></div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="dv-scr"><span class="dv-cap">1c · Page document</span>
+<div class="dv-frame" style="width:628px;height:648px;background:#FCFCFB;font-family:'Libre Franklin',sans-serif;color:#0E0E0D">
+<div style="padding:20px 30px 16px;border-bottom:1px solid #0E0E0D;display:flex;justify-content:space-between;align-items:flex-end"><div><div style="font:400 22px/1.15 'Instrument Serif',serif">Loi de finances rectificative 2025</div><div style="font:500 9px/1.4 'Libre Franklin',sans-serif;letter-spacing:.14em;color:#8A8A85;margin-top:8px">PIÈCE 01 · 48 PAGES · JOURNAL OFFICIEL N° 7612</div></div><span style="font:500 9.5px/1 'Libre Franklin',sans-serif;letter-spacing:.12em;border-bottom:1px solid #C8402A;padding-bottom:4px;color:#C8402A">TÉLÉCHARGER</span></div>
+<div style="padding:18px 30px 0">
+<div style="font:500 9px/1 'Libre Franklin',sans-serif;letter-spacing:.16em;color:#8A8A85;margin-bottom:12px">LE PASSAGE QUI COMPTE — ARTICLE 12</div>
+<div style="border-left:3px solid #C8402A;padding:0 0 0 18px">
+<p style="margin:0;font:400 21px/1.5 'Instrument Serif',serif">« Il est institué un prélèvement de 1 % sur les paiements en espèces effectués auprès des distributeurs d'hydrocarbures, recouvré par le distributeur pour le compte du Trésor public. Le produit du prélèvement est affecté au budget général. »</p>
+<div style="margin-top:12px;font:500 9px/1.4 'Libre Franklin',sans-serif;letter-spacing:.14em;color:#8A8A85">PAGE 14 · TITRE II, CHAPITRE 3 · ALINÉA 1</div>
+</div>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;margin:22px 30px 0;border-top:1px solid #E4E3DE">
+<div style="padding:16px 20px 16px 0;border-right:1px solid #E4E3DE"><div style="font:500 9px/1 'Libre Franklin',sans-serif;letter-spacing:.16em;color:#8A8A85;margin-bottom:9px">CE QUE LE TEXTE DIT</div><p style="margin:0;font:400 13.5px/1.6 'Libre Franklin',sans-serif">La taxe existe, elle vise les paiements en espèces, son produit va au budget général.</p></div>
+<div style="padding:16px 0 16px 20px"><div style="font:500 9px/1 'Libre Franklin',sans-serif;letter-spacing:.16em;color:#8A8A85;margin-bottom:9px">CE QU'IL NE DIT PAS</div><p style="margin:0;font:400 13.5px/1.6 'Libre Franklin',sans-serif;color:#5F5F5A">Rien sur le prix à la pompe, ni sur un mécanisme de compensation ou de subvention.</p></div>
+</div>
+<div style="margin:14px 30px 0;padding-top:16px;border-top:1px solid #E4E3DE;display:flex;gap:26px">
+<div style="flex:1"><div style="font:500 9px/1 'Libre Franklin',sans-serif;letter-spacing:.16em;color:#8A8A85;margin-bottom:9px">PROVENANCE</div><p style="margin:0;font:400 12.5px/1.6 'Libre Franklin',sans-serif;color:#5F5F5A">Obtenu au Journal officiel le 19 août 2026. Copie intégrale archivée, empreinte SHA-256 publiée.</p></div>
+<div style="width:190px"><div style="font:500 9px/1 'Libre Franklin',sans-serif;letter-spacing:.16em;color:#8A8A85;margin-bottom:9px">CITÉ DANS</div><p style="margin:0;font:400 12.5px/1.7 'Libre Franklin',sans-serif">Taxe de 1 % en station<br>Recettes fiscales 2026<br>Paiements en espèces</p></div>
+</div>
+<div style="margin:16px 30px 0;padding:14px 16px;background:#0E0E0D;color:#F2F1EE;display:flex;justify-content:space-between;align-items:center"><span style="font:400 15px/1.35 'Instrument Serif',serif">Lire les 48 pages, page par page</span><span style="font:500 9px/1 'Libre Franklin',sans-serif;letter-spacing:.14em;color:#E5A093">OUVRIR →</span></div>
+</div>
+</div>
+</div>
+
+</div>
+
+</div>
+
+<p class="dv-next">Essayez ensuite&nbsp;: « développe <a class="dv-oid" href="#1a">1a</a> en site complet » · « garde la palette de <a class="dv-oid" href="#1a">1a</a> mais la structure d'une autre » · « nouvelles directions »</p>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;showNotes&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Présentation&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    return { showNotes: this.props.showNotes ?? true };
+  }
+}
+</script>
+</body>
+</html>
