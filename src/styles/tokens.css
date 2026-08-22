@@ -1,0 +1,64 @@
+/* ============================================================
+   SeneSource — Jetons (couche 1 : primitives)
+   Source de vérité : design/handoff/SeneSource Systeme.dc.html
+   Aucune valeur inventée. Chaque jeton référence sa section.
+   ============================================================ */
+
+:root {
+  /* ---- Couleurs — palette fermée de onze valeurs (§1) ---- */
+  --ss-paper: #faf8f4;      /* fond de toutes les pages */
+  --ss-paper-2: #f2eee6;    /* encadrés secondaires, citation officielle */
+  --ss-ink: #17161a;        /* titres, filets forts, pieds inversés */
+  --ss-ink-80: #33312c;     /* corps de texte long */
+  --ss-ink-60: #57534b;     /* texte secondaire, résumés */
+  --ss-mid: #6b665d;        /* étiquettes mono, métadonnées */
+  --ss-hollow: #a19a8d;     /* contour du carré vide (pièce manquante) */
+  --ss-rule: #e0dbd1;       /* filet 1px courant */
+  --ss-ochre: #a2621b;      /* marque : n° de dossier, renvoi [n], chiffre-conséquence */
+  --ss-ochre-inv: #d9a25e;  /* ocre sur fond --ink uniquement */
+  --ss-highlight: #f6e3c4;  /* surlignage d'un passage cité, page Document */
+
+  /* ---- Valeurs relevées dans les gabarits normatifs (§4–§6) ----
+     Non listées dans la palette §1 mais présentes dans les exemples
+     de référence « exacts » du handoff ; reprises telles quelles. */
+  --ss-ink-90: #2b2925;     /* texte du bloc verdict (§4.1) et du corps document (§6.3) */
+  --ss-ink-70: #4a4741;     /* qualification du chiffre-conséquence (§4.4) */
+  --ss-puce-bord: #d8d2c7;  /* contour des puces de profil inactives (§4.8) */
+
+  /* Écran inversé — formulaire de soumission (§5.6, seul écran inversé) */
+  --ss-inv-filet: #4d4a43;
+  --ss-inv-filet-2: #33312c;   /* = --ss-ink-80, filets d'en-tête/pied du formulaire */
+  --ss-inv-label: #a79e90;
+  --ss-inv-texte: #b5ac9d;
+  --ss-inv-note: #7d766b;
+
+  /* Page Document — reproduction d'un document (§6.3).
+     Seul emplacement où le blanc pur est autorisé (§1, interdits). */
+  --ss-doc-fond: #efebe3;
+  --ss-doc-page: #ffffff;
+  --ss-doc-bord: #dcd6cb;
+  --ss-doc-meta: #8b8579;
+  --ss-doc-filet: #ede8de;
+
+  /* ---- Typographie — familles (§2) ---- */
+  --ss-font-serif: 'Newsreader', Georgia, 'Times New Roman', serif;
+  --ss-font-sans: 'Public Sans', system-ui, sans-serif;
+  --ss-font-mono: 'IBM Plex Mono', ui-monospace, 'Courier New', monospace;
+
+  /* ---- Filets (§3) ---- */
+  --ss-filet-fine: 1px;      /* --rule à l'intérieur d'un même niveau */
+  /* filet fort = 1px --ink : sépare deux niveaux d'information */
+
+  /* ---- Structure (§3) ---- */
+  --ss-gouttiere-mobile: 20px;   /* gauche et droite, tous les écrans mobiles */
+  --ss-marge-desktop: 48px;      /* 64px au-delà de 1440px */
+  --ss-marge-desktop-xl: 64px;
+  --ss-rail: 380px;              /* 400px au-delà de 1440px */
+  --ss-rail-xl: 400px;
+  --ss-texte-max: 700px;         /* colonne de texte max */
+  --ss-corps-max: 70ch;          /* corps max */
+  --ss-titre-max: 15ch;          /* titres desktop max */
+
+  /* ---- Interactions (§4.9) ---- */
+  --ss-transition: 120ms linear; /* opacité et couleur de bordure uniquement */
+}

@@ -1,0 +1,145 @@
+---
+/**
+ * Carte de dossier secondaire (§5.1 mobile, §6.1 desktop) :
+ * étiquette + titre-question + verdict compact OU état d'instruction,
+ * puis chiffre-clé (filet --rule au-dessus) ou jauge.
+ * Un dossier n'est jamais listé « sans verdict ni jauge » (§7 homepage).
+ */
+import Jauge from '../ui/Jauge.astro';
+import type { Verdict } from './BlocVerdict.astro';
+
+interface Props {
+  numero: string;
+  rubrique: string;
+  titre: string;
+  href?: string;
+  verdict?: Verdict | null;
+  jauge?: { obtenues: number; total: number; libelle?: string };
+  chiffre?: { valeur: string; qualification: string };
+}
+const { numero, rubrique, titre, href, verdict = null, jauge, chiffre } = Astro.props;
+---
+
+<article class="carte">
+  <div class="carte-etiquette">
+    <span class="carte-numero">Dossier {numero}</span>
+    <span class="carte-rubrique">{rubrique}{!verdict && ' · En instruction'}</span>
+  </div>
+  <h2 class="carte-titre">
+    {href ? <a class="lien-titre" href={href}>{titre}</a> : titre}
+  </h2>
+  {
+    verdict ? (
+      <div class="carte-verdict">
+        <span class="carte-verdict-label">Verdict</span>
+        <span class="carte-verdict-mot">{verdict}</span>
+      </div>
+    ) : (
+      jauge && (
+        <div class="carte-verdict">
+          <span class="carte-verdict-label">En instruction</span>
+          <span class="carte-instruction">
+            {jauge.obtenues} pièces sur {jauge.total}
+          </span>
+        </div>
+      )
+    )
+  }
+  {
+    chiffre && (
+      <div class="carte-pied">
+        <span class="carte-chiffre">{chiffre.valeur}</span>
+        <span class="carte-chiffre-qualif">{chiffre.qualification}</span>
+      </div>
+    )
+  }
+  {
+    !chiffre && jauge && (
+      <div class="carte-pied">
+        <Jauge
+          obtenues={jauge.obtenues}
+          total={jauge.total}
+          libelle={jauge.libelle ?? `${jauge.obtenues} / ${jauge.total} · Pas encore de verdict`}
+        />
+      </div>
+    )
+  }
+</article>
+
+<style>
+  .carte-etiquette {
+    display: flex;
+    gap: 10px;
+    align-items: baseline;
+    margin-bottom: 8px;
+  }
+  .carte-numero {
+    font: 600 10px/1 var(--ss-font-mono);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ss-ochre);
+    white-space: nowrap;
+  }
+  .carte-rubrique {
+    font: 400 10px/1 var(--ss-font-mono);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ss-mid);
+  }
+  .carte-titre {
+    margin: 0 0 9px;
+    font: 400 21px/1.2 var(--ss-font-serif);
+    letter-spacing: -0.01em;
+    text-wrap: pretty;
+  }
+  .carte-verdict {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+  .carte-verdict-label {
+    font: 500 9px/1 var(--ss-font-mono);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ss-mid);
+    white-space: nowrap;
+  }
+  .carte-verdict-mot {
+    font: 400 14px/1 var(--ss-font-serif);
+    font-style: italic;
+    color: var(--ss-ink);
+  }
+  .carte-instruction {
+    font: 400 14px/1 var(--ss-font-serif);
+    color: var(--ss-mid);
+  }
+  .carte-pied {
+    display: flex;
+    gap: 10px;
+    align-items: baseline;
+    padding-top: 10px;
+    border-top: 1px solid var(--ss-rule);
+  }
+  .carte-chiffre {
+    font: 400 26px/1 var(--ss-font-serif);
+    color: var(--ss-ochre);
+  }
+  .carte-chiffre-qualif {
+    font: 400 11.5px/1.4 var(--ss-font-sans);
+    color: var(--ss-mid);
+  }
+  @media (min-width: 1024px) {
+    .carte-titre {
+      margin-bottom: 10px;
+      font-size: 23px;
+      line-height: 1.16;
+    }
+    .carte-verdict-mot {
+      font-size: 15px;
+    }
+    .carte-chiffre {
+      font-size: 24px;
+    }
+  }
+</style>

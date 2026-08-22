@@ -1,0 +1,133 @@
+---
+/**
+ * En-tête (§5.1 mobile / §6.1 desktop).
+ * Navigation : quatre entrées maximum — Vérifications, Pièces,
+ * Ce que ça change, Méthode. Pas de menu déroulant, pas de recherche
+ * en tête sur mobile (§7). L'écran mobile de référence (§5.1) affiche
+ * trois entrées ; Méthode n'apparaît qu'à partir du desktop (§6.1).
+ * La marque : Newsreader, « Source » en ocre (gabarits §5.1/§6.1).
+ */
+interface Props {
+  courante?: 'verifications' | 'pieces' | 'consequences' | 'methode';
+  meta?: string; // « SAM. 22 AOÛT » mobile · « SAM. 22 AOÛT 2026 · DAKAR » desktop
+}
+const { courante = 'verifications', meta = '' } = Astro.props;
+const entrees = [
+  { id: 'verifications', label: 'Vérifications', href: '/verifications' },
+  { id: 'pieces', label: 'Pièces', href: '/documents' },
+  { id: 'consequences', label: 'Ce que ça change', href: '/ce-que-ca-change' },
+  { id: 'methode', label: 'Méthode', href: '/methode', desktopSeul: true },
+];
+---
+
+<header class="entete">
+  <div class="entete-haut">
+    <a class="marque" href="/">Sene<span class="marque-accent">Source</span></a>
+    <nav class="nav nav--desktop" aria-label="Navigation principale">
+      {
+        entrees.map((e) => (
+          <a
+            class:list={['nav-lien', { 'nav-lien--courant': e.id === courante }]}
+            href={e.href}
+            aria-current={e.id === courante ? 'page' : undefined}
+          >
+            {e.label}
+          </a>
+        ))
+      }
+    </nav>
+    {meta && <span class="entete-meta">{meta}</span>}
+  </div>
+  <nav class="nav nav--mobile" aria-label="Navigation principale">
+    {
+      entrees
+        .filter((e) => !e.desktopSeul)
+        .map((e) => (
+          <a
+            class:list={['nav-lien', { 'nav-lien--courant': e.id === courante }]}
+            href={e.href}
+            aria-current={e.id === courante ? 'page' : undefined}
+          >
+            {e.label}
+          </a>
+        ))
+    }
+  </nav>
+</header>
+
+<style>
+  .entete-haut {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 18px 20px 12px;
+  }
+  .marque {
+    font: 500 21px/1 var(--ss-font-serif);
+    letter-spacing: -0.01em;
+    color: var(--ss-ink);
+  }
+  .marque-accent {
+    color: var(--ss-ochre);
+  }
+  .entete-meta {
+    font: 400 9.5px/1 var(--ss-font-mono);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ss-mid);
+    white-space: nowrap;
+  }
+  .nav-lien {
+    font: 400 9.5px/1 var(--ss-font-mono);
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--ss-mid);
+    white-space: nowrap;
+  }
+  .nav-lien--courant {
+    font-weight: 500;
+    color: var(--ss-ink);
+  }
+  .nav-lien:hover {
+    color: var(--ss-ink);
+  }
+  .nav--mobile {
+    display: flex;
+    gap: 16px;
+    padding: 0 20px 12px;
+    border-bottom: 1px solid var(--ss-ink);
+    overflow-x: auto;
+  }
+  .nav--desktop {
+    display: none;
+  }
+  @media (min-width: 1024px) {
+    .entete-haut {
+      padding: 22px 48px 16px;
+      border-bottom: 1px solid var(--ss-ink);
+    }
+    .marque {
+      font-size: 26px;
+    }
+    .entete-meta {
+      font-size: 10.5px;
+    }
+    .nav--mobile {
+      display: none;
+    }
+    .nav--desktop {
+      display: flex;
+      gap: 26px;
+    }
+    .nav--desktop .nav-lien {
+      font-size: 10.5px;
+    }
+  }
+  @media (min-width: 1440px) {
+    .entete-haut {
+      padding-left: 64px;
+      padding-right: 64px;
+    }
+  }
+</style>

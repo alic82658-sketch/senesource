@@ -1,0 +1,128 @@
+---
+/**
+ * Module « Ce que ça change pour vous » (§4.4 / §4.5).
+ * Bordure 1px --ink, padding 14px (18px desktop). Ordre imposé :
+ * étiquette + sélecteur, chiffre ocre + qualification, filet,
+ * hypothèse ou profil actif. Un seul chiffre ocre par module.
+ * L'hypothèse est INSÉPARABLE du chiffre (règle produit).
+ */
+interface Props {
+  profil: string; // « TAXI », « CHOISIR »
+  chiffre: string; // « 78 000 F » — espaces fines insécables déjà posées
+  qualification: string; // « sur une année,\nen payant en espèces »
+  hypothese?: string; // « HYPOTHÈSE : 30 000 F/SEMAINE · 52 SEMAINES »
+  note?: string; // variante : phrase sans mono (« Profil actif : … »)
+  noteAccent?: string; // portion en --ink dans la note
+  action?: string; // « CHANGER DE PROFIL → »
+}
+const { profil, chiffre, qualification, hypothese, note, noteAccent, action } = Astro.props;
+const lignesQualif = qualification.split('\n');
+---
+
+<div class="module">
+  <div class="module-tete">
+    <span class="module-etiquette">Ce que ça change pour vous</span>
+    <button class="module-selecteur">{profil} ▾</button>
+  </div>
+  <div class="module-corps">
+    <span class="typo-chiffre">{chiffre}</span>
+    <span class="module-qualif">
+      {
+        lignesQualif.map((l, i) => (
+          <>
+            {i > 0 && <br />}
+            {l}
+          </>
+        ))
+      }
+    </span>
+  </div>
+  <div class="module-pied">
+    {hypothese && <span class="module-hypothese">{hypothese}</span>}
+    {
+      note && (
+        <span class="module-note">
+          {note}
+          {noteAccent && <span class="module-note-accent">{noteAccent}</span>}
+        </span>
+      )
+    }
+    {action && <span class="module-action">{action}</span>}
+  </div>
+</div>
+
+<style>
+  .module {
+    border: 1px solid var(--ss-ink);
+    padding: 14px;
+    background: var(--ss-paper);
+  }
+  .module-tete {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 12px;
+  }
+  .module-etiquette {
+    font: 500 9px/1 var(--ss-font-mono);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ss-mid);
+  }
+  /* Sélecteur : deuxième usage ocre du module interdit — le chiffre prime.
+     Le handoff (§4.4) montre le sélecteur en ocre : usage « renvoi ». */
+  .module-selecteur {
+    font: 400 9px/1 var(--ss-font-mono);
+    text-transform: uppercase;
+    color: var(--ss-ochre);
+    background: none;
+    border: 0;
+    padding: 0;
+    cursor: pointer;
+  }
+  .module-corps {
+    display: flex;
+    align-items: flex-end;
+    gap: 12px;
+  }
+  .module-qualif {
+    font: 400 12.5px/1.35 var(--ss-font-sans);
+    color: var(--ss-ink-70);
+    padding-bottom: 5px;
+  }
+  .module-pied {
+    margin-top: 12px;
+    padding-top: 10px;
+    border-top: 1px solid var(--ss-rule);
+  }
+  .module-hypothese {
+    display: block;
+    font: 400 11px/1.5 var(--ss-font-mono);
+    text-transform: uppercase;
+    color: var(--ss-mid);
+  }
+  .module-note {
+    font: 400 11.5px/1.5 var(--ss-font-sans);
+    color: var(--ss-mid);
+  }
+  .module-note-accent {
+    color: var(--ss-ink);
+  }
+  .module-action {
+    display: block;
+    font: 400 10px/1.5 var(--ss-font-mono);
+    text-transform: uppercase;
+    color: var(--ss-mid);
+  }
+  @media (min-width: 1024px) {
+    .module {
+      padding: 18px;
+    }
+    .module-tete {
+      margin-bottom: 14px;
+    }
+    .module-pied {
+      margin-top: 14px;
+    }
+  }
+</style>

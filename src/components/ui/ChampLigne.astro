@@ -1,0 +1,81 @@
+---
+/**
+ * Champ de formulaire (§4.8, §5.6) : pas de boîte, un filet bas 1px ;
+ * saisie en Newsreader 17px ; focus = filet bas 2px --ink + libellé --ink.
+ */
+interface Props {
+  numero: string; // « 01 »
+  label: string;
+  placeholder?: string;
+  note?: string;
+  inverse?: boolean;
+  name: string;
+}
+const { numero, label, placeholder, note, inverse = false, name } = Astro.props;
+const id = `champ-${name}`;
+---
+
+<div class:list={['champ', { 'champ--inverse': inverse }]}>
+  <label class="champ-label" for={id}>{numero} · {label}</label>
+  <input class="champ-saisie" type="text" id={id} name={name} placeholder={placeholder} />
+  {note && <div class="champ-note">{note}</div>}
+</div>
+
+<style>
+  .champ-label {
+    display: block;
+    font: 500 9.5px/1 var(--ss-font-mono);
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--ss-mid);
+  }
+  .champ-saisie {
+    display: block;
+    width: 100%;
+    margin-top: 10px;
+    padding: 0 0 9px;
+    border: 0;
+    border-bottom: 1px solid var(--ss-ink);
+    background: transparent;
+    font: 400 17px/1.4 var(--ss-font-serif);
+    color: var(--ss-ink);
+  }
+  .champ-saisie::placeholder {
+    color: var(--ss-mid);
+    opacity: 1;
+  }
+  .champ-saisie:focus-visible {
+    outline: none;
+    border-bottom: 2px solid var(--ss-ink);
+    padding-bottom: 8px;
+  }
+  .champ:focus-within .champ-label {
+    color: var(--ss-ink);
+  }
+  .champ-note {
+    margin-top: 7px;
+    font: 400 9.5px/1.4 var(--ss-font-mono);
+    text-transform: uppercase;
+    color: var(--ss-mid);
+  }
+  /* Déclinaison écran inversé (§5.6) */
+  .champ--inverse .champ-label {
+    color: var(--ss-inv-label);
+  }
+  .champ--inverse .champ-saisie {
+    border-bottom-color: var(--ss-inv-filet);
+    color: var(--ss-paper-2);
+  }
+  .champ--inverse .champ-saisie::placeholder {
+    color: var(--ss-inv-label);
+  }
+  .champ--inverse .champ-saisie:focus-visible {
+    border-bottom-color: var(--ss-paper);
+  }
+  .champ--inverse:focus-within .champ-label {
+    color: var(--ss-paper);
+  }
+  .champ--inverse .champ-note {
+    color: var(--ss-inv-note);
+  }
+</style>

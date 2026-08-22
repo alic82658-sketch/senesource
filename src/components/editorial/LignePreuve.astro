@@ -1,0 +1,56 @@
+---
+/**
+ * Ligne de preuve (§4.3) : carré 8px + énoncé + cote mono.
+ * Établi : carré plein, texte droit --ink. Non établi : carré contour
+ * --hollow, ligne en --mid, énoncé en italique. Le mot ÉTABLI /
+ * NON ÉTABLI / DEMANDÉ / SANS RÉPONSE est toujours écrit (§7).
+ */
+import Carre from '../ui/Carre.astro';
+
+interface Props {
+  texte: string;
+  etabli: boolean;
+  meta: string; // « ÉTABLI · PIÈCE [1] · TEXTE DE LOI »
+  derniere?: boolean;
+}
+const { texte, etabli, meta, derniere = false } = Astro.props;
+---
+
+<div class:list={['ligne-preuve', { 'ligne-preuve--non': !etabli, 'ligne-preuve--fin': derniere }]}>
+  <Carre etat={etabli ? 'plein' : 'vide'} taille={8} decale />
+  <div class="contenu">
+    <div class="enonce">{texte}</div>
+    <div class="meta">{meta}</div>
+  </div>
+</div>
+
+<style>
+  .ligne-preuve {
+    display: flex;
+    gap: 11px;
+    padding: 11px 0;
+    border-top: 1px solid var(--ss-rule);
+    align-items: flex-start;
+  }
+  .ligne-preuve--fin {
+    border-bottom: 1px solid var(--ss-rule);
+  }
+  .contenu {
+    flex: 1;
+  }
+  .enonce {
+    font: 400 14.5px/1.45 var(--ss-font-sans);
+    color: var(--ss-ink);
+    text-wrap: pretty;
+  }
+  .meta {
+    margin-top: 4px;
+    font: 400 9.5px/1.5 var(--ss-font-mono);
+    text-transform: uppercase;
+    color: var(--ss-mid);
+  }
+  .ligne-preuve--non .enonce {
+    color: var(--ss-mid);
+    font-style: italic;
+  }
+</style>

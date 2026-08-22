@@ -1,0 +1,97 @@
+---
+/**
+ * Bloc verdict (§4.1 / §4.2). Filet supérieur 1px --ink, filet inférieur
+ * 1px --rule. Cinq verdicts autorisés, jamais d'autres : Exact ·
+ * Exact, mais partiel · Trompeur · Faux · Invérifiable. Toujours
+ * Newsreader italique --ink, jamais de fond ni de bordure autour du mot,
+ * jamais de couleur.
+ *
+ * Sans verdict (§4.2) : étiquette EN INSTRUCTION + « Pas encore de
+ * verdict » en Newsreader --mid. Jauge ET date du prochain point
+ * obligatoires. Aucun chiffre-conséquence tant que rien n'est établi.
+ */
+import Jauge from '../ui/Jauge.astro';
+
+export type Verdict = 'Exact' | 'Exact, mais partiel' | 'Trompeur' | 'Faux' | 'Invérifiable';
+
+interface Props {
+  verdict?: Verdict | null;
+  explication: string;
+  grand?: boolean; // page vérification desktop : verdict 34px (§6.2)
+  jauge?: { obtenues: number; total: number; prochainPoint?: string };
+}
+const { verdict = null, explication, grand = false, jauge } = Astro.props;
+---
+
+<div class="bloc-verdict">
+  {
+    verdict ? (
+      <div class="ligne">
+        <span class="typo-label etiquette">Verdict</span>
+        <span class:list={['typo-verdict', { 'typo-verdict-grand': grand }]}>{verdict}</span>
+      </div>
+    ) : (
+      <div class="ligne">
+        <span class="typo-label etiquette">En instruction</span>
+        <span class="sans-verdict">Pas encore de verdict</span>
+      </div>
+    )
+  }
+  <p class="explication">{explication}</p>
+  {
+    !verdict && jauge && (
+      <div class="jauge-ligne">
+        <Jauge
+          obtenues={jauge.obtenues}
+          total={jauge.total}
+          libelle={`${jauge.obtenues} / ${jauge.total}${jauge.prochainPoint ? ` · Prochain point le ${jauge.prochainPoint}` : ''}`}
+        />
+      </div>
+    )
+  }
+</div>
+
+<style>
+  .bloc-verdict {
+    border-top: 1px solid var(--ss-ink);
+    border-bottom: 1px solid var(--ss-rule);
+    padding: 14px 0;
+  }
+  .ligne {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+  }
+  .etiquette {
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    white-space: nowrap;
+  }
+  .sans-verdict {
+    font: 400 24px/1.1 var(--ss-font-serif);
+    color: var(--ss-mid);
+  }
+  .explication {
+    margin: 12px 0 0;
+    font: 400 15.5px/1.6 var(--ss-font-sans);
+    color: var(--ss-ink-90);
+    text-wrap: pretty;
+  }
+  .jauge-ligne {
+    margin-top: 12px;
+  }
+  @media (min-width: 1024px) {
+    .bloc-verdict {
+      padding: 16px 0;
+    }
+    .ligne {
+      gap: 14px;
+    }
+    .explication {
+      margin-top: 14px;
+      font-size: 16.5px;
+      line-height: 1.65;
+      max-width: 64ch;
+    }
+  }
+</style>

@@ -1,0 +1,43 @@
+---
+/**
+ * L'affirmation vérifiée (§4.7) : Newsreader italique, filet gauche
+ * 2px ocre, sans fond. Provenance en mono sous la citation.
+ */
+interface Props {
+  texte: string; // sans guillemets — posés par le composant
+  provenance?: string; // « FACEBOOK · 18 AOÛT · 12 400 PARTAGES »
+  grande?: boolean; // page vérification desktop : 26/1.4 (§6.2)
+}
+const { texte, provenance, grande = false } = Astro.props;
+---
+
+<div>
+  <p class:list={['typo-citation', 'affirmation', { 'typo-citation-grande': grande }]}>
+    «&nbsp;{texte}&nbsp;»
+  </p>
+  {provenance && <div class="provenance">{provenance}</div>}
+</div>
+
+<style>
+  .affirmation {
+    border-left: 2px solid var(--ss-ochre);
+    padding-left: 14px;
+    color: var(--ss-ink);
+  }
+  .provenance {
+    margin-top: 9px;
+    padding-left: 16px;
+    font: 400 10px/1.4 var(--ss-font-mono);
+    text-transform: uppercase;
+    color: var(--ss-mid);
+  }
+  @media (min-width: 1024px) {
+    .affirmation {
+      padding-left: 18px;
+    }
+    .provenance {
+      margin-top: 10px;
+      padding-left: 20px;
+    }
+  }
+</style>

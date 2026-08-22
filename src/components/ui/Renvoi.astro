@@ -1,0 +1,28 @@
+---
+/**
+ * Renvoi de pièce [n] (§1, §6.2) : l'un des trois usages autorisés de
+ * l'ocre. Dans le texte courant, le renvoi peut souligner le passage
+ * qu'il fonde (border-bottom 1px ocre, §6.2).
+ * Une pièce non probante / manquante garde son [n] en --mid, sans ocre.
+ */
+interface Props {
+  n: number | string;
+  etabli?: boolean;
+  href?: string;
+}
+const { n, etabli = true, href } = Astro.props;
+const Tag = href ? 'a' : 'span';
+---
+
+<Tag class:list={['renvoi', { 'renvoi--non-etabli': !etabli }]} href={href}>[{n}]</Tag>
+
+<style>
+  .renvoi {
+    font: 500 10px/1.4 var(--ss-font-mono);
+    color: var(--ss-ochre);
+  }
+  .renvoi--non-etabli {
+    color: var(--ss-mid);
+    font-weight: 400;
+  }
+</style>

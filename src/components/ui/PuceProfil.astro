@@ -1,0 +1,60 @@
+---
+/**
+ * Puce de profil (§4.8, §5.4) : sélecteur de situation du lecteur.
+ * Active : fond --ink. Inactive : contour 1px --puce-bord, texte --ink-60.
+ * Zone tactile 44px minimum (§3), compensée par une zone invisible.
+ */
+interface Props {
+  label: string;
+  active?: boolean;
+  inverse?: boolean;
+}
+const { label, active = false, inverse = false } = Astro.props;
+---
+
+<button
+  class:list={['puce', { 'puce--active': active, 'puce--inverse': inverse }]}
+  aria-pressed={active ? 'true' : 'false'}
+>
+  {label}
+</button>
+
+<style>
+  .puce {
+    position: relative;
+    font: 400 10px/1 var(--ss-font-mono);
+    text-transform: uppercase;
+    padding: 8px 11px;
+    border: 1px solid var(--ss-puce-bord);
+    color: var(--ss-ink-60);
+    background: transparent;
+    cursor: pointer;
+  }
+  /* Zone tactile 44px (§3) sans modifier la géométrie visible */
+  .puce::after {
+    content: '';
+    position: absolute;
+    inset: -9px 0;
+  }
+  .puce--active {
+    font-weight: 500;
+    background: var(--ss-ink);
+    color: var(--ss-paper);
+    border-color: var(--ss-ink);
+  }
+  .puce:hover:not(.puce--active) {
+    border-color: var(--ss-ink);
+  }
+  /* Déclinaison écran inversé (§5.6) */
+  .puce--inverse {
+    border-color: var(--ss-inv-filet);
+    color: var(--ss-inv-label);
+    padding: 9px 11px;
+  }
+  .puce--inverse.puce--active {
+    background: transparent;
+    border-color: var(--ss-paper);
+    color: var(--ss-paper);
+    font-weight: 400;
+  }
+</style>

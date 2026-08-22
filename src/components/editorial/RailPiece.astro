@@ -1,0 +1,54 @@
+---
+/**
+ * Ligne du rail « Ce que nous avons obtenu · ce qui manque » (§4.9, §6.1) :
+ * carré 7px + intitulé + métadonnée mono datée. Une pièce manquante reste
+ * affichée, datée, en --mid et italique — jamais retirée (§6.4).
+ */
+import Carre from '../ui/Carre.astro';
+
+interface Props {
+  titre: string;
+  meta: string; // « OBTENU 19.08 · PDF 48 P. » / « DEMANDÉE 04.08 · SANS RÉPONSE »
+  obtenue: boolean;
+  derniere?: boolean;
+}
+const { titre, meta, obtenue, derniere = false } = Astro.props;
+---
+
+<div class:list={['rail-piece', { 'rail-piece--manquante': !obtenue, 'rail-piece--fin': derniere }]}>
+  <Carre etat={obtenue ? 'plein' : 'vide'} taille={7} decale />
+  <div class="rail-contenu">
+    <div class="rail-titre">{titre}</div>
+    <div class="rail-meta">{meta}</div>
+  </div>
+</div>
+
+<style>
+  .rail-piece {
+    display: flex;
+    gap: 11px;
+    padding: 10px 0;
+    border-top: 1px solid var(--ss-rule);
+    align-items: flex-start;
+  }
+  .rail-piece--fin {
+    border-bottom: 1px solid var(--ss-rule);
+  }
+  .rail-contenu {
+    flex: 1;
+  }
+  .rail-titre {
+    font: 400 13px/1.45 var(--ss-font-sans);
+    color: var(--ss-ink);
+  }
+  .rail-meta {
+    margin-top: 3px;
+    font: 400 9px/1.5 var(--ss-font-mono);
+    text-transform: uppercase;
+    color: var(--ss-mid);
+  }
+  .rail-piece--manquante .rail-titre {
+    color: var(--ss-mid);
+    font-style: italic;
+  }
+</style>

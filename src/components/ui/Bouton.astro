@@ -1,0 +1,56 @@
+---
+/**
+ * Bouton (§4.8). Un seul bouton plein (--ink) par écran ; secondaire :
+ * contour 1px --ink. Exception unique : le bouton d'envoi du formulaire
+ * inversé est la seule surface ocre pleine du système (§5.6).
+ */
+interface Props {
+  variante?: 'plein' | 'contour' | 'ocre';
+  href?: string;
+  disabled?: boolean;
+}
+const { variante = 'plein', href, disabled = false } = Astro.props;
+const Tag = href ? 'a' : 'button';
+---
+
+<Tag class:list={['bouton', `bouton--${variante}`]} href={href} disabled={disabled || undefined}>
+  <slot />
+</Tag>
+
+<style>
+  .bouton {
+    display: inline-block;
+    border: 0;
+    cursor: pointer;
+    text-transform: uppercase;
+    /* §4.8 : mono 500, 10.5px primaire / 10px secondaire, +0.08em */
+    font: 500 10.5px/1 var(--ss-font-mono);
+    letter-spacing: 0.08em;
+  }
+  .bouton--plein {
+    background: var(--ss-ink);
+    color: var(--ss-paper);
+    padding: 14px 16px;
+  }
+  .bouton--contour {
+    background: transparent;
+    color: var(--ss-ink);
+    border: 1px solid var(--ss-ink);
+    padding: 13px 14px;
+    font-size: 10px;
+  }
+  /* Seule surface ocre pleine autorisée : envoi du formulaire (§5.6) */
+  .bouton--ocre {
+    background: var(--ss-ochre);
+    color: var(--ss-paper);
+    padding: 14px 20px;
+    font-size: 11px;
+  }
+  .bouton:hover {
+    opacity: 0.85;
+  }
+  .bouton[disabled] {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+</style>

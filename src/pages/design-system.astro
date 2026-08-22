@@ -1,0 +1,718 @@
+---
+import Base from '../layouts/Base.astro';
+import Specimen from '../components/ds/Specimen.astro';
+import Bouton from '../components/ui/Bouton.astro';
+import PuceProfil from '../components/ui/PuceProfil.astro';
+import Carre from '../components/ui/Carre.astro';
+import Jauge from '../components/ui/Jauge.astro';
+import Renvoi from '../components/ui/Renvoi.astro';
+import ChampLigne from '../components/ui/ChampLigne.astro';
+import EnTeteDossier from '../components/editorial/EnTeteDossier.astro';
+import BlocVerdict from '../components/editorial/BlocVerdict.astro';
+import LignePreuve from '../components/editorial/LignePreuve.astro';
+import ModuleConsequences from '../components/editorial/ModuleConsequences.astro';
+import CitationAffirmation from '../components/editorial/CitationAffirmation.astro';
+import CitationOfficielle from '../components/editorial/CitationOfficielle.astro';
+import CarteDossier from '../components/editorial/CarteDossier.astro';
+import EncartNote from '../components/editorial/EncartNote.astro';
+import BandeauInverse from '../components/editorial/BandeauInverse.astro';
+import RailPiece from '../components/editorial/RailPiece.astro';
+import EnTete from '../components/layout/EnTete.astro';
+
+// NBSP fine (U+202F) pour les milliers — règle §2.
+const NNBSP = ' ';
+const F = (s: string) => s.replace(/ /g, NNBSP);
+
+const couleurs = [
+  { jeton: '--ss-paper', hex: '#FAF8F4', usage: 'Fond de toutes les pages', contraste: '' },
+  { jeton: '--ss-paper-2', hex: '#F2EEE6', usage: 'Encadrés secondaires, citation officielle', contraste: '' },
+  { jeton: '--ss-ink', hex: '#17161A', usage: 'Titres, filets forts, pieds inversés', contraste: '16,98:1 sur paper' },
+  { jeton: '--ss-ink-80', hex: '#33312C', usage: 'Corps de texte long', contraste: '12,25:1' },
+  { jeton: '--ss-ink-60', hex: '#57534B', usage: 'Texte secondaire, résumés', contraste: '7,21:1' },
+  { jeton: '--ss-mid', hex: '#6B665D', usage: 'Étiquettes mono, métadonnées', contraste: '5,37:1' },
+  { jeton: '--ss-hollow', hex: '#A19A8D', usage: 'Contour du carré vide (pièce manquante)', contraste: '2,63:1 — décoratif, mot toujours écrit' },
+  { jeton: '--ss-rule', hex: '#E0DBD1', usage: 'Filet 1px courant', contraste: '' },
+  { jeton: '--ss-ochre', hex: '#A2621B', usage: 'Marque : n° de dossier, renvoi [n], chiffre-conséquence', contraste: '4,61:1' },
+  { jeton: '--ss-ochre-inv', hex: '#D9A25E', usage: 'Ocre sur fond --ink uniquement', contraste: '7,96:1 sur ink' },
+  { jeton: '--ss-highlight', hex: '#F6E3C4', usage: "Surlignage d'un passage cité, page Document", contraste: '' },
+];
+
+const titreTresLong =
+  "Le décret d'application de la contribution spéciale sur les transactions électroniques interbancaires transfrontalières a-t-il réellement été transmis à l'Assemblée nationale avant la date limite constitutionnelle du 30 juin ?";
+---
+
+<Base titre="Design system" description="Système produit SeneSource — composants et états" noindex>
+  <div class="page">
+    <!-- ====== EN-TÊTE DE LA PAGE ====== -->
+    <div class="ds-tete">
+      <div class="ds-tete-ligne">
+        <span class="ds-marque">Sene<span class="ds-marque-accent">Source</span></span>
+        <span class="typo-label">Design system · V0 · conforme au handoff du 22.08.2026</span>
+      </div>
+      <h1 class="typo-display" style="margin-top:26px">Système produit — composants et états</h1>
+      <p class="typo-corps" style="margin-top:16px">
+        Page interne de validation. Chaque spécimen reproduit la référence exacte du handoff
+        (<code class="ds-code">design/handoff/SeneSource Systeme.dc.html</code>). Rayon 0 partout,
+        aucune ombre, ocre limité à trois usages, verdicts jamais colorés.
+      </p>
+    </div>
+
+    <!-- ====== 0 · STATUT ====== -->
+    <section class="sec" id="statut">
+      <div class="sec-titre"><span class="sec-num">§0</span><span class="sec-nom">Statut</span></div>
+      <p class="typo-corps-2" style="max-width:70ch">
+        Aucun TODO-HANDOFF restant : toutes les valeurs de <code class="ds-code">tokens.css</code>
+        proviennent du handoff. Les écarts et points de vigilance (contrastes limites relevés)
+        sont consignés dans <code class="ds-code">docs/architecture/06-rapport-v0.md</code>.
+      </p>
+    </section>
+
+    <!-- ====== 1 · COULEURS ====== -->
+    <section class="sec" id="couleurs">
+      <div class="sec-titre"><span class="sec-num">§1</span><span class="sec-nom">Couleurs</span></div>
+      <p class="typo-corps-2" style="max-width:70ch">
+        Palette fermée de onze valeurs. Aucun vert, rouge, bleu ou jaune de statut : un verdict est
+        un mot, pas une couleur. Le blanc pur n'existe pas dans l'interface, sauf la page d'un
+        document reproduit.
+      </p>
+      <div class="nuancier">
+        {
+          couleurs.map((c) => (
+            <div class="nuance">
+              <i class="nuance-puce" style={`background:${c.hex};${c.hex === '#FAF8F4' ? 'border:1px solid var(--ss-rule)' : ''}`} />
+              <span class="nuance-jeton">{c.jeton}</span>
+              <span class="nuance-hex">{c.hex}</span>
+              <span class="nuance-usage">
+                {c.usage}
+                {c.contraste && <span class="nuance-contraste"> · {c.contraste}</span>}
+              </span>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <!-- ====== 2 · TYPOGRAPHIE ====== -->
+    <section class="sec" id="typographie">
+      <div class="sec-titre"><span class="sec-num">§2</span><span class="sec-nom">Typographie</span></div>
+      <p class="typo-corps-2" style="max-width:70ch">
+        Trois familles, aucune autre. Newsreader porte l'identité (questions, verdicts, chiffres,
+        citations). Public Sans porte tout le texte à lire. IBM Plex Mono porte l'appareil
+        documentaire. Graisses 400/500/600 uniquement.
+      </p>
+      <div class="echelle">
+        <div class="echelle-ligne">
+          <span class="typo-display">Question vérifiée</span>
+          <span class="echelle-spec">display · Newsreader 400 · 29/1.14 mobile · 54/1.06 ≥1024</span>
+        </div>
+        <div class="echelle-ligne">
+          <span class="typo-titre">Titre de dossier secondaire</span>
+          <span class="echelle-spec">title-1 · Newsreader 400 · 21/1.2 mobile · 23/1.16 desktop</span>
+        </div>
+        <div class="echelle-ligne">
+          <span class="typo-citation">«&nbsp;Affirmation citée, toujours en italique&nbsp;»</span>
+          <span class="echelle-spec">quote · Newsreader 400 italique · 19/1.35</span>
+        </div>
+        <div class="echelle-ligne">
+          <span class="typo-verdict">Trompeur</span>
+          <span class="echelle-spec">verdict · Newsreader 400 italique · 28/1 mobile · 24/1 desktop</span>
+        </div>
+        <div class="echelle-ligne">
+          <span class="typo-chiffre">{F('78 000 F')}</span>
+          <span class="echelle-spec">figure · Newsreader 400 ocre · 42/0.88 encart · 52/0.9 page</span>
+        </div>
+        <div class="echelle-ligne">
+          <span class="typo-corps" style="max-width:44ch"
+            >Corps de texte principal. Il ne descend jamais sous 15,5px sur mobile ni sous 16,5px sur
+            desktop.</span
+          >
+          <span class="echelle-spec">body-1 · Public Sans 400 · 16.5/1.65 desktop · 15.5/1.62 mobile</span>
+        </div>
+        <div class="echelle-ligne">
+          <span class="typo-corps-2" style="max-width:44ch"
+            >Texte secondaire : résumés de dossiers, notes de calcul, précisions.</span
+          >
+          <span class="echelle-spec">body-2 · Public Sans 400 · 13.5/1.55 · --ink-60</span>
+        </div>
+        <div class="echelle-ligne">
+          <span class="typo-label">Étiquette de section</span>
+          <span class="echelle-spec">label · IBM Plex Mono 500 · 10/1 · +0.09em · capitales</span>
+        </div>
+        <div class="echelle-ligne">
+          <span class="typo-meta">Texte de loi · obtenu le 19.08 · JO 7612</span>
+          <span class="echelle-spec">meta · IBM Plex Mono 400 · 9.5/1.5 · +0.06em</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====== 3 · ESPACEMENT, FILETS, GRILLE ====== -->
+    <section class="sec" id="espacement">
+      <div class="sec-titre"><span class="sec-num">§3</span><span class="sec-nom">Espacement, filets et grille</span></div>
+      <p class="typo-corps-2" style="max-width:70ch">
+        Base 2px, pas usuel 4px. Un bloc de contenu = un padding + un filet, jamais une carte
+        flottante. Filet 1px --ink entre deux niveaux d'information, 1px --rule à l'intérieur d'un
+        même niveau.
+      </p>
+      <div class="ds-rangee">
+        <Specimen titre="Filets" largeur={350}>
+          <div class="typo-meta" style="padding-bottom:8px">Filet fort — sépare deux niveaux</div>
+          <div class="filet-fort" style="padding-top:8px"></div>
+          <div class="typo-meta" style="padding:8px 0">Filet fin — même niveau</div>
+          <div class="filet-fin"></div>
+        </Specimen>
+        <Specimen
+          titre="Pile verticale"
+          largeur={350}
+          note="Crans autorisés : 8 / 10 / 12 / 14 / 16 / 18 / 22 / 26 / 32 / 34. Gouttière mobile 20px, marge desktop 48px (64px ≥1440), zone tactile 44px min."
+        >
+          <div class="pile">
+            {
+              [8, 10, 12, 14, 16, 18, 22, 26, 32, 34].map((v) => (
+                <div class="pile-ligne">
+                  <span class="typo-meta" style="width:24px">{v}</span>
+                  <i class="pile-barre" style={`width:${v * 2}px`} />
+                </div>
+              ))
+            }
+          </div>
+        </Specimen>
+        <Specimen
+          titre="Grille ≥1024"
+          largeur={420}
+          note="Colonne principale fluide (texte max 700px) + rail 380px (400px ≥1440), séparés par un filet --rule vertical."
+        >
+          <div class="grille-demo">
+            <div class="grille-principale"><span class="typo-label">Colonne principale — fluide</span></div>
+            <div class="grille-rail"><span class="typo-label">Rail — 380 à 400px</span></div>
+          </div>
+        </Specimen>
+      </div>
+    </section>
+
+    <!-- ====== 4 · PRIMITIVES ====== -->
+    <section class="sec" id="primitives">
+      <div class="sec-titre"><span class="sec-num">§4</span><span class="sec-nom">Primitives</span></div>
+      <div class="ds-rangee">
+        <Specimen
+          titre="4.1 · Boutons"
+          largeur={350}
+          note="Un seul bouton plein (--ink) par écran. Secondaire : contour 1px --ink. Le bouton ocre est réservé à l'envoi du formulaire inversé — seule surface ocre pleine du système."
+        >
+          <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center">
+            <Bouton variante="plein">Ouvrir un signalement →</Bouton>
+            <Bouton variante="contour">Définir mon profil</Bouton>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:12px">
+            <Bouton variante="plein" disabled>Ouvrir un signalement →</Bouton>
+          </div>
+        </Specimen>
+        <Specimen
+          titre="4.2 · Puces de profil"
+          largeur={350}
+          note="Active : fond --ink. Inactives : contour --puce-bord, texte --ink-60. Zone tactile 44px compensée par une zone invisible."
+        >
+          <div style="display:flex;gap:6px;flex-wrap:wrap">
+            <PuceProfil label="Taxi / VTC" active />
+            <PuceProfil label="Automobiliste" />
+            <PuceProfil label="Transporteur" />
+            <PuceProfil label="Gérant de station" />
+          </div>
+        </Specimen>
+        <Specimen
+          titre="4.3 · Carrés et jauges"
+          largeur={350}
+          note="Carré 8px plein = établi/obtenu ; contour 1px --hollow = manquant. Jauge : barres 14–20 × 6px, gap 3px, une barre par pièce. Journal de collecte — jamais un score de vérité : le libellé est toujours écrit."
+        >
+          <div style="display:flex;align-items:center;gap:14px">
+            <span style="display:flex;align-items:center;gap:6px">
+              <Carre etat="plein" />
+              <span class="typo-meta">Établi / obtenu</span>
+            </span>
+            <span style="display:flex;align-items:center;gap:6px">
+              <Carre etat="vide" />
+              <span class="typo-meta">Manquant</span>
+            </span>
+          </div>
+          <div style="margin-top:14px;display:flex;flex-direction:column;gap:10px">
+            <Jauge obtenues={4} total={6} largeurBarre={20} />
+            <Jauge obtenues={2} total={5} libelle="2 / 5 · Prochain point le 28.08" />
+            <Jauge obtenues={0} total={3} libelle="0 / 3 · Demandes envoyées le 22.08" />
+          </div>
+        </Specimen>
+        <Specimen
+          titre="4.4 · Renvois [n]"
+          largeur={350}
+          note="Un des trois usages de l'ocre. En texte courant, le passage fondé porte un soulignement 1px ocre. Une pièce non probante garde son [n] en --mid."
+        >
+          <p class="typo-corps">
+            La taxe existe <span class="souligne-ocre">[1]</span>. Sa finalité déclarée est le
+            recouvrement fiscal <span class="souligne-ocre">[2]</span>.
+          </p>
+          <div style="margin-top:10px;display:flex;gap:12px">
+            <Renvoi n={1} />
+            <Renvoi n={5} etabli={false} />
+          </div>
+        </Specimen>
+        <Specimen
+          titre="4.5 · Champ"
+          largeur={350}
+          note="Pas de boîte : un filet bas 1px. Saisie en Newsreader 17px. Focus = filet bas 2px --ink + libellé en --ink."
+        >
+          <ChampLigne
+            numero="01"
+            label="L'affirmation, en une phrase"
+            placeholder="La taxe de 1 % a été créée pour…"
+            note="240 caractères max · français ou wolof"
+            name="demo-affirmation"
+          />
+        </Specimen>
+      </div>
+    </section>
+
+    <!-- ====== 5 · COMPOSANTS ÉDITORIAUX ====== -->
+    <section class="sec" id="editorial">
+      <div class="sec-titre"><span class="sec-num">§5</span><span class="sec-nom">Composants éditoriaux</span></div>
+      <div class="ds-rangee">
+        <Specimen
+          titre="5.1 · Étiquette + titre-question"
+          largeur={350}
+          note="Le numéro de dossier est le seul élément ocre de l'en-tête. Un titre est toujours une question, ≤ 140 caractères."
+        >
+          <EnTeteDossier
+            numero="041"
+            rubrique="Fiscalité · Carburant"
+            titre="La taxe de 1 % sur les paiements en espèces a-t-elle été créée pour maintenir le prix du carburant ?"
+            tailleTitre="titre"
+          />
+        </Specimen>
+        <Specimen
+          titre="5.2 · Bloc verdict — avec verdict"
+          largeur={350}
+          sansCadre
+          note="Cinq verdicts autorisés, jamais d'autres : Exact · Exact, mais partiel · Trompeur · Faux · Invérifiable. Newsreader italique --ink, jamais de fond ni de couleur."
+        >
+          <div style="padding:0 16px">
+            <BlocVerdict
+              verdict="Trompeur"
+              explication="Un fait exact est associé à une finalité qui n'apparaît dans aucun document officiel."
+            />
+          </div>
+        </Specimen>
+        <Specimen
+          titre="5.3 · Bloc verdict — sans verdict (en instruction)"
+          largeur={350}
+          sansCadre
+          note="Le mot du verdict est remplacé par une phrase en Newsreader --mid. Jauge et date du prochain point obligatoires. Aucun chiffre-conséquence tant qu'il n'est pas établi."
+        >
+          <div style="padding:0 16px">
+            <BlocVerdict
+              explication="Deux pièces obtenues sur cinq demandées. Nous publierons une conclusion lorsque le texte de l'arrêté nous aura été communiqué."
+              jauge={{ obtenues: 2, total: 5, prochainPoint: '28.08' }}
+            />
+          </div>
+        </Specimen>
+        <Specimen titre="5.4 · Lignes de preuve" largeur={350}>
+          <LignePreuve
+            texte="La taxe de 1 % est instituée par l'art. 12 de la LFR 2025."
+            etabli
+            meta="Établi · Pièce [1] · Texte de loi"
+          />
+          <LignePreuve
+            texte="Un lien entre le produit de la taxe et le prix du carburant."
+            etabli={false}
+            meta="Non établi · 2 demandes sans réponse"
+            derniere
+          />
+        </Specimen>
+        <Specimen
+          titre="5.5 · Module conséquences — encart"
+          largeur={350}
+          note="Bordure 1px --ink. Ordre imposé : étiquette + sélecteur, chiffre ocre + qualification, filet, hypothèse ou profil actif. Un seul chiffre ocre par module. L'hypothèse est inséparable du chiffre."
+        >
+          <ModuleConsequences
+            profil="Choisir"
+            chiffre={F('+250 F')}
+            qualification={`par plein de ${F('25 000 F')}\nréglé en espèces`}
+            note="Profil actif : "
+            noteAccent="automobiliste. 0 F par Wave ou par carte."
+          />
+        </Specimen>
+        <Specimen titre="5.6 · Module conséquences — hypothèse mono" largeur={350}>
+          <ModuleConsequences
+            profil="Taxi"
+            chiffre={F('78 000 F')}
+            qualification={'sur une année,\nen payant en espèces'}
+            hypothese={`Hypothèse : ${F('30 000 F')}/semaine · 52 semaines`}
+          />
+        </Specimen>
+        <Specimen
+          titre="5.7 · Citation : affirmation + texte officiel"
+          largeur={350}
+          note="Affirmation : italique, filet gauche 2px ocre, sans fond. Texte officiel : droit, fond --paper-2, filet gauche 2px --ink, cote mono obligatoire."
+        >
+          <CitationAffirmation
+            texte="La taxe de 1 % a été créée pour maintenir le prix du carburant."
+            provenance="Facebook · 18 août · 12 400 partages"
+          />
+          <div style="margin-top:16px">
+            <CitationOfficielle
+              texte="Il est institué un prélèvement de 1 % sur les paiements en espèces effectués auprès des distributeurs d'hydrocarbures…"
+              cote="LFR 2025 · Art. 12 al. 1 · P. 14"
+              action="Ouvrir"
+              href="#"
+            />
+          </div>
+        </Specimen>
+        <Specimen titre="5.8 · Carte dossier — verdict + chiffre" largeur={350}>
+          <CarteDossier
+            numero="040"
+            rubrique="Énergie"
+            titre="Sénélec a-t-elle baissé le tarif de la tranche sociale ?"
+            verdict="Exact, mais partiel"
+            chiffre={{ valeur: '1 sur 3', qualification: 'ménages concernés par la baisse' }}
+            href="#"
+          />
+        </Specimen>
+        <Specimen titre="5.9 · Carte dossier — en instruction" largeur={350}>
+          <CarteDossier
+            numero="042"
+            rubrique="Éducation"
+            titre="L'État a-t-il versé la totalité des bourses du second semestre ?"
+            jauge={{ obtenues: 2, total: 5 }}
+            href="#"
+          />
+        </Specimen>
+        <Specimen
+          titre="5.10 · Encart d'explication"
+          largeur={350}
+          sansCadre
+          note="Remplace tout module absent. Jamais de zone vide, jamais de « à venir »."
+        >
+          <EncartNote
+            label="Pourquoi pas de chiffre ici"
+            texte="Le module « ce que ça change » n'apparaît qu'une fois les montants établis par une pièce. Nous ne publions pas d'estimation."
+          />
+        </Specimen>
+        <Specimen titre="5.11 · Rail des pièces" largeur={350}>
+          <span class="typo-label">Ce que nous avons obtenu · ce qui manque</span>
+          <div style="margin-top:12px">
+            <RailPiece titre="Loi de finances rectificative 2025, art. 12" meta="Obtenu 19.08 · PDF 48 p." obtenue />
+            <RailPiece titre="Réponse écrite de la DGID" meta="Obtenue 21.08 · 2 p." obtenue />
+            <RailPiece
+              titre="Note interne, ministère du Commerce"
+              meta="Demandée 04.08 · Sans réponse"
+              obtenue={false}
+              derniere
+            />
+          </div>
+        </Specimen>
+        <Specimen titre="5.12 · Bandeau inversé" largeur={350} sansCadre>
+          <BandeauInverse texte="Une information à faire vérifier ?" action="Déposer →" href="#" />
+        </Specimen>
+      </div>
+    </section>
+
+    <!-- ====== 6 · STRUCTURE ====== -->
+    <section class="sec" id="structure">
+      <div class="sec-titre"><span class="sec-num">§6</span><span class="sec-nom">Structure</span></div>
+      <div class="ds-rangee">
+        <Specimen
+          titre="6.1 · En-tête"
+          largeur={800}
+          sansCadre
+          note="Quatre entrées maximum : Vérifications, Pièces, Ce que ça change, Méthode. Pas de menu déroulant, pas de recherche en tête sur mobile — Méthode apparaît à partir du desktop, conformément aux gabarits §5.1/§6.1."
+        >
+          <div style="border:1px solid var(--ss-rule)">
+            <EnTete courante="verifications" meta="Sam. 22 août" />
+          </div>
+        </Specimen>
+      </div>
+    </section>
+
+    <!-- ====== 7 · ÉTATS D'INTERACTION ====== -->
+    <section class="sec" id="etats">
+      <div class="sec-titre"><span class="sec-num">§7</span><span class="sec-nom">États d'interaction</span></div>
+      <div class="ds-rangee">
+        <Specimen
+          titre="7.1 · Survol"
+          largeur={350}
+          note="Titre-lien : soulignement 1px ocre à 2px de la ligne de base, aucun changement de couleur."
+        >
+          <h3 class="typo-titre">
+            <a class="lien-titre lien-titre--force" href="#"
+              >Sénélec a-t-elle baissé le tarif de la tranche sociale ?</a
+            >
+          </h3>
+        </Specimen>
+        <Specimen
+          titre="7.2 · Focus clavier"
+          largeur={350}
+          note="Contour 2px --ink, décalage 2px, jamais de halo. (Rendu forcé ci-dessous.)"
+        >
+          <span class="focus-force">
+            <Bouton variante="contour">Définir mon profil</Bouton>
+          </span>
+        </Specimen>
+        <Specimen
+          titre="7.3 · Chargement"
+          largeur={350}
+          note="Filets et étiquettes affichés, contenus remplacés par des blocs --rule de la hauteur du texte. Aucune pulsation."
+        >
+          <span class="typo-label">Verdict</span>
+          <div style="margin-top:10px;display:flex;flex-direction:column;gap:8px">
+            <span class="chargement typo-verdict" style="align-self:flex-start">Trompeur</span>
+            <span class="chargement typo-corps" style="align-self:stretch"
+              >Un fait exact est associé à une finalité qui n'apparaît dans aucun document.</span
+            >
+          </div>
+        </Specimen>
+      </div>
+    </section>
+
+    <!-- ====== 8 · CAS LIMITES ====== -->
+    <section class="sec" id="cas-limites">
+      <div class="sec-titre"><span class="sec-num">§8</span><span class="sec-nom">Cas limites</span></div>
+      <div class="ds-rangee">
+        <Specimen
+          titre="8.1 · Titre exceptionnellement long (>140 car. — hors règle, doit tenir)"
+          largeur={350}
+        >
+          <EnTeteDossier
+            numero="043"
+            rubrique="Banques · UEMOA"
+            titre={titreTresLong}
+            tailleTitre="titre"
+            niveau={3}
+          />
+        </Specimen>
+        <Specimen titre="8.2 · Très grand chiffre" largeur={350} note="Espaces fines insécables : le nombre ne se coupe jamais en fin de ligne. Le chiffre passe à la ligne entier si nécessaire.">
+          <ModuleConsequences
+            profil="Transporteur"
+            chiffre={F('4 512 000 000 F')}
+            qualification={'de recettes attendues\nsur l’exercice 2026'}
+            hypothese={`Hypothèse : ${F('376 000 000 F')}/mois · 12 mois`}
+          />
+        </Specimen>
+        <Specimen titre="8.3 · Verdict au mot le plus long" largeur={350} sansCadre>
+          <div style="padding:0 16px">
+            <BlocVerdict
+              verdict="Exact, mais partiel"
+              explication="La baisse est réelle pour la tranche sociale ; elle ne concerne qu'un ménage sur trois."
+            />
+          </div>
+        </Specimen>
+        <Specimen titre="8.4 · Collecte à zéro pièce" largeur={350} sansCadre>
+          <div style="padding:0 16px">
+            <BlocVerdict
+              explication="Dossier ouvert ce matin. Trois demandes d'accès envoyées ; aucune pièce reçue à ce stade."
+              jauge={{ obtenues: 0, total: 3, prochainPoint: '05.09' }}
+            />
+          </div>
+        </Specimen>
+        <Specimen titre="8.5 · Document manquant dans le rail" largeur={350}>
+          <span class="typo-label">Ce que nous avons obtenu · ce qui manque</span>
+          <div style="margin-top:12px">
+            <RailPiece
+              titre="État de paiement par université"
+              meta="Demandé le 12.08 · Relance envoyée le 19.08 · Sans réponse"
+              obtenue={false}
+              derniere
+            />
+          </div>
+        </Specimen>
+        <Specimen
+          titre="8.6 · Nom insécable très long"
+          largeur={350}
+          note="Un intitulé d'institution sans espaces ne provoque jamais de défilement horizontal."
+        >
+          <p class="typo-corps" style="overflow-wrap:anywhere">
+            Direction-Générale-des-Impôts-et-des-Domaines-du-Sénégal/Sous-direction-du-recouvrement
+          </p>
+        </Specimen>
+      </div>
+    </section>
+
+    <!-- ====== PIED ====== -->
+    <div class="ds-pied">
+      <span class="typo-meta">SeneSource · design system V0 · page interne, non indexée</span>
+    </div>
+  </div>
+</Base>
+
+<style>
+  .page {
+    background: var(--ss-paper);
+    min-height: 100vh;
+  }
+  .ds-tete {
+    padding: 32px 20px 26px;
+    border-bottom: 1px solid var(--ss-ink);
+  }
+  .ds-tete-ligne {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .ds-marque {
+    font: 500 21px/1 var(--ss-font-serif);
+    letter-spacing: -0.01em;
+  }
+  .ds-marque-accent {
+    color: var(--ss-ochre);
+  }
+  .ds-code {
+    font: 400 0.85em/1 var(--ss-font-mono);
+    color: var(--ss-mid);
+  }
+  .sec {
+    padding: 34px 20px 32px;
+    border-bottom: 1px solid var(--ss-rule);
+  }
+  .sec-titre {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 6px;
+  }
+  .sec-num {
+    font: 500 10px/1 var(--ss-font-mono);
+    letter-spacing: 0.14em;
+    color: var(--ss-ochre);
+  }
+  .sec-nom {
+    font: 400 24px/1.1 var(--ss-font-serif);
+  }
+  .sec > .typo-corps-2 {
+    margin-bottom: 22px;
+  }
+  .ds-rangee {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 22px 20px;
+    align-items: flex-start;
+  }
+  /* Nuancier */
+  .nuancier {
+    max-width: 640px;
+  }
+  .nuance {
+    display: grid;
+    grid-template-columns: 34px 130px 78px 1fr;
+    gap: 12px;
+    align-items: center;
+    padding: 9px 0;
+    border-top: 1px solid var(--ss-rule);
+  }
+  .nuance:last-child {
+    border-bottom: 1px solid var(--ss-rule);
+  }
+  .nuance-puce {
+    width: 26px;
+    height: 26px;
+  }
+  .nuance-jeton,
+  .nuance-hex {
+    font: 400 11.5px/1.4 var(--ss-font-mono);
+    color: var(--ss-ink);
+  }
+  .nuance-hex {
+    color: var(--ss-mid);
+  }
+  .nuance-usage {
+    font: 400 12.5px/1.5 var(--ss-font-sans);
+    color: var(--ss-ink-80);
+  }
+  .nuance-contraste {
+    color: var(--ss-mid);
+  }
+  @media (max-width: 639px) {
+    .nuance {
+      grid-template-columns: 34px 1fr;
+    }
+    .nuance-hex,
+    .nuance-usage {
+      grid-column: 2;
+    }
+  }
+  /* Échelle typo */
+  .echelle {
+    max-width: 820px;
+  }
+  .echelle-ligne {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 8px;
+    padding: 12px 0;
+    border-top: 1px solid var(--ss-rule);
+    align-items: baseline;
+  }
+  .echelle-ligne:last-child {
+    border-bottom: 1px solid var(--ss-rule);
+  }
+  .echelle-spec {
+    font: 400 11.5px/1.5 var(--ss-font-mono);
+    color: var(--ss-mid);
+  }
+  @media (min-width: 1024px) {
+    .echelle-ligne {
+      grid-template-columns: 1fr 280px;
+      gap: 20px;
+    }
+  }
+  /* Pile d'espacement */
+  .pile {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .pile-ligne {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .pile-barre {
+    height: 8px;
+    background: var(--ss-ink);
+  }
+  /* Grille démo */
+  .grille-demo {
+    display: grid;
+    grid-template-columns: 1fr 120px;
+    border: 1px solid var(--ss-ink);
+    height: 110px;
+  }
+  .grille-principale {
+    border-right: 1px solid var(--ss-rule);
+    padding: 10px;
+  }
+  .grille-rail {
+    padding: 10px;
+  }
+  /* États forcés pour la revue */
+  .lien-titre--force {
+    text-decoration: underline;
+    text-decoration-color: var(--ss-ochre);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 2px;
+  }
+  .focus-force :global(.bouton) {
+    outline: 2px solid var(--ss-ink);
+    outline-offset: 2px;
+  }
+  .ds-pied {
+    padding: 22px 20px 40px;
+  }
+  @media (min-width: 1024px) {
+    .ds-tete {
+      padding: 44px 48px 32px;
+    }
+    .sec {
+      padding: 44px 48px 40px;
+    }
+    .ds-pied {
+      padding: 26px 48px 48px;
+    }
+  }
+</style>

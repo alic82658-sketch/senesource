@@ -1,0 +1,50 @@
+---
+/**
+ * Encart --paper-2 (§5.3, §5.4, §5.5, §7) : « pourquoi pas de chiffre »,
+ * « ce qui ne change pas », « notre engagement », « votre profil ».
+ * Remplace tout module absent : jamais de zone vide, jamais de « à venir ».
+ * Le texte est en Newsreader (14.5/1.5) ou Public Sans selon les gabarits :
+ * serif pour l'engagement éditorial, sans pour l'information factuelle.
+ */
+interface Props {
+  label: string;
+  texte: string;
+  famille?: 'serif' | 'sans';
+}
+const { label, texte, famille = 'serif' } = Astro.props;
+---
+
+<div class="encart">
+  <span class="encart-label">{label}</span>
+  <p class:list={['encart-texte', `encart-texte--${famille}`]}>{texte}</p>
+</div>
+
+<style>
+  .encart {
+    padding: 14px;
+    background: var(--ss-paper-2);
+  }
+  .encart-label {
+    font: 400 9.5px/1.3 var(--ss-font-mono);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ss-mid);
+  }
+  .encart-texte {
+    margin: 8px 0 0;
+    text-wrap: pretty;
+  }
+  .encart-texte--serif {
+    font: 400 14.5px/1.5 var(--ss-font-serif);
+    color: var(--ss-ink);
+  }
+  .encart-texte--sans {
+    font: 400 14px/1.55 var(--ss-font-sans);
+    color: var(--ss-ink);
+  }
+  @media (min-width: 1024px) {
+    .encart {
+      padding: 18px 20px;
+    }
+  }
+</style>

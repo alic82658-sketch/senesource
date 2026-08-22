@@ -1,0 +1,58 @@
+---
+/**
+ * Cadre de présentation d'un spécimen sur /design-system.
+ * Reprend la convention du handoff : légende mono + cadre 1px.
+ * Ce composant n'appartient PAS au design system public — il ne stylise
+ * jamais les spécimens eux-mêmes.
+ */
+interface Props {
+  titre: string;
+  note?: string;
+  largeur?: number; // largeur du cadre en px (350 par défaut, comme le handoff)
+  sansCadre?: boolean;
+  fond?: 'paper' | 'ink';
+}
+const { titre, note, largeur = 350, sansCadre = false, fond = 'paper' } = Astro.props;
+---
+
+<figure class="specimen" style={`max-width:${largeur}px`}>
+  <figcaption class="specimen-titre">{titre}</figcaption>
+  <div
+    class:list={['specimen-cadre', { 'specimen-cadre--nu': sansCadre, 'specimen-cadre--ink': fond === 'ink' }]}
+  >
+    <slot />
+  </div>
+  {note && <p class="specimen-note">{note}</p>}
+</figure>
+
+<style>
+  .specimen {
+    margin: 0;
+    width: 100%;
+  }
+  .specimen-titre {
+    font: 500 10px/1 var(--ss-font-mono);
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--ss-mid);
+    margin-bottom: 7px;
+  }
+  .specimen-cadre {
+    border: 1px solid var(--ss-rule);
+    padding: 16px;
+    background: var(--ss-paper);
+    overflow-x: auto;
+  }
+  .specimen-cadre--nu {
+    padding: 0;
+  }
+  .specimen-cadre--ink {
+    background: var(--ss-ink);
+  }
+  .specimen-note {
+    margin: 8px 0 0;
+    font: 400 11.5px/1.6 var(--ss-font-sans);
+    color: var(--ss-ink-60);
+    text-wrap: pretty;
+  }
+</style>

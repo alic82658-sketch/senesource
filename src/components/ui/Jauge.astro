@@ -1,0 +1,57 @@
+---
+/**
+ * Jauge de pièces (§4.3) : une barre par pièce, 14–20 × 6px, gap 3px.
+ * Pleine = obtenue, contour --hollow = manquante.
+ * C'est un JOURNAL DE COLLECTE, jamais un score de vérité (§7 du brief) :
+ * le libellé mono accolé est obligatoire et toujours en toutes lettres.
+ */
+interface Props {
+  obtenues: number;
+  total: number;
+  libelle?: string; // ex. « 4 / 6 », « 2 / 5 · PROCHAIN POINT LE 28.08 »
+  largeurBarre?: number; // 14 à 20 px selon le contexte (§4.3)
+}
+const { obtenues, total, libelle, largeurBarre = 14 } = Astro.props;
+const texte = libelle ?? `${obtenues} / ${total}`;
+---
+
+<span class="jauge" role="img" aria-label={`Pièces : ${obtenues} obtenues sur ${total}`}>
+  <span class="jauge-barres" aria-hidden="true">
+    {
+      Array.from({ length: total }, (_, i) => (
+        <i
+          class:list={['barre', i < obtenues ? 'barre--pleine' : 'barre--vide']}
+          style={`width:${largeurBarre}px`}
+        />
+      ))
+    }
+  </span>
+  <span class="jauge-libelle">{texte}</span>
+</span>
+
+<style>
+  .jauge {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .jauge-barres {
+    display: flex;
+    gap: 3px;
+  }
+  .barre {
+    height: 6px;
+    box-sizing: border-box;
+  }
+  .barre--pleine {
+    background: var(--ss-ink);
+  }
+  .barre--vide {
+    border: 1px solid var(--ss-hollow);
+  }
+  .jauge-libelle {
+    font: 400 9.5px/1 var(--ss-font-mono);
+    text-transform: uppercase;
+    color: var(--ss-mid);
+  }
+</style>

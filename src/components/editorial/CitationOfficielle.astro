@@ -1,0 +1,76 @@
+---
+/**
+ * Le texte officiel (§4.7) : droit (jamais italique), fond --paper-2,
+ * filet gauche 2px --ink, cote mono OBLIGATOIRE (texte, article,
+ * alinéa, page) avec action en ocre.
+ */
+interface Props {
+  texte: string; // sans guillemets — posés par le composant
+  cote: string; // « LFR 2025 · ART. 12 AL. 1 · P. 14 »
+  action?: string; // « OUVRIR », « OUVRIR LE DOCUMENT → »
+  href?: string;
+}
+const { texte, cote, action, href } = Astro.props;
+---
+
+<div class="officielle">
+  <p class="officielle-texte">«&nbsp;{texte}&nbsp;»</p>
+  <span class="officielle-cote">
+    {cote}{
+      action && (
+        <>
+          {' '}
+          ·{' '}
+          {href ? (
+            <a class="officielle-action" href={href}>
+              {action}
+            </a>
+          ) : (
+            <span class="officielle-action">{action}</span>
+          )}
+        </>
+      )
+    }
+  </span>
+</div>
+
+<style>
+  .officielle {
+    padding: 14px;
+    background: var(--ss-paper-2);
+    border-left: 2px solid var(--ss-ink);
+  }
+  .officielle-texte {
+    margin: 0 0 8px;
+    font: 400 14.5px/1.55 var(--ss-font-serif);
+    color: var(--ss-ink);
+    text-wrap: pretty;
+  }
+  .officielle-cote {
+    font: 400 9.5px/1.4 var(--ss-font-mono);
+    text-transform: uppercase;
+    color: var(--ss-mid);
+  }
+  /* ÉCART-001 (documenté dans docs/architecture/06-rapport-v0.md) :
+     le handoff (§4.7) met l'action en ocre plein sur --paper-2, soit un
+     contraste de 4,22:1 < 4,5:1 (WCAG AA, texte 9.5px). Règle du brief :
+     accessibilité > fidélité. Solution minimale : texte --ink, le signal
+     ocre est conservé par le soulignement (décoratif). À arbitrer. */
+  .officielle-action {
+    color: var(--ss-ink);
+    text-decoration: underline;
+    text-decoration-color: var(--ss-ochre);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 2px;
+  }
+  @media (min-width: 1024px) {
+    .officielle {
+      padding: 18px 20px;
+    }
+    .officielle-texte {
+      margin-bottom: 10px;
+      font-size: 17px;
+      line-height: 1.6;
+    }
+  }
+</style>

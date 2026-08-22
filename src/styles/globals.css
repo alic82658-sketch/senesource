@@ -1,0 +1,250 @@
+/* ============================================================
+   SeneSource — feuille globale
+   Tailwind v4 : défauts PURGÉS, seuls les jetons SeneSource existent.
+   `rounded-*`, `shadow-*`, `text-red-500`… sont des classes inexistantes.
+   ============================================================ */
+
+@import 'tailwindcss';
+@import './fonts.css';
+@import './tokens.css';
+
+@theme {
+  /* 1 — Purge des défauts Tailwind */
+  --color-*: initial;
+  --font-*: initial;
+  --text-*: initial;
+  --font-weight-*: initial;
+  --tracking-*: initial;
+  --leading-*: initial;
+  --radius-*: initial;
+  --shadow-*: initial;
+  --inset-shadow-*: initial;
+  --drop-shadow-*: initial;
+  --text-shadow-*: initial;
+  --blur-*: initial;
+  --animate-*: initial;
+  --ease-*: initial;
+  --breakpoint-*: initial;
+  --container-*: initial;
+
+  /* 2 — Injection SeneSource */
+  --color-paper: var(--ss-paper);
+  --color-paper-2: var(--ss-paper-2);
+  --color-ink: var(--ss-ink);
+  --color-ink-90: var(--ss-ink-90);
+  --color-ink-80: var(--ss-ink-80);
+  --color-ink-70: var(--ss-ink-70);
+  --color-ink-60: var(--ss-ink-60);
+  --color-mid: var(--ss-mid);
+  --color-hollow: var(--ss-hollow);
+  --color-rule: var(--ss-rule);
+  --color-ochre: var(--ss-ochre);
+  --color-ochre-inv: var(--ss-ochre-inv);
+  --color-highlight: var(--ss-highlight);
+  --color-puce-bord: var(--ss-puce-bord);
+  --color-inv-filet: var(--ss-inv-filet);
+  --color-inv-label: var(--ss-inv-label);
+  --color-inv-texte: var(--ss-inv-texte);
+  --color-inv-note: var(--ss-inv-note);
+
+  --font-serif: var(--ss-font-serif);
+  --font-sans: var(--ss-font-sans);
+  --font-mono: var(--ss-font-mono);
+
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+
+  /* Espacement : base 2px, pas usuel 4px (§3) → p-10 = 20px */
+  --spacing: 2px;
+
+  /* Breakpoints du handoff (§3) : <640 / 640–1023 / ≥1024 / ≥1440 */
+  --breakpoint-sm: 640px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1440px;
+}
+
+/* ============================================================
+   Base
+   ============================================================ */
+@layer base {
+  html {
+    background: var(--ss-paper);
+    color: var(--ss-ink);
+    font-family: var(--ss-font-sans);
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    margin: 0;
+    background: var(--ss-paper);
+  }
+  /* Focus clavier (§4.9) : contour 2px --ink, décalage 2px, jamais de halo */
+  :focus-visible {
+    outline: 2px solid var(--ss-ink);
+    outline-offset: 2px;
+    border-radius: 0;
+  }
+  ::selection {
+    background: var(--ss-highlight);
+  }
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+  /* Transitions (§4.9) : 120ms linéaire, opacité et couleur de bordure
+     uniquement. Aucun déplacement, aucun agrandissement. */
+  a,
+  button {
+    transition:
+      opacity var(--ss-transition),
+      border-color var(--ss-transition),
+      color var(--ss-transition);
+  }
+  h1,
+  h2,
+  h3,
+  p {
+    margin: 0;
+    text-wrap: pretty; /* §2 règles : toujours text-wrap:pretty */
+  }
+  strong {
+    font-weight: 500;
+  }
+}
+
+/* ============================================================
+   Échelle typographique (§2) — classes nommées par jeton.
+   Chaque classe = famille + taille + interligne + interlettrage exacts.
+   ============================================================ */
+@layer components {
+  /* display : 29/1.14 −0.015em mobile · 54/1.06 −0.02em ≥1024 (§2, §3) */
+  .typo-display {
+    font: 400 29px/1.14 var(--ss-font-serif);
+    letter-spacing: -0.015em;
+    text-wrap: pretty;
+  }
+  @media (min-width: 1024px) {
+    .typo-display {
+      font-size: 54px;
+      line-height: 1.06;
+      letter-spacing: -0.02em;
+      max-width: var(--ss-titre-max);
+    }
+  }
+
+  /* title-1 : 21/1.2 mobile (§5.1) · 23/1.16 desktop (§2) · −0.01em */
+  .typo-titre {
+    font: 400 21px/1.2 var(--ss-font-serif);
+    letter-spacing: -0.01em;
+    text-wrap: pretty;
+  }
+  @media (min-width: 1024px) {
+    .typo-titre {
+      font-size: 23px;
+      line-height: 1.16;
+    }
+  }
+
+  /* quote : Newsreader 400 italique · 19/1.35 · 0 (§2) */
+  .typo-citation {
+    font: 400 19px/1.35 var(--ss-font-serif);
+    font-style: italic;
+    text-wrap: pretty;
+  }
+  /* variante grande — affirmation en page vérification desktop (§6.2) */
+  @media (min-width: 1024px) {
+    .typo-citation-grande {
+      font-size: 26px;
+      line-height: 1.4;
+      max-width: 24ch;
+    }
+  }
+
+  /* verdict : Newsreader 400 italique · 28/1 mobile · 24/1 desktop (§2) */
+  .typo-verdict {
+    font: 400 28px/1 var(--ss-font-serif);
+    font-style: italic;
+  }
+  @media (min-width: 1024px) {
+    .typo-verdict {
+      font-size: 24px;
+    }
+  }
+  /* variante grande — page vérification desktop (§6.2) */
+  @media (min-width: 1024px) {
+    .typo-verdict-grand {
+      font-size: 34px;
+    }
+  }
+
+  /* figure : Newsreader 400 ocre · 42/0.88 encart · 52/0.9 page (§2) */
+  .typo-chiffre {
+    font: 400 42px/0.88 var(--ss-font-serif);
+    color: var(--ss-ochre);
+  }
+  .typo-chiffre-page {
+    font: 400 52px/0.9 var(--ss-font-serif);
+    color: var(--ss-ochre);
+  }
+
+  /* body-1 : Public Sans 400 · 15.5/1.62 mobile · 16.5/1.65 desktop (§2) */
+  .typo-corps {
+    font: 400 15.5px/1.62 var(--ss-font-sans);
+    color: var(--ss-ink-80);
+    max-width: var(--ss-corps-max);
+    text-wrap: pretty;
+  }
+  @media (min-width: 1024px) {
+    .typo-corps {
+      font-size: 16.5px;
+      line-height: 1.65;
+    }
+  }
+
+  /* body-2 : Public Sans 400 · 13.5/1.55 · --ink-60 (§2) */
+  .typo-corps-2 {
+    font: 400 13.5px/1.55 var(--ss-font-sans);
+    color: var(--ss-ink-60);
+    text-wrap: pretty;
+  }
+
+  /* label : IBM Plex Mono 500 · 10/1 · +0.09em · capitales (§2) */
+  .typo-label {
+    font: 500 10px/1 var(--ss-font-mono);
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--ss-mid);
+  }
+
+  /* meta : IBM Plex Mono 400 · 9.5/1.5 · +0.06em (§2) */
+  .typo-meta {
+    font: 400 9.5px/1.5 var(--ss-font-mono);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ss-mid);
+  }
+
+  /* Filets (§3) : 1px --ink entre deux niveaux, 1px --rule au même niveau */
+  .filet-fort {
+    border-top: 1px solid var(--ss-ink);
+  }
+  .filet-fin {
+    border-top: 1px solid var(--ss-rule);
+  }
+
+  /* Survol d'un titre-lien (§4.9) : soulignement 1px ocre à 2px de la
+     ligne de base, aucun changement de couleur. */
+  .lien-titre:hover {
+    text-decoration: underline;
+    text-decoration-color: var(--ss-ochre);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 2px;
+  }
+
+  /* Chargement (§4.9) : blocs --rule de la hauteur du texte, aucune pulsation */
+  .chargement {
+    background: var(--ss-rule);
+    color: transparent;
+    user-select: none;
+  }
+}

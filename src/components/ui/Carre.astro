@@ -1,0 +1,36 @@
+---
+/**
+ * Le carré (§4.3) — seul « pictogramme » du système avec → ← ▾ ✕.
+ * Plein --ink = établi / obtenu. Contour 1px --hollow = manquant.
+ * Le statut n'est JAMAIS porté par la seule forme : le mot est
+ * toujours écrit à côté (§7, accessibilité) — le carré est décoratif.
+ */
+interface Props {
+  etat: 'plein' | 'vide';
+  taille?: 7 | 8;
+  decale?: boolean; // margin-top 6px pour l'alignement en tête de ligne
+}
+const { etat, taille = 8, decale = false } = Astro.props;
+---
+
+<i
+  class:list={['carre', `carre--${etat}`, { 'carre--decale': decale }]}
+  style={`width:${taille}px;height:${taille}px`}
+  aria-hidden="true"></i>
+
+<style>
+  .carre {
+    display: inline-block;
+    flex: none;
+    box-sizing: border-box;
+  }
+  .carre--plein {
+    background: var(--ss-ink);
+  }
+  .carre--vide {
+    border: 1px solid var(--ss-hollow);
+  }
+  .carre--decale {
+    margin-top: 6px;
+  }
+</style>

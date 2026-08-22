@@ -1,0 +1,78 @@
+---
+/**
+ * Étiquette de dossier + titre-question (§4.6).
+ * Le numéro de dossier est le seul élément ocre de l'en-tête.
+ * Un titre de dossier est TOUJOURS une question, ≤ 140 caractères (§7).
+ * Un dossier sans verdict affiche EN INSTRUCTION à droite de la rubrique.
+ */
+interface Props {
+  numero: string; // « 041 »
+  rubrique: string; // « FISCALITÉ · CARBURANT »
+  enInstruction?: boolean;
+  titre: string;
+  niveau?: 1 | 2 | 3;
+  tailleTitre?: 'display' | 'titre';
+  href?: string;
+}
+const {
+  numero,
+  rubrique,
+  enInstruction = false,
+  titre,
+  niveau = 2,
+  tailleTitre = 'display',
+  href,
+} = Astro.props;
+const H = `h${niveau}` as 'h1' | 'h2' | 'h3';
+const classeTitre = tailleTitre === 'display' ? 'typo-display' : 'typo-titre';
+---
+
+<div>
+  <div class="etiquette">
+    <span class="etiquette-numero">Dossier {numero}</span>
+    <span class="etiquette-rubrique">{rubrique}{enInstruction && ' · En instruction'}</span>
+  </div>
+  {
+    href ? (
+      <H class={classeTitre}>
+        <a class="lien-titre" href={href}>
+          {titre}
+        </a>
+      </H>
+    ) : (
+      <H class={classeTitre}>{titre}</H>
+    )
+  }
+</div>
+
+<style>
+  .etiquette {
+    display: flex;
+    gap: 10px;
+    align-items: baseline;
+    margin-bottom: 10px;
+  }
+  .etiquette-numero {
+    font: 600 10px/1 var(--ss-font-mono);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ss-ochre);
+    white-space: nowrap;
+  }
+  .etiquette-rubrique {
+    font: 400 10px/1 var(--ss-font-mono);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ss-mid);
+  }
+  @media (min-width: 1024px) {
+    .etiquette {
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .etiquette-numero,
+    .etiquette-rubrique {
+      font-size: 11px;
+    }
+  }
+</style>
