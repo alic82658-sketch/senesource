@@ -1,11 +1,15 @@
 # SeneSource — Frontend éditorial & CMS (Agents D et E)
 
-> Phase d'analyse pré-V0. Note d'arbitrage (Agent A) : les types de fixtures proposés en
-> D.2 ont été **alignés sur le modèle de données de l'Agent B** (voir
-> `02-modele-de-donnees.md` et la synthèse `00-synthese.md`) : un dossier porte UNE
-> affirmation principale et un verdict nullable ; « en_instruction » est un statut de
-> dossier, pas un verdict ; « corrigé / mis à jour » sont dérivés de `dossier_updates`.
-> Le reste du rapport s'applique tel quel.
+> **⚠️ STATUT RÉVISÉ (2026-08-22, corrections du propriétaire)** : la stack V1 est
+> désormais **Astro + MDX + Cloudflare Pages, sans Supabase et sans CMS custom** — la
+> section E (admin `/admin`) est **entièrement différée** et ne sera étudiée que lorsque
+> le volume éditorial le justifiera. Restent valides et repris dans la synthèse v2 :
+> l'arborescence des routes publiques et les URLs stables par numéro (D.1), le principe
+> d'une couche d'accès aux données unique (D.2, désormais `src/lib/contenu.ts` sur
+> Content Collections), le plan SEO/ClaimReview (D.3 — ClaimReview limité aux dossiers
+> `type: verification` avec verdict), le budget JS (D.4, durci : 0 Ko avec Astro) et les
+> états par gabarit (D.5). Le modèle multi-type des dossiers remplace « un dossier = une
+> affirmation » : voir `05-contenu-mdx.md`.
 
 ---
 

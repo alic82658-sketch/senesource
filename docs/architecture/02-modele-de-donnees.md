@@ -1,8 +1,18 @@
 # SeneSource — Modèle de données (Agent B, Data Architect)
 
+> **⚠️ STATUT RÉVISÉ (2026-08-22, corrections du propriétaire)** : la V1 est désormais
+> **statique (Astro + MDX), sans base de données ni Supabase**. Ce document est conservé
+> comme **référence pour la phase base/CMS différée**, qui ne démarrera que sur besoin
+> réel avéré. Le modèle opérationnel V1 est `05-contenu-mdx.md`, qui en reprend les
+> principes validés (verdict ≠ statut, pièces = journal jamais un score, mises à jour
+> publiques datées, taxonomie de verdicts éditable). **Amendement important** : la règle
+> « un dossier = une affirmation principale » (§1) n'est PAS validée comme modèle
+> général — le dossier est multi-type (`verification | impact | document | explication`)
+> et l'affirmation/le verdict sont optionnels. Toute future base devra refléter cela.
+
 > Phase d'analyse pré-V0. Aucune migration n'a été appliquée. Ce document challenge le
-> schéma proposé dans le brief et recommande un modèle V1. À valider avant toute
-> implémentation Supabase.
+> schéma proposé dans le brief et recommande un modèle pour une future phase base de
+> données.
 
 **Cible : Supabase/PostgreSQL · petite rédaction · publication rapide · pas de sur-ingénierie.**
 

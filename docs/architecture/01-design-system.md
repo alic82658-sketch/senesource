@@ -1,10 +1,19 @@
 # SeneSource — Design System : structure et demandes au handoff (Agent C)
 
-> Phase d'analyse pré-V0. Le handoff Claude Design étant introuvable, ce rapport ne fixe
-> **aucune valeur visuelle** (pas de hex, pas de px, pas de nom de police). Il fixe la
-> **structure** : nomenclature des tokens, branchement Tailwind v4, inventaire des
-> composants V0 avec leurs états, la page `/design-system`, et la checklist exhaustive
-> des valeurs à extraire du handoff avant la première ligne de CSS.
+> Phase d'analyse pré-V0. Le handoff Claude Design étant encore à fournir (attendu sous
+> `design/handoff/`), ce rapport ne fixe **aucune valeur visuelle** (pas de hex, pas de
+> px, pas de nom de police). Il fixe la **structure** : nomenclature des tokens,
+> branchement Tailwind v4, inventaire des composants V0 avec leurs états, la page
+> `/design-system`, et la checklist exhaustive des valeurs à extraire du handoff avant
+> la première ligne de CSS.
+>
+> **Note de révision (2026-08-22)** : la stack est désormais **Astro** (synthèse v2).
+> Tout ce document reste valide — le mécanisme Tailwind v4 `@theme` avec purge des
+> défauts est identique via `@tailwindcss/vite`, et les contrats de composants sont
+> agnostiques au framework : lire « composant `.astro` sans JS client » là où le texte
+> évoque React/RSC, `src/pages/design-system.astro` pour la page vitrine, et
+> « self-host WOFF2 + `@font-face` + preload + fallback métrique » comme équivalent de
+> la stratégie `next/font` (§5).
 
 ---
 
