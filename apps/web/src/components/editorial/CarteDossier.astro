@@ -1,77 +1,115 @@
 ---
 /**
- * Carte de dossier secondaire (§5.1 mobile, §6.1 desktop) :
- * étiquette + titre-question + verdict compact OU état d'instruction,
- * puis chiffre-clé (filet --rule au-dessus) ou jauge.
- * Un dossier n'est jamais listé « sans verdict ni jauge » (§7 homepage).
+ * Carte de dossier — grille éditoriale de la homepage.
+ *
+ * L'image (facultative) réutilise le MÊME champ `Illustration` du dossier
+ * (aucun second système d'image, aucune duplication de métadonnées) via
+ * ImageDossier, avec cadrage responsive par point focal. Sans image, la carte
+ * se recompose proprement en version texte — jamais de case grise, jamais de
+ * placeholder, jamais d'icône photo.
+ *
+ * Titre en Public Sans (contenu de carte) ; verdict en Newsreader ; méta en
+ * mono. Zéro ombre, zéro radius : ce sont les images qui donnent la couleur.
  */
-import Jauge from '../ui/Jauge.astro';
+import ImageDossier from './ImageDossier.astro';
 import type { Verdict } from './BlocVerdict.astro';
 
+interface Illu {
+  src?: string;
+  alt?: string;
+  focal?: { x: number; y: number };
+  largeur?: number;
+  hauteur?: number;
+}
 interface Props {
   numero: string;
   rubrique: string;
+  type?: string;
   titre: string;
   href?: string;
   verdict?: Verdict | null;
-  jauge?: { obtenues: number; total: number; libelle?: string };
-  chiffre?: { valeur: string; qualification: string };
+  statutLibelle?: string;
+  meta?: string;
+  illustration?: Illu;
 }
-const { numero, rubrique, titre, href, verdict = null, jauge, chiffre } = Astro.props;
+const {
+  numero,
+  rubrique,
+  type,
+  titre,
+  href,
+  verdict = null,
+  statutLibelle,
+  meta,
+  illustration,
+} = Astro.props;
+const surligne = type ? `${rubrique} · ${type}` : rubrique;
 ---
 
 <article class="carte">
-  <div class="carte-etiquette">
-    <span class="carte-numero">Dossier {numero}</span>
-    <span class="carte-rubrique">{rubrique}{!verdict && ' · En instruction'}</span>
-  </div>
-  <h2 class="carte-titre">
-    {href ? <a class="lien-titre" href={href}>{titre}</a> : titre}
-  </h2>
   {
-    verdict ? (
-      <div class="carte-verdict">
-        <span class="carte-verdict-label">Verdict</span>
-        <span class="carte-verdict-mot">{verdict}</span>
-      </div>
-    ) : (
-      jauge && (
-        <div class="carte-verdict carte-verdict--desktop">
-          <span class="carte-verdict-label">En instruction</span>
-          <span class="carte-instruction">
-            {jauge.obtenues} pièces sur {jauge.total}
-          </span>
-        </div>
-      )
-    )
-  }
-  {
-    chiffre && (
-      <div class="carte-pied">
-        <span class="carte-chiffre">{chiffre.valeur}</span>
-        <span class="carte-chiffre-qualif">{chiffre.qualification}</span>
-      </div>
-    )
-  }
-  {
-    !chiffre && jauge && (
-      <div class="carte-pied">
-        <Jauge
-          obtenues={jauge.obtenues}
-          total={jauge.total}
-          libelle={jauge.libelle ?? `${jauge.obtenues} / ${jauge.total} · Pas encore de verdict`}
+    illustration?.src && (
+      <a class="carte-media" href={href} tabindex="-1" aria-hidden="true">
+        <ImageDossier
+          src={illustration.src}
+          alt={illustration.alt}
+          focal={illustration.focal}
+          largeur={illustration.largeur}
+          hauteur={illustration.hauteur}
+          ratio="3 / 2"
         />
-      </div>
+      </a>
     )
   }
+  <div class="carte-corps">
+    <p class="carte-meta">
+      <span class="carte-numero">Dossier {numero}</span>
+      <span class="carte-rubrique">{surligne}</span>
+    </p>
+    <h3 class="carte-titre">
+      {href ? <a class="lien-titre" href={href}>{titre}</a> : titre}
+    </h3>
+    <div class="carte-bas">
+      {
+        verdict ? (
+          <span class="carte-verdict">
+            <span class="carte-verdict-label">Verdict</span>
+            <span class="carte-verdict-mot">{verdict}</span>
+          </span>
+        ) : (
+          statutLibelle && <span class="carte-statut">{statutLibelle}</span>
+        )
+      }
+      {meta && <span class="carte-piecemeta">{meta}</span>}
+    </div>
+  </div>
 </article>
 
 <style>
-  .carte-etiquette {
+  .carte {
     display: flex;
-    gap: 10px;
+    flex-direction: column;
+  }
+  .carte-media {
+    display: block;
+  }
+  .carte-media:hover {
+    opacity: 0.94;
+  }
+  .carte-corps {
+    padding-top: 12px;
+  }
+  /* Sans image, la carte reste structurée par un filet fin en tête. */
+  .carte:not(:has(.carte-media)) .carte-corps {
+    border-top: 1px solid var(--ss-ink);
+    padding-top: 12px;
+  }
+  .carte-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 10px;
     align-items: baseline;
-    margin-bottom: 8px;
+    margin: 0 0 8px;
   }
   .carte-numero {
     font: 600 10px/1 var(--ss-font-mono);
@@ -86,17 +124,27 @@ const { numero, rubrique, titre, href, verdict = null, jauge, chiffre } = Astro.
     text-transform: uppercase;
     color: var(--ss-mid);
   }
+  /* Titre de carte : Public Sans (contenu de carte), lisible et contemporain. */
   .carte-titre {
-    margin: 0 0 9px;
-    font: 400 21px/1.2 var(--ss-font-serif);
-    letter-spacing: -0.01em;
+    margin: 0 0 12px;
+    font: 600 18px/1.28 var(--ss-font-sans);
+    letter-spacing: -0.005em;
+    color: var(--ss-ink);
     text-wrap: pretty;
   }
-  .carte-verdict {
+  .carte-bas {
     display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 6px 12px;
+    padding-top: 10px;
+    border-top: 1px solid var(--ss-rule);
+  }
+  .carte-verdict {
+    display: inline-flex;
     align-items: baseline;
     gap: 8px;
-    margin-bottom: 10px;
   }
   .carte-verdict-label {
     font: 500 9px/1 var(--ss-font-mono);
@@ -106,52 +154,25 @@ const { numero, rubrique, titre, href, verdict = null, jauge, chiffre } = Astro.
     white-space: nowrap;
   }
   .carte-verdict-mot {
-    font: 400 14px/1 var(--ss-font-serif);
+    font: 400 16px/1 var(--ss-font-serif);
     font-style: italic;
     color: var(--ss-ink);
   }
-  .carte-instruction {
-    font: 400 14px/1 var(--ss-font-serif);
+  .carte-statut {
+    font: 400 15px/1 var(--ss-font-serif);
+    font-style: italic;
     color: var(--ss-mid);
   }
-  .carte-pied {
-    display: flex;
-    gap: 10px;
-    align-items: baseline;
-    padding-top: 10px;
-    border-top: 1px solid var(--ss-rule);
-  }
-  .carte-chiffre {
-    font: 400 26px/1 var(--ss-font-serif);
-    color: var(--ss-ochre);
-  }
-  .carte-chiffre-qualif {
-    font: 400 11.5px/1.4 var(--ss-font-sans);
+  .carte-piecemeta {
+    font: 400 9.5px/1.3 var(--ss-font-mono);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
     color: var(--ss-mid);
-  }
-  /* Carte en instruction : la ligne « En instruction · n pièces sur m »
-     n'apparaît qu'en desktop (§6.1) ; le libellé de la jauge, qu'en
-     mobile (§5.1). */
-  .carte-verdict--desktop {
-    display: none;
+    white-space: nowrap;
   }
   @media (min-width: 1024px) {
     .carte-titre {
-      margin-bottom: 10px;
-      font-size: 23px;
-      line-height: 1.16;
-    }
-    .carte-verdict-mot {
-      font-size: 15px;
-    }
-    .carte-chiffre {
-      font-size: 24px;
-    }
-    .carte-verdict--desktop {
-      display: flex;
-    }
-    .carte-pied :global(.jauge-libelle) {
-      display: none;
+      font-size: 19px;
     }
   }
 </style>

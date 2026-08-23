@@ -5,7 +5,7 @@ import CitationOfficielle from '../../components/editorial/CitationOfficielle.as
 import ModuleConsequences from '../../components/editorial/ModuleConsequences.astro';
 import LignePreuve from '../../components/editorial/LignePreuve.astro';
 import EncartNote from '../../components/editorial/EncartNote.astro';
-import IllustrationDossier from '../../components/editorial/IllustrationDossier.astro';
+import ImageDossier from '../../components/editorial/ImageDossier.astro';
 import Jauge from '../../components/ui/Jauge.astro';
 import Carre from '../../components/ui/Carre.astro';
 import PiedDeSite from '../../components/layout/PiedDeSite.astro';
@@ -31,67 +31,67 @@ const { dossier } = Astro.props;
 const d = dossier;
 const num = numeroAffiche(d.numero);
 const j = collecte(dossier);
-const rubriquePrincipale = d.rubrique.split('·')[0]!.trim();
 const preuvesMobiles = d.preuves.filter((p) => p.mobile);
 const etablies = d.preuves.filter((p) => p.etabli);
 const nonEtablies = d.preuves.filter((p) => !p.etabli);
 const consequence = d.consequenceDossier;
-// L'illustration principale est FACULTATIVE : présente, elle ouvre une vraie
-// colonne média dans le hero desktop ; absente, le layout se reconfigure
-// automatiquement en deux colonnes (contenu + sources), sans zone vide.
 const illustration = d.illustration;
-const avecImage = Boolean(illustration);
+const metaLigne = `Dossier ${num} · ${d.rubrique}`;
 const description = d.verdict
   ? `${d.affirmation?.texte ?? d.titre} — Verdict : ${d.verdict.mot}. ${d.resume ?? ''}`.trim()
   : `${d.titre} Dossier en instruction : ${j.obtenues} pièces obtenues sur ${j.total}.`;
 ---
 
 <Base titre={`Dossier ${num} — ${d.titre}`} description={description}>
-  <div class:list={['dossier', { 'dossier--avec-image': avecImage }]}>
-    <!-- Barre de retour (§5.2 / §6.2) -->
+  <article class="dossier">
+    <!-- Barre de navigation fine (retour + statut de collecte) -->
     <div class="barre">
-      <a class="barre-retour" href="/">← Dossier {num}<span class="barre-rubrique"> · {rubriquePrincipale}</span></a>
+      <a class="barre-retour" href="/">← Tous les dossiers</a>
       <span class="barre-meta">
-        <span class="barre-meta-mobile">
-          {d.version ? `v${d.version} · ${d.misAJourLe ? dateComplete(d.misAJourLe) : ''}` : d.ouvertLe ? `Ouvert le ${dateJourMois(d.ouvertLe)}` : ''}
-        </span>
-        <span class="barre-meta-desktop">
-          {
-            d.version
-              ? `Version ${d.version} · Mise à jour le ${d.misAJourLe ? dateComplete(d.misAJourLe) : ''} · ${j.total} pièces`
-              : d.ouvertLe
-                ? `Ouvert le ${dateJourMois(d.ouvertLe)} · ${j.total} pièces`
-                : `${j.total} pièces`
-          }
-        </span>
+        {
+          d.version
+            ? `Version ${d.version} · ${d.misAJourLe ? `Mise à jour le ${dateComplete(d.misAJourLe)}` : ''} · ${j.total} pièces`
+            : d.ouvertLe
+              ? `Ouvert le ${dateJourMois(d.ouvertLe)} · ${j.total} pièces`
+              : `${j.total} pièces`
+        }
       </span>
     </div>
 
-    <div class="corps">
-      <!-- ===== MÉDIA — illustration principale (hero desktop / haut mobile) ===== -->
-      {
-        illustration && (
-          <div class="dossier-media">
-            <IllustrationDossier
-              src={illustration.src}
-              alt={illustration.alt}
-              largeur={illustration.largeur}
-              hauteur={illustration.hauteur}
-              focal={illustration.focal}
-              legende={illustration.legende}
-              credit={illustration.credit}
-              sourceUrl={illustration.sourceUrl}
-              droits={illustration.droits}
-            />
-          </div>
-        )
-      }
+    <!-- A + B — métadonnées discrètes puis grand titre éditorial -->
+    <header class="tete">
+      <p class="tete-meta">{metaLigne}</p>
+      <h1 class="tete-titre">{d.titre}</h1>
+    </header>
 
-      <!-- ===== INTRO ÉDITORIALE — affirmation + verdict (hero, colonne gauche) ===== -->
-      <section class="dossier-intro">
+    <!-- C + D — grande illustration horizontale + légende/crédit/source -->
+    {
+      illustration && (
+        <div class="media">
+          <ImageDossier
+            src={illustration.src}
+            alt={illustration.alt}
+            largeur={illustration.largeur}
+            hauteur={illustration.hauteur}
+            focal={illustration.focal}
+            legende={illustration.legende}
+            credit={illustration.credit}
+            sourceUrl={illustration.sourceUrl}
+            droits={illustration.droits}
+            ratio="16 / 9"
+            avecLegende
+          />
+        </div>
+      )
+    }
+
+    <div class="corps">
+      <!-- ===== Colonne principale : E → H ===== -->
+      <div class="principal">
+        <!-- E — affirmation vérifiée + verdict -->
         {
           d.affirmation && (
-            <div class="affirmation">
+            <section class="affirmation">
               <span class="typo-label">
                 {d.verdict ? "L'affirmation vérifiée" : "L'affirmation en cours de vérification"}
               </span>
@@ -103,12 +103,11 @@ const description = d.verdict
                   grande
                 />
               </div>
-            </div>
+            </section>
           )
         }
 
-        <!-- Bloc verdict / en instruction (§4.1 / §4.2) -->
-        <div class="verdict">
+        <section class="verdict">
           {
             d.verdict ? (
               <>
@@ -116,19 +115,7 @@ const description = d.verdict
                   <span class="verdict-etiquette">Verdict</span>
                   <span class="typo-verdict typo-verdict-grand">{d.verdict.mot}</span>
                 </div>
-                {d.verdict.resumeCourt && (
-                  <p class="verdict-resume verdict-resume--mobile">{d.verdict.resumeCourt}</p>
-                )}
-                <p
-                  class:list={[
-                    'verdict-resume',
-                    { 'verdict-resume--desktop': !!d.verdict.resumeCourt },
-                  ]}
-                >
-                  {segmentsRenvois(d.verdict.resume).map((s) =>
-                    s.type === 'renvoi' ? <span class="souligne-ocre">{s.valeur}</span> : s.valeur,
-                  )}
-                </p>
+                {d.verdict.resumeCourt && <p class="verdict-punch">{d.verdict.resumeCourt}</p>}
               </>
             ) : (
               <>
@@ -136,7 +123,7 @@ const description = d.verdict
                   <span class="verdict-etiquette">En instruction</span>
                   <span class="sans-verdict">Pas encore de verdict</span>
                 </div>
-                {d.instruction && <p class="verdict-resume">{d.instruction.explication}</p>}
+                {d.instruction && <p class="verdict-punch">{d.instruction.explication}</p>}
                 <div class="verdict-jauge">
                   <Jauge
                     obtenues={j.obtenues}
@@ -148,12 +135,23 @@ const description = d.verdict
               </>
             )
           }
-        </div>
-      </section>
+        </section>
 
-      <!-- ===== SUITE — preuves, texte officiel, conséquences, sources, historique ===== -->
-      <div class="dossier-suite">
-        <!-- Preuves — gabarit mobile (§5.2) : liste unique avec cotes -->
+        <!-- F — résumé (sourcé) -->
+        {
+          d.verdict && (
+            <section class="resume">
+              <span class="typo-label">Le résumé</span>
+              <p class="resume-texte">
+                {segmentsRenvois(d.verdict.resume).map((s) =>
+                  s.type === 'renvoi' ? <span class="souligne-ocre">{s.valeur}</span> : s.valeur,
+                )}
+              </p>
+            </section>
+          )
+        }
+
+        <!-- G — preuves (mobile : liste ; desktop : deux colonnes) -->
         {
           preuvesMobiles.length > 0 && (
             <section class="preuves-mobile">
@@ -180,8 +178,6 @@ const description = d.verdict
             </section>
           )
         }
-
-        <!-- Preuves — gabarit desktop (§6.2) : deux colonnes -->
         {
           d.preuves.length > 0 && (
             <section class="preuves-desktop">
@@ -212,14 +208,11 @@ const description = d.verdict
           )
         }
 
-        <!-- Texte officiel (§4.7) -->
+        <!-- Texte officiel (§4.7) — quand présent -->
         {
           d.texteOfficiel && (
             <section class="officiel">
-              <span class="typo-label">
-                <span class="officiel-label-mobile">Le texte officiel</span>
-                <span class="officiel-label-desktop">Ce que dit le texte officiel</span>
-              </span>
+              <span class="typo-label">Ce que dit le texte officiel</span>
               <div class="officiel-bloc officiel-bloc--mobile">
                 <CitationOfficielle
                   texte={d.texteOfficiel.texteCourt ?? d.texteOfficiel.texte}
@@ -240,94 +233,37 @@ const description = d.verdict
           )
         }
 
-        <!-- Conséquences — flux mobile (§5.2) / encart absent (§7) -->
+        <!-- H — conséquences -->
         {
           consequence ? (
-            <div class="module-mobile">
+            <section class="consequences">
               <ModuleConsequences
                 profil={consequence.profil}
                 chiffre={fines(consequence.chiffre)}
                 qualification={fines(consequence.qualification)}
+                qualificationDesktop={
+                  consequence.qualificationDesktop && fines(consequence.qualificationDesktop)
+                }
                 hypothese={consequence.hypothese && fines(consequence.hypothese)}
+                action="Voir les autres profils →"
               />
-            </div>
+            </section>
           ) : (
             d.encartAbsence && (
-              <div class="module-mobile">
+              <section class="consequences">
                 <EncartNote label={d.encartAbsence.label} texte={d.encartAbsence.texte} />
-              </div>
+              </section>
             )
           )
         }
-
-        <!-- Sources en accès direct — mobile (le rail les porte en desktop) -->
-        {
-          d.pieces.some((p) => p.url) && (
-            <section class="sources-mobile">
-              <span class="typo-label">Les sources, en accès direct</span>
-              <ul class="sources-liste">
-                {d.pieces
-                  .filter((p) => p.url)
-                  .map((p) => (
-                    <li class="source-item">
-                      <span class="source-titre">{p.titre}</span>
-                      <a class="source-lien" href={p.url} target="_blank" rel="noopener noreferrer">
-                        Ouvrir la source →
-                      </a>
-                    </li>
-                  ))}
-              </ul>
-            </section>
-          )
-        }
-
-        <!-- Historique de publication — mobile (rail sur desktop) -->
-        {
-          d.historique.length > 0 && (
-            <section class="historique-mobile">
-              <span class="typo-label">Historique de publication</span>
-              <ol class="historique-liste">
-                {d.historique.map((h) => (
-                  <li class="historique-entree">
-                    <span class="historique-repere">V{h.version} · {dateComplete(h.date)}</span>
-                    <span class="historique-note">{h.note}</span>
-                  </li>
-                ))}
-              </ol>
-            </section>
-          )
-        }
-
-        <!-- Pied mobile (§5.2 / §5.3) -->
-        <div class="pied-mobile">
-          <span class="pied-mobile-texte">
-            {d.verdict ? `Voir les ${j.total} pièces du dossier` : 'Être prévenu de la conclusion'}
-          </span>
-          <span class="pied-mobile-fleche">→</span>
-        </div>
       </div>
 
-      <!-- ===== RAIL SOURCES (desktop, §6.2) ===== -->
+      <!-- ===== Rail latéral : I → J ===== -->
       <aside class="rail">
-        {
-          consequence ? (
-            <ModuleConsequences
-              profil={consequence.profil}
-              chiffre={fines(consequence.chiffre)}
-              qualification={fines(consequence.qualification)}
-              qualificationDesktop={
-                consequence.qualificationDesktop && fines(consequence.qualificationDesktop)
-              }
-              hypothese={consequence.hypothese && fines(consequence.hypothese)}
-              action="Voir les autres profils →"
-            />
-          ) : (
-            d.encartAbsence && <EncartNote label={d.encartAbsence.label} texte={d.encartAbsence.texte} />
-          )
-        }
+        <!-- I — sources / pièces, toujours accessibles -->
         {
           d.pieces.length > 0 && (
-            <div id="pieces">
+            <div id="pieces" class="rail-bloc">
               <span class="typo-label">Les {j.total} pièces</span>
               <div class="rail-pieces">
                 {d.pieces.map((p, i) => (
@@ -348,89 +284,108 @@ const description = d.verdict
             </div>
           )
         }
+
+        <!-- J — historique de publication -->
         {
           d.historique.length > 0 && (
-            <div>
+            <div class="rail-bloc">
               <span class="typo-label">Historique de publication</span>
-              <div class="rail-historique">
+              <ol class="rail-historique">
                 {d.historique.map((h) => (
-                  <>
-                    V{h.version} · {dateComplete(h.date)} — {h.note}
-                    <br />
-                  </>
+                  <li class="rail-histo-entree">
+                    <span class="rail-histo-repere">V{h.version} · {dateComplete(h.date)}</span>
+                    <span class="rail-histo-note">{h.note}</span>
+                  </li>
                 ))}
-              </div>
+              </ol>
             </div>
           )
         }
+
         <div class="rail-erreur">
           Une erreur dans ce dossier&nbsp;? <span class="rail-erreur-lien">Signalez-la</span> — nous
           republions en version datée.
         </div>
       </aside>
     </div>
-  </div>
+  </article>
 
   <PiedDeSite />
 </Base>
 
 <style>
-  /* Conteneur éditorial centré (desktop) : borne la largeur pour éviter le grand
-     vide des écrans larges. Mobile : pleine largeur, aucun effet. */
+  /* Conteneur éditorial centré — média numérique, pas pleine largeur brute. */
   .dossier {
     width: 100%;
+    max-width: 1180px;
+    margin-inline: auto;
+    padding: 0 20px;
   }
 
-  /* ---- Barre de retour ---- */
+  /* ---- Barre fine ---- */
   .barre {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 16px;
-    padding: 14px 20px;
-    border-bottom: 1px solid var(--ss-ink);
+    padding: 14px 0;
+    border-bottom: 1px solid var(--ss-rule);
   }
   .barre-retour {
-    /* Mono allégé (moins d'interlettrage) pour un rendu numérique contemporain. */
     font: 500 10px/1 var(--ss-font-mono);
     letter-spacing: 0.05em;
     text-transform: uppercase;
     color: var(--ss-ink);
     white-space: nowrap;
   }
-  .barre-rubrique {
-    display: none;
-  }
   .barre-meta {
     font: 400 10px/1 var(--ss-font-mono);
     letter-spacing: 0.04em;
     text-transform: uppercase;
     color: var(--ss-mid);
-    white-space: nowrap;
-  }
-  .barre-meta-desktop {
-    display: none;
+    text-align: right;
   }
 
-  /* ---- Média mobile : image pleine largeur de la colonne de contenu ---- */
-  .dossier-media {
-    padding: 18px 20px 0;
+  /* ---- A + B — méta + grand titre ---- */
+  .tete {
+    padding: 22px 0 0;
+  }
+  .tete-meta {
+    margin: 0;
+    font: 500 10px/1.4 var(--ss-font-mono);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ss-ochre);
+  }
+  .tete-titre {
+    margin: 10px 0 0;
+    font: 400 28px/1.14 var(--ss-font-serif);
+    letter-spacing: -0.015em;
+    color: var(--ss-ink);
+    text-wrap: balance;
   }
 
-  /* ---- Affirmation ---- */
-  .affirmation {
-    padding: 20px 20px 0;
+  /* ---- C + D — grande image ---- */
+  .media {
+    margin-top: 18px;
   }
+
+  /* ---- Corps ---- */
+  .corps {
+    padding: 22px 0 8px;
+  }
+  .principal {
+    min-width: 0;
+  }
+
+  /* E — affirmation + verdict */
   .affirmation-citation {
     margin-top: 10px;
   }
-
-  /* ---- Verdict ---- */
   .verdict {
-    margin: 20px 20px 0;
+    margin-top: 20px;
     border-top: 1px solid var(--ss-ink);
-    border-bottom: 1px solid var(--ss-rule);
-    padding: 14px 0;
+    padding-top: 14px;
   }
   .verdict-ligne {
     display: flex;
@@ -448,9 +403,9 @@ const description = d.verdict
     font: 400 24px/1.1 var(--ss-font-serif);
     color: var(--ss-mid);
   }
-  .verdict-resume {
+  .verdict-punch {
     margin: 12px 0 0;
-    font: 400 15.5px/1.6 var(--ss-font-sans);
+    font: 400 16px/1.55 var(--ss-font-sans);
     color: var(--ss-ink-90);
     text-wrap: pretty;
   }
@@ -458,9 +413,24 @@ const description = d.verdict
     margin-top: 12px;
   }
 
-  /* ---- Preuves mobile ---- */
+  /* F — résumé */
+  .resume {
+    margin-top: 20px;
+    padding-top: 14px;
+    border-top: 1px solid var(--ss-rule);
+  }
+  .resume-texte {
+    margin: 10px 0 0;
+    font: 400 15.5px/1.65 var(--ss-font-sans);
+    color: var(--ss-ink-80);
+    text-wrap: pretty;
+  }
+
+  /* G — preuves */
   .preuves-mobile {
-    padding: 18px 20px 0;
+    margin-top: 20px;
+    padding-top: 14px;
+    border-top: 1px solid var(--ss-rule);
   }
   .preuves-liste {
     margin-top: 12px;
@@ -472,59 +442,71 @@ const description = d.verdict
     display: none;
   }
 
-  /* ---- Texte officiel ---- */
+  /* Texte officiel */
   .officiel {
-    padding: 18px 20px 0;
+    margin-top: 20px;
+    padding-top: 14px;
+    border-top: 1px solid var(--ss-rule);
   }
   .officiel-bloc {
     margin-top: 10px;
   }
-  .officiel-label-desktop,
-  .officiel-bloc--desktop,
-  .verdict-resume--desktop {
+  .officiel-bloc--desktop {
     display: none;
   }
 
-  /* ---- Conséquences / pied mobile ---- */
-  .module-mobile {
-    margin: 18px 20px;
-  }
-  .pied-mobile {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 16px;
-    padding: 14px 20px;
-    border-top: 1px solid var(--ss-ink);
-  }
-  .pied-mobile-texte {
-    font: 400 13.5px/1.2 var(--ss-font-serif);
-  }
-  .pied-mobile-fleche {
-    font: 500 10px/1 var(--ss-font-mono);
-    color: var(--ss-ochre);
+  /* H — conséquences */
+  .consequences {
+    margin-top: 22px;
   }
 
-  /* ---- Sources en accès direct (mobile) ---- */
-  .sources-mobile {
-    padding: 18px 20px 0;
+  /* ---- Rail (mobile : flux normal) ---- */
+  .rail {
+    margin-top: 24px;
   }
-  .sources-liste {
-    margin: 12px 0 0;
-    padding: 0;
-    list-style: none;
-  }
-  .source-item {
-    padding: 10px 0;
+  .rail-bloc {
+    margin-top: 22px;
+    padding-top: 14px;
     border-top: 1px solid var(--ss-rule);
   }
-  .source-titre {
-    display: block;
-    font: 400 14px/1.45 var(--ss-font-sans);
-    color: var(--ss-ink-80);
-    text-wrap: pretty;
+  .rail-bloc:first-child {
+    margin-top: 0;
   }
-  .source-lien {
+  .rail-pieces {
+    margin-top: 12px;
+  }
+  .rail-piece-item {
+    padding: 9px 0;
+    border-top: 1px solid var(--ss-rule);
+  }
+  .rail-piece-item:first-child {
+    border-top: 0;
+  }
+  .rail-piece-item--fin {
+    border-bottom: 1px solid var(--ss-rule);
+  }
+  .rail-piece {
+    display: flex;
+    gap: 10px;
+    align-items: baseline;
+  }
+  .rail-n {
+    font: 500 10px/1.5 var(--ss-font-mono);
+    color: var(--ss-ochre);
+  }
+  .rail-piece-item--manquante .rail-n {
+    color: var(--ss-mid);
+    font-weight: 400;
+  }
+  .rail-titre {
+    font: 400 13.5px/1.45 var(--ss-font-sans);
+    flex: 1;
+  }
+  .rail-piece-item--manquante .rail-titre {
+    color: var(--ss-mid);
+    font-style: italic;
+  }
+  .rail-source {
     display: inline-block;
     margin-top: 6px;
     font: 500 9.5px/1 var(--ss-font-mono);
@@ -532,134 +514,119 @@ const description = d.verdict
     text-transform: uppercase;
     color: var(--ss-ochre);
   }
-  .source-lien:hover {
+  .rail-source:hover {
     text-decoration: underline;
     text-decoration-thickness: 1px;
     text-underline-offset: 3px;
   }
-
-  /* ---- Historique mobile ---- */
-  .historique-mobile {
-    padding: 18px 20px 0;
-  }
-  .historique-liste {
+  .rail-historique {
     margin: 12px 0 0;
     padding: 0;
     list-style: none;
   }
-  .historique-entree {
+  .rail-histo-entree {
     padding: 9px 0;
     border-top: 1px solid var(--ss-rule);
   }
-  .historique-repere {
+  .rail-histo-entree:first-child {
+    border-top: 0;
+  }
+  .rail-histo-repere {
     display: block;
     font: 400 10px/1.5 var(--ss-font-mono);
     letter-spacing: 0.06em;
     text-transform: uppercase;
     color: var(--ss-ochre);
   }
-  .historique-note {
+  .rail-histo-note {
     display: block;
     margin-top: 4px;
-    font: 400 13.5px/1.5 var(--ss-font-sans);
+    font: 400 13px/1.5 var(--ss-font-sans);
     color: var(--ss-ink-80);
     text-wrap: pretty;
   }
-
-  .rail {
-    display: none;
+  .rail-erreur {
+    margin-top: 22px;
+    padding-top: 14px;
+    border-top: 1px solid var(--ss-rule);
+    font: 400 12.5px/1.6 var(--ss-font-sans);
+    color: var(--ss-ink-60);
+  }
+  .rail-erreur-lien {
+    color: var(--ss-ochre);
   }
 
-  /* =============== ≥1024 (§6.2) — conteneur centré + hero multi-colonnes =============== */
-  @media (min-width: 1024px) {
-    /* Conteneur éditorial centré. Avec image : large (hero 42/36/22).
-       Sans image : plus resserré → deux colonnes contenu + sources, sans vide. */
+  /* =============== ≥768 — le titre respire =============== */
+  @media (min-width: 768px) {
     .dossier {
-      max-width: 1160px;
-      margin-inline: auto;
+      padding: 0 40px;
     }
-    .dossier--avec-image {
-      max-width: 1520px;
+    .tete-titre {
+      font-size: 40px;
+      line-height: 1.08;
+      max-width: 20ch;
     }
+  }
 
+  /* =============== ≥1024 — corps en deux colonnes (rail latéral) =============== */
+  @media (min-width: 1024px) {
+    .dossier {
+      padding: 0 48px;
+    }
     .barre {
-      padding: 16px 48px;
+      padding: 16px 0;
     }
-    .barre-retour,
-    .barre-meta {
-      font-size: 10.5px;
+    .tete {
+      padding-top: 30px;
     }
-    .barre-rubrique,
-    .barre-meta-desktop {
-      display: inline;
+    .tete-titre {
+      font-size: 48px;
+      max-width: 24ch;
     }
-    .barre-meta-mobile {
-      display: none;
+    .media {
+      margin-top: 22px;
     }
 
-    /* Grille du corps. Sans image : contenu + rail. */
     .corps {
       display: grid;
+      grid-template-columns: minmax(0, 1fr) 300px;
+      column-gap: 56px;
       align-items: start;
-      column-gap: 44px;
-      row-gap: 4px;
-      padding: 34px 48px;
-      grid-template-columns: minmax(0, 1fr) 320px;
-      grid-template-areas:
-        'intro rail'
-        'suite rail';
+      padding-top: 28px;
     }
-    /* Avec image : contenu 42 % · illustration 36 % · rail 22 %. */
-    .dossier--avec-image .corps {
-      grid-template-columns: 42fr 36fr 22fr;
-      grid-template-areas:
-        'intro media rail'
-        'suite suite rail';
+    /* La colonne de lecture garde une largeur confortable. */
+    .principal {
+      max-width: 760px;
     }
 
-    .dossier-media {
-      grid-area: media;
-      padding: 0;
-    }
-    .dossier-intro {
-      grid-area: intro;
-      min-width: 0;
-    }
-    .dossier-suite {
-      grid-area: suite;
-      min-width: 0;
-      margin-top: 26px;
-    }
-
-    /* Intro : affirmation + verdict, sans les gouttières mobiles. */
-    .affirmation {
-      padding: 0;
-    }
-    .affirmation-citation {
-      margin-top: 12px;
-    }
+    /* E */
     .verdict {
-      margin: 22px 0 0;
-      padding: 16px 0;
+      margin-top: 24px;
     }
     .verdict-etiquette {
       font-size: 9.5px;
     }
-    /* Résumé (Public Sans) : davantage de place et d'air — lecture numérique. */
-    .verdict-resume {
-      margin-top: 14px;
+    .verdict-punch {
+      font-size: 18px;
+      line-height: 1.55;
+    }
+    /* F */
+    .resume-texte {
       font-size: 17px;
       line-height: 1.7;
     }
 
-    /* Preuves desktop : occupent la largeur de la suite (contenu + média). */
+    /* G — deux colonnes établi / non établi */
     .preuves-mobile {
       display: none;
     }
     .preuves-desktop {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 48px;
+      gap: 40px;
+      margin-top: 24px;
+      padding-top: 16px;
+      border-top: 1px solid var(--ss-rule);
     }
     .colonne-liste {
       margin-top: 12px;
@@ -687,117 +654,35 @@ const description = d.verdict
       color: var(--ss-mid);
     }
 
-    .officiel {
-      margin-top: 30px;
-      padding: 22px 0 0;
-      border-top: 1px solid var(--ss-ink);
-      max-width: var(--ss-texte-max);
-    }
-    .officiel-bloc {
-      margin-top: 12px;
-    }
-    .officiel-label-mobile,
-    .officiel-bloc--mobile,
-    .verdict-resume--mobile {
+    /* Texte officiel */
+    .officiel-bloc--mobile {
       display: none;
-    }
-    .officiel-label-desktop {
-      display: inline;
     }
     .officiel-bloc--desktop {
       display: block;
     }
-    .verdict-resume--desktop {
-      display: block;
-    }
 
-    /* Blocs mobiles masqués en desktop (repris par le rail). */
-    .module-mobile,
-    .pied-mobile,
-    .historique-mobile,
-    .sources-mobile {
-      display: none;
-    }
-
-    /* Rail sources : colonne continue, rapprochée du contenu par un filet fin. */
+    /* Rail latéral, aligné au sommet du corps */
     .rail {
-      grid-area: rail;
+      margin-top: 0;
       display: flex;
       flex-direction: column;
-      gap: 24px;
-      border-left: 1px solid var(--ss-rule);
+      gap: 0;
       padding-left: 28px;
+      border-left: 1px solid var(--ss-rule);
     }
-    .rail-pieces {
-      margin-top: 12px;
-    }
-    .rail-piece-item {
-      padding: 9px 0;
-      border-top: 1px solid var(--ss-rule);
-    }
-    .rail-piece-item--fin {
-      border-bottom: 1px solid var(--ss-rule);
-    }
-    .rail-piece {
-      display: flex;
-      gap: 10px;
-      align-items: baseline;
-    }
-    .rail-n {
-      font: 500 10px/1.5 var(--ss-font-mono);
-      color: var(--ss-ochre);
-    }
-    .rail-piece-item--manquante .rail-n {
-      color: var(--ss-mid);
-      font-weight: 400;
-    }
-    .rail-titre {
-      font: 400 13px/1.45 var(--ss-font-sans);
-      flex: 1;
-    }
-    .rail-piece-item--manquante .rail-titre {
-      color: var(--ss-mid);
-      font-style: italic;
-    }
-    .rail-source {
-      display: inline-block;
-      margin-top: 6px;
-      font: 500 9.5px/1 var(--ss-font-mono);
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--ss-ochre);
-    }
-    .rail-source:hover {
-      text-decoration: underline;
-      text-decoration-thickness: 1px;
-      text-underline-offset: 3px;
-    }
-    .rail-historique {
-      margin-top: 10px;
-      font: 400 12px/1.7 var(--ss-font-mono);
-      text-transform: uppercase;
-      color: var(--ss-mid);
-    }
-    .rail-erreur {
-      margin-top: auto;
-      padding-top: 16px;
-      border-top: 1px solid var(--ss-rule);
-      font: 400 12.5px/1.6 var(--ss-font-sans);
-      color: var(--ss-ink-60);
-    }
-    .rail-erreur-lien {
-      color: var(--ss-ochre);
+    .rail-bloc:first-child {
+      margin-top: 0;
+      padding-top: 0;
+      border-top: 0;
     }
   }
 
+  /* =============== ≥1440 — marges élargies =============== */
   @media (min-width: 1440px) {
-    .barre {
-      padding-left: 64px;
-      padding-right: 64px;
-    }
-    .corps {
-      padding-left: 64px;
-      padding-right: 64px;
+    .dossier {
+      padding: 0 64px;
+      max-width: 1240px;
     }
   }
 </style>
