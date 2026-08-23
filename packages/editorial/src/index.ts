@@ -16,6 +16,26 @@ export function numeroAffiche(n: number): string {
 }
 
 /**
+ * Dates : le DOMAINE stocke de l'ISO (`YYYY-MM-DD`) ; le RENDU au format
+ * SeneSource vit ici (handoff : « 18.08 », « 21.08.2026 »). Ces fonctions
+ * seront branchées quand le web sera alimenté par des dates ISO (B2/B3) ;
+ * elles n'affectent pas le rendu MDX actuel.
+ */
+const ISO_JOUR = /^(\d{4})-(\d{2})-(\d{2})/;
+
+/** ISO `2026-08-18` → « 18.08 » (jour.mois, sans année). */
+export function dateJourMois(iso: string): string {
+  const m = ISO_JOUR.exec(iso);
+  return m ? `${m[3]}.${m[2]}` : iso;
+}
+
+/** ISO `2026-08-21` → « 21.08.2026 » (jour.mois.année). */
+export function dateComplete(iso: string): string {
+  const m = ISO_JOUR.exec(iso);
+  return m ? `${m[3]}.${m[2]}.${m[1]}` : iso;
+}
+
+/**
  * Espaces fines insécables (U+202F) : séparateur de milliers et espace avant
  * « F ». Un montant ne se coupe jamais en fin de ligne (handoff §2).
  */

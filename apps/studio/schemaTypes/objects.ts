@@ -48,7 +48,7 @@ export const instruction = defineType({
   type: 'object',
   fields: [
     defineField({ name: 'explication', title: 'Explication', type: 'text', rows: 3, validation: (r) => r.required() }),
-    defineField({ name: 'prochainPoint', title: 'Prochain point (date affichée)', type: 'string', validation: (r) => r.required(), description: 'Ex. « 28.08 ».' }),
+    defineField({ name: 'prochainPoint', title: 'Prochain point', type: 'date', options: { dateFormat: 'YYYY-MM-DD' }, validation: (r) => r.required(), description: 'Date ISO ; l’affichage « 28.08 » est produit par packages/editorial.' }),
   ],
 });
 
@@ -163,7 +163,7 @@ export const entreeHistorique = defineType({
   type: 'object',
   fields: [
     defineField({ name: 'version', title: 'Version', type: 'number', validation: (r) => r.required().integer() }),
-    defineField({ name: 'date', title: 'Date (affichée)', type: 'string', validation: (r) => r.required() }),
+    defineField({ name: 'date', title: 'Date', type: 'date', options: { dateFormat: 'YYYY-MM-DD' }, validation: (r) => r.required(), description: 'Date ISO ; l’affichage est produit par packages/editorial.' }),
     defineField({ name: 'note', title: 'Note', type: 'string', validation: (r) => r.required() }),
   ],
   preview: { select: { v: 'version', date: 'date', note: 'note' }, prepare: ({ v, date, note }) => ({ title: `V${v} · ${date}`, subtitle: note }) },
