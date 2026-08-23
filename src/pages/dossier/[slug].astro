@@ -17,14 +17,14 @@ import {
 } from '../../lib/contenu';
 
 export async function getStaticPaths() {
-  return (await dossiersAvecPage()).map((d) => ({ params: { slug: d.id }, props: { dossier: d } }));
+  return (await dossiersAvecPage()).map((d) => ({ params: { slug: d.slug }, props: { dossier: d } }));
 }
 
 interface Props {
   dossier: Dossier;
 }
 const { dossier } = Astro.props;
-const d = dossier.data;
+const d = dossier;
 const num = numeroAffiche(d.numero);
 const j = collecte(dossier);
 const rubriquePrincipale = d.rubrique.split('·')[0]!.trim();

@@ -11,14 +11,14 @@ import Bouton from '../components/ui/Bouton.astro';
 import { listeDossiers, collecte, numeroAffiche, fines, segmentsRenvois } from '../lib/contenu';
 
 const dossiers = await listeDossiers();
-const tete = dossiers.find((d) => d.data.pageComplete) ?? dossiers[0]!;
+const tete = dossiers.find((d) => d.pageComplete) ?? dossiers[0]!;
 // Ordre des secondaires : numéro croissant, comme l'écran de référence (§5.1/§6.1)
 const secondaires = dossiers
-  .filter((d) => d.id !== tete.id)
+  .filter((d) => d.slug !== tete.slug)
   .slice(0, 2)
-  .sort((a, b) => a.data.numero - b.data.numero);
+  .sort((a, b) => a.numero - b.numero);
 const jaugeTete = collecte(tete);
-const urlTete = `/dossier/${tete.id}/`;
+const urlTete = `/dossier/${tete.slug}/`;
 ---
 
 <Base
@@ -38,26 +38,26 @@ const urlTete = `/dossier/${tete.id}/`;
       <!-- Dossier de tête -->
       <article class="tete">
         <div class="tete-etiquette">
-          <span class="etiquette-numero">Dossier {numeroAffiche(tete.data.numero)}</span>
+          <span class="etiquette-numero">Dossier {numeroAffiche(tete.numero)}</span>
           <span class="etiquette-rubrique">
-            {tete.data.rubrique}<span class="etiquette-ouvert">
-              {tete.data.ouvertLe && ` · Ouvert le ${tete.data.ouvertLe}`}</span
+            {tete.rubrique}<span class="etiquette-ouvert">
+              {tete.ouvertLe && ` · Ouvert le ${tete.ouvertLe}`}</span
             >
           </span>
         </div>
         <h1 class="typo-display tete-titre">
           <a class="lien-titre" href={urlTete}>
-            <span class:list={[{ 'titre-mobile': !!tete.data.titreCourt }]}>{tete.data.titre}</span>
-            {tete.data.titreCourt && <span class="titre-desktop">{tete.data.titreCourt}</span>}
+            <span class:list={[{ 'titre-mobile': !!tete.titreCourt }]}>{tete.titre}</span>
+            {tete.titreCourt && <span class="titre-desktop">{tete.titreCourt}</span>}
           </a>
         </h1>
 
         <div class="tete-verdict">
           {
-            tete.data.verdict ? (
+            tete.verdict ? (
               <>
                 <span class="verdict-label">Verdict</span>
-                <span class="verdict-mot">{tete.data.verdict.mot}</span>
+                <span class="verdict-mot">{tete.verdict.mot}</span>
               </>
             ) : (
               <span class="verdict-label">En instruction</span>
@@ -78,10 +78,10 @@ const urlTete = `/dossier/${tete.id}/`;
 
         <div class="tete-grille">
           <div>
-            {tete.data.resume && <p class="typo-corps tete-resume">{tete.data.resume}</p>}
+            {tete.resume && <p class="typo-corps tete-resume">{tete.resume}</p>}
             <div class="points">
               {
-                tete.data.pointsCles.map((p) => (
+                tete.pointsCles.map((p) => (
                   <div class:list={['point', { 'point--non': !p.etabli }]}>
                     <Carre etat={p.etabli ? 'plein' : 'vide'} taille={7} decale />
                     <span class="point-texte">
@@ -95,19 +95,19 @@ const urlTete = `/dossier/${tete.id}/`;
             </div>
           </div>
           {
-            tete.data.consequenceHome && (
+            tete.consequenceHome && (
               <div class="tete-module">
                 <ModuleConsequences
-                  profil={tete.data.consequenceHome.profil}
-                  chiffre={fines(tete.data.consequenceHome.chiffre)}
-                  qualification={fines(tete.data.consequenceHome.qualification)}
+                  profil={tete.consequenceHome.profil}
+                  chiffre={fines(tete.consequenceHome.chiffre)}
+                  qualification={fines(tete.consequenceHome.qualification)}
                   qualificationDesktop={
-                    tete.data.consequenceHome.qualificationDesktop &&
-                    fines(tete.data.consequenceHome.qualificationDesktop)
+                    tete.consequenceHome.qualificationDesktop &&
+                    fines(tete.consequenceHome.qualificationDesktop)
                   }
-                  hypothese={tete.data.consequenceHome.hypothese && fines(tete.data.consequenceHome.hypothese)}
-                  note={tete.data.consequenceHome.note}
-                  noteAccent={tete.data.consequenceHome.noteAccent}
+                  hypothese={tete.consequenceHome.hypothese && fines(tete.consequenceHome.hypothese)}
+                  note={tete.consequenceHome.note}
+                  noteAccent={tete.consequenceHome.noteAccent}
                 />
               </div>
             )
@@ -123,19 +123,19 @@ const urlTete = `/dossier/${tete.id}/`;
             return (
               <div class="secondaire">
                 <CarteDossier
-                  numero={numeroAffiche(d.data.numero)}
-                  rubrique={d.data.rubrique}
-                  titre={d.data.titre}
-                  verdict={d.data.verdict?.mot ?? null}
+                  numero={numeroAffiche(d.numero)}
+                  rubrique={d.rubrique}
+                  titre={d.titre}
+                  verdict={d.verdict?.mot ?? null}
                   jauge={
-                    d.data.verdict
+                    d.verdict
                       ? undefined
                       : { obtenues: j.obtenues, total: j.total, libelle: `${j.obtenues} / ${j.total} · Pas encore de verdict` }
                   }
                   chiffre={
-                    d.data.chiffreCle && {
-                      valeur: fines(d.data.chiffreCle.valeur),
-                      qualification: d.data.chiffreCle.qualification,
+                    d.chiffreCle && {
+                      valeur: fines(d.chiffreCle.valeur),
+                      qualification: d.chiffreCle.qualification,
                     }
                   }
                 />
@@ -152,7 +152,7 @@ const urlTete = `/dossier/${tete.id}/`;
         <span class="typo-label">Ce que nous avons obtenu · ce qui manque</span>
         <div class="rail-liste">
           {
-            tete.data.pieces
+            tete.pieces
               .filter((p) => p.rail)
               .map((p, i, arr) => (
                 <RailPiece

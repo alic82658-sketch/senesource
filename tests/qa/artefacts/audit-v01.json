@@ -1,11 +1,11 @@
 {
-  "date": "2026-08-23T00:30:02.427Z",
+  "date": "2026-08-23T01:15:44.254Z",
   "blocages": [],
   "remarques": [],
   "poids": {
     "document": 30983,
-    "stylesheet": 36249,
     "font": 267340,
+    "stylesheet": 36249,
     "other": 169
   }
 }

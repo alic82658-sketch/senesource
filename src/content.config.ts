@@ -1,5 +1,6 @@
 import { defineCollection, z } from 'astro:content';
 import { glob } from 'astro/loaders';
+import { VERDICTS } from './domain/dossier';
 
 /**
  * Collection « dossiers » — modèle MULTI-TYPE (docs/architecture/05-contenu-mdx.md).
@@ -7,10 +8,11 @@ import { glob } from 'astro/loaders';
  * fact-check : `affirmation` et `verdict` sont optionnels. Les garde-fous
  * ci-dessous cassent le build plutôt que de laisser passer une incohérence.
  *
- * Les cinq verdicts autorisés viennent du handoff (§4.1) — jamais d'autres.
+ * Ce schéma Zod valide le MDX au build ; il se CONFORME au modèle de domaine
+ * neutre (`src/domain/dossier.ts`), qui est la source unique de la liste des
+ * verdicts et des formes de données. En A2, ce schéma migrera dans
+ * `packages/editorial` sans changer le domaine.
  */
-
-const VERDICTS = ['Exact', 'Exact, mais partiel', 'Trompeur', 'Faux', 'Invérifiable'] as const;
 
 const consequence = z.object({
   profil: z.string(),
