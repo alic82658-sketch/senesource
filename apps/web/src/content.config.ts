@@ -95,6 +95,8 @@ const dossiers = defineCollection({
             meta: z.string().optional(),
             obtenue: z.boolean(),
             rail: z.boolean().default(false),
+            // Lien externe facultatif vers la source originale (§ « jusqu'à la source »).
+            url: z.string().url().optional(),
           }),
         )
         .default([]),

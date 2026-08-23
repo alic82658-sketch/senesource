@@ -158,6 +158,13 @@ export interface Piece {
    * normalise en `documentId`. Optionnel : une pièce peut n'en avoir aucun.
    */
   documentId?: string;
+  /**
+   * Lien EXTERNE direct vers la source originale (URL publique du document).
+   * Facultatif — permet au lecteur d'atteindre la pièce sans passer par une
+   * entité `Document` (« Les faits, jusqu'à la source »). N'introduit aucune
+   * architecture de documents ; complémentaire de `documentId`.
+   */
+  url?: string;
 }
 
 export interface TexteOfficiel {

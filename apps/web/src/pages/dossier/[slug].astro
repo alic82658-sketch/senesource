@@ -211,6 +211,27 @@ const description = d.verdict
         )
       }
 
+      <!-- Sources en accès direct — mobile (le rail les porte en desktop) -->
+      {
+        d.pieces.some((p) => p.url) && (
+          <section class="sources-mobile">
+            <span class="typo-label">Les sources, en accès direct</span>
+            <ul class="sources-liste">
+              {d.pieces
+                .filter((p) => p.url)
+                .map((p) => (
+                  <li class="source-item">
+                    <span class="source-titre">{p.titre}</span>
+                    <a class="source-lien" href={p.url} target="_blank" rel="noopener noreferrer">
+                      Ouvrir la source →
+                    </a>
+                  </li>
+                ))}
+            </ul>
+          </section>
+        )
+      }
+
       <!-- Module conséquences — flux mobile (§5.2) / encart absent (§7) -->
       {
         consequence ? (
@@ -281,14 +302,20 @@ const description = d.verdict
             <span class="typo-label">Les {j.total} pièces</span>
             <div class="rail-pieces">
               {d.pieces.map((p, i) => (
-                <div class:list={['rail-piece', { 'rail-piece--manquante': !p.obtenue, 'rail-piece--fin': i === d.pieces.length - 1 }]}>
-                  <span class="rail-n">[{p.n}]</span>
-                  <span class="rail-titre">{p.titreCourt ?? p.titre}</span>
-                  <Carre etat={p.obtenue ? 'plein' : 'vide'} taille={7} decale />
+                <div class:list={['rail-piece-item', { 'rail-piece-item--manquante': !p.obtenue, 'rail-piece-item--fin': i === d.pieces.length - 1 }]}>
+                  <div class="rail-piece">
+                    <span class="rail-n">[{p.n}]</span>
+                    <span class="rail-titre">{p.titreCourt ?? p.titre}</span>
+                    <Carre etat={p.obtenue ? 'plein' : 'vide'} taille={7} decale />
+                  </div>
+                  {p.url && (
+                    <a class="rail-source" href={p.url} target="_blank" rel="noopener noreferrer">
+                      Ouvrir la source →
+                    </a>
+                  )}
                 </div>
               ))}
             </div>
-            <div class="rail-registre">Ouvrir le registre →</div>
           </div>
         )
       }
@@ -435,6 +462,39 @@ const description = d.verdict
     color: var(--ss-ochre);
   }
 
+  /* ---- Sources en accès direct (mobile) ---- */
+  .sources-mobile {
+    padding: 18px 20px 0;
+  }
+  .sources-liste {
+    margin: 12px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  .source-item {
+    padding: 10px 0;
+    border-top: 1px solid var(--ss-rule);
+  }
+  .source-titre {
+    display: block;
+    font: 400 14px/1.45 var(--ss-font-sans);
+    color: var(--ss-ink-80);
+    text-wrap: pretty;
+  }
+  .source-lien {
+    display: inline-block;
+    margin-top: 6px;
+    font: 500 9.5px/1 var(--ss-font-mono);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ss-ochre);
+  }
+  .source-lien:hover {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+  }
+
   /* ---- Historique mobile ---- */
   .historique-mobile {
     padding: 18px 20px 0;
@@ -571,7 +631,8 @@ const description = d.verdict
     }
     .module-mobile,
     .pied-mobile,
-    .historique-mobile {
+    .historique-mobile,
+    .sources-mobile {
       display: none;
     }
     .rail {
@@ -583,21 +644,23 @@ const description = d.verdict
     .rail-pieces {
       margin-top: 12px;
     }
+    .rail-piece-item {
+      padding: 9px 0;
+      border-top: 1px solid var(--ss-rule);
+    }
+    .rail-piece-item--fin {
+      border-bottom: 1px solid var(--ss-rule);
+    }
     .rail-piece {
       display: flex;
       gap: 10px;
-      padding: 9px 0;
-      border-top: 1px solid var(--ss-rule);
       align-items: baseline;
-    }
-    .rail-piece--fin {
-      border-bottom: 1px solid var(--ss-rule);
     }
     .rail-n {
       font: 500 10px/1.5 var(--ss-font-mono);
       color: var(--ss-ochre);
     }
-    .rail-piece--manquante .rail-n {
+    .rail-piece-item--manquante .rail-n {
       color: var(--ss-mid);
       font-weight: 400;
     }
@@ -605,16 +668,22 @@ const description = d.verdict
       font: 400 13px/1.45 var(--ss-font-sans);
       flex: 1;
     }
-    .rail-piece--manquante .rail-titre {
+    .rail-piece-item--manquante .rail-titre {
       color: var(--ss-mid);
       font-style: italic;
     }
-    .rail-registre {
-      margin-top: 12px;
-      font: 500 10px/1 var(--ss-font-mono);
+    .rail-source {
+      display: inline-block;
+      margin-top: 6px;
+      font: 500 9.5px/1 var(--ss-font-mono);
       letter-spacing: 0.08em;
       text-transform: uppercase;
       color: var(--ss-ochre);
+    }
+    .rail-source:hover {
+      text-decoration: underline;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 3px;
     }
     .rail-historique {
       margin-top: 10px;
