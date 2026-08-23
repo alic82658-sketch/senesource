@@ -2,8 +2,8 @@
  * Sous-objets du dossier — miroir EXACT des interfaces de `@senesource/domain`.
  * Le schéma Sanity s'adapte au domaine, jamais l'inverse : chaque champ, son
  * type et son caractère requis/optionnel reproduisent le modèle neutre.
- * Les dates sont des CHAÎNES d'affichage (« 18.08 », « 21.08.2026 ») comme
- * dans le domaine — surtout pas des `datetime` (préserve l'égalité B2).
+ * Les dates sont stockées en ISO (`type: 'date'`, `YYYY-MM-DD`) ; le rendu
+ * « 18.08 » / « 21.08.2026 » appartient à `packages/editorial`.
  */
 import { defineField, defineType } from 'sanity';
 import { VERDICTS } from '@senesource/domain';
@@ -94,6 +94,9 @@ export const piece = defineType({
     defineField({ name: 'meta', title: 'Métadonnée', type: 'string', description: 'Ex. « Obtenu 19.08 · PDF 48 p. » ou « Demandée 04.08 · Sans réponse ».' }),
     defineField({ name: 'obtenue', title: 'Obtenue ?', type: 'boolean', initialValue: false, validation: (r) => r.required() }),
     defineField({ name: 'rail', title: 'Afficher dans le rail « ce qui manque » ?', type: 'boolean', initialValue: false, validation: (r) => r.required() }),
+    // Relation Piece → Document : VRAIE référence Sanity ; le mapper la
+    // normalise en `documentId` neutre (pas le slug). Optionnelle.
+    defineField({ name: 'document', title: 'Document lié', type: 'reference', to: [{ type: 'documentSource' }] }),
   ],
   preview: { select: { n: 'n', title: 'titre', obtenue: 'obtenue' }, prepare: ({ n, title, obtenue }) => ({ title: `[${n}] ${title}`, subtitle: obtenue ? 'Obtenue' : 'Manquante' }) },
 });

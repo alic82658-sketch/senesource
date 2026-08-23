@@ -13,6 +13,8 @@ import {
   numeroAffiche,
   fines,
   segmentsRenvois,
+  dateJourMois,
+  dateComplete,
   type Dossier,
 } from '../../lib/contenu';
 
@@ -43,14 +45,14 @@ const description = d.verdict
     <a class="barre-retour" href="/">← Dossier {num}<span class="barre-rubrique"> · {rubriquePrincipale}</span></a>
     <span class="barre-meta">
       <span class="barre-meta-mobile">
-        {d.version ? `v${d.version} · ${d.misAJourLe ?? ''}` : d.ouvertLe ? `Ouvert le ${d.ouvertLe}` : ''}
+        {d.version ? `v${d.version} · ${d.misAJourLe ? dateComplete(d.misAJourLe) : ''}` : d.ouvertLe ? `Ouvert le ${dateJourMois(d.ouvertLe)}` : ''}
       </span>
       <span class="barre-meta-desktop">
         {
           d.version
-            ? `Version ${d.version} · Mise à jour le ${d.misAJourLe ?? ''} · ${j.total} pièces`
+            ? `Version ${d.version} · Mise à jour le ${d.misAJourLe ? dateComplete(d.misAJourLe) : ''} · ${j.total} pièces`
             : d.ouvertLe
-              ? `Ouvert le ${d.ouvertLe} · ${j.total} pièces`
+              ? `Ouvert le ${dateJourMois(d.ouvertLe)} · ${j.total} pièces`
               : `${j.total} pièces`
         }
       </span>
@@ -112,7 +114,7 @@ const description = d.verdict
                 <Jauge
                   obtenues={j.obtenues}
                   total={j.total}
-                  libelle={`${j.obtenues} / ${j.total}${d.instruction ? ` · Prochain point le ${d.instruction.prochainPoint}` : ''}`}
+                  libelle={`${j.obtenues} / ${j.total}${d.instruction ? ` · Prochain point le ${dateJourMois(d.instruction.prochainPoint)}` : ''}`}
                   largeurBarre={16}
                 />
               </div>
@@ -279,7 +281,7 @@ const description = d.verdict
             <div class="rail-historique">
               {d.historique.map((h) => (
                 <>
-                  V{h.version} · {h.date} — {h.note}
+                  V{h.version} · {dateJourMois(h.date)} — {h.note}
                   <br />
                 </>
               ))}

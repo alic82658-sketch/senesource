@@ -19,7 +19,15 @@ import type { Dossier } from '@senesource/domain';
 // des gabarits, qui n'importent jamais `astro:content` ni les paquets).
 export type { Dossier } from '@senesource/domain';
 // Règles éditoriales partageables, ré-exportées telles quelles.
-export { numeroAffiche, fines, collecte, segmentsRenvois, type Segment } from '@senesource/editorial';
+export {
+  numeroAffiche,
+  fines,
+  collecte,
+  segmentsRenvois,
+  dateJourMois,
+  dateComplete,
+  type Segment,
+} from '@senesource/editorial';
 
 /**
  * Mapping Astro → domaine. Le `slug` (identité d'URL) vient de `entry.id`

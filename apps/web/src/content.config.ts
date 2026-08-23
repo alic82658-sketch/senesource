@@ -2,6 +2,9 @@ import { defineCollection, z } from 'astro:content';
 import { glob } from 'astro/loaders';
 import { VERDICTS } from '@senesource/domain';
 
+/** Date ISO `YYYY-MM-DD` — représentation unique des dates du domaine. */
+const dateISO = z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Date attendue au format ISO YYYY-MM-DD.');
+
 /**
  * Collection « dossiers » — modèle MULTI-TYPE (docs/architecture/05-contenu-mdx.md).
  * Le Dossier est l'objet éditorial principal ; il n'est PAS forcément un
@@ -39,9 +42,9 @@ const dossiers = defineCollection({
       titreCourt: z.string().max(140).optional(),
       rubrique: z.string(),
       statut: z.enum(['en_instruction', 'publie', 'archive']),
-      ouvertLe: z.string().optional(),
+      ouvertLe: dateISO.optional(),
       version: z.number().int().positive().optional(),
-      misAJourLe: z.string().optional(),
+      misAJourLe: dateISO.optional(),
       resume: z.string().optional(),
 
       affirmation: z
@@ -60,7 +63,7 @@ const dossiers = defineCollection({
         .optional(),
       // Sans verdict : phrase d'attente + date du prochain point (§4.2 : obligatoires)
       instruction: z
-        .object({ explication: z.string(), prochainPoint: z.string() })
+        .object({ explication: z.string(), prochainPoint: dateISO })
         .optional(),
 
       // Preuves : liste unique, déclinée par gabarit.
@@ -117,7 +120,7 @@ const dossiers = defineCollection({
         .optional(),
 
       historique: z
-        .array(z.object({ version: z.number().int(), date: z.string(), note: z.string() }))
+        .array(z.object({ version: z.number().int(), date: dateISO, note: z.string() }))
         .default([]),
 
       // V0.1 : seuls les dossiers complets génèrent une page

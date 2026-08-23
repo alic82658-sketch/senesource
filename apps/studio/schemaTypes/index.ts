@@ -1,9 +1,11 @@
 import { dossier } from './dossier';
+import { document, extraitDocument } from './document';
 import { objectTypes } from './objects';
 
 /**
- * Types du Studio SeneSource. Un seul document (`dossier`) + ses sous-objets,
- * miroir de `@senesource/domain`. Pas d'entité `Document` ni `Organisation`
- * autonome : elles n'existent pas dans le domaine actuel (voir rapport B1).
+ * Types du Studio SeneSource : deux documents (`dossier`, `document`) + leurs
+ * sous-objets, miroir de `@senesource/domain`. `document` est réutilisable
+ * entre dossiers ; une pièce le référence. Pas d'entité `Organisation`
+ * (l'émetteur reste une chaîne — V1).
  */
-export const schemaTypes = [dossier, ...objectTypes];
+export const schemaTypes = [dossier, document, extraitDocument, ...objectTypes];

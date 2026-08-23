@@ -8,7 +8,7 @@ import RailPiece from '../components/editorial/RailPiece.astro';
 import Jauge from '../components/ui/Jauge.astro';
 import Carre from '../components/ui/Carre.astro';
 import Bouton from '../components/ui/Bouton.astro';
-import { listeDossiers, collecte, numeroAffiche, fines, segmentsRenvois } from '../lib/contenu';
+import { listeDossiers, collecte, numeroAffiche, fines, segmentsRenvois, dateJourMois } from '../lib/contenu';
 
 const dossiers = await listeDossiers();
 const tete = dossiers.find((d) => d.pageComplete) ?? dossiers[0]!;
@@ -41,7 +41,7 @@ const urlTete = `/dossier/${tete.slug}/`;
           <span class="etiquette-numero">Dossier {numeroAffiche(tete.numero)}</span>
           <span class="etiquette-rubrique">
             {tete.rubrique}<span class="etiquette-ouvert">
-              {tete.ouvertLe && ` · Ouvert le ${tete.ouvertLe}`}</span
+              {tete.ouvertLe && ` · Ouvert le ${dateJourMois(tete.ouvertLe)}`}</span
             >
           </span>
         </div>

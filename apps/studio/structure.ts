@@ -20,4 +20,6 @@ export const structure: StructureResolver = (S) =>
         .child(S.documentTypeList('dossier').title('Archivés').filter('_type == "dossier" && statut == "archive"')),
       S.divider(),
       S.listItem().title('Tous les dossiers').child(S.documentTypeList('dossier').title('Tous les dossiers')),
+      S.divider(),
+      S.listItem().title('Documents').child(S.documentTypeList('documentSource').title('Documents')),
     ]);

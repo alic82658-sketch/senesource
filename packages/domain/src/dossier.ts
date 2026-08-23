@@ -14,6 +14,14 @@
  * types, jamais l'inverse.
  */
 
+/**
+ * Date au format ISO `YYYY-MM-DD`. C'est la SEULE représentation de date du
+ * domaine. Le rendu éditorial (« 18.08 », « 21.08.2026 ») vit dans
+ * `packages/editorial` (dateJourMois, dateComplete). Jamais de date d'affichage
+ * partielle dans le domaine.
+ */
+export type DateISO = string;
+
 /** Les cinq verdicts autorisés (handoff §4.1) — jamais d'autres. */
 export const VERDICTS = [
   'Exact',
@@ -46,7 +54,7 @@ export interface VerdictRendu {
 
 export interface Instruction {
   explication: string;
-  prochainPoint: string;
+  prochainPoint: DateISO;
 }
 
 export interface Preuve {
@@ -55,6 +63,48 @@ export interface Preuve {
   etabli: boolean;
   meta?: string;
   mobile: boolean;
+}
+
+/**
+ * Un passage cité d'un document, à une page précise.
+ */
+export interface ExtraitDocument {
+  page: number;
+  citation: string;
+  annotation?: string;
+}
+
+/**
+ * Document original, réutilisable entre plusieurs dossiers.
+ * `id` est l'identifiant NEUTRE (normalisé depuis `_id` Sanity par l'adapter) ;
+ * `slug` est une propriété ÉDITORIALE (porte l'URL /documents/{slug}), jamais
+ * la clé de relation. Le sens inverse « dossiers citant ce document » est
+ * CALCULÉ (jamais stocké ici).
+ */
+export interface Document {
+  id: string;
+  slug: string;
+  titre: string;
+  emetteur: string; // organisme émetteur — chaîne en V1
+  type: string; // « Texte de loi », « Réponse administrative »… (chaîne V1)
+  date?: DateISO;
+  urlOriginale?: string;
+  fichierUrl?: string;
+  fichierType?: string;
+  pages?: number;
+  extraits: ExtraitDocument[];
+}
+
+/** Référence légère vers un dossier (pour le sens inverse calculé). */
+export interface DossierRef {
+  numero: number;
+  slug: string;
+  titre: string;
+}
+
+/** Vue calculée : un document + les dossiers qui le citent (non stockée). */
+export interface DocumentAvecUsages extends Document {
+  utilisePar: DossierRef[];
 }
 
 export interface PointCle {
@@ -74,6 +124,12 @@ export interface Piece {
   meta?: string;
   obtenue: boolean;
   rail: boolean;
+  /**
+   * Lien vers le document original — par son identifiant NEUTRE (`Document.id`),
+   * jamais par son slug. Dans Sanity c'est une vraie référence ; le mapper la
+   * normalise en `documentId`. Optionnel : une pièce peut n'en avoir aucun.
+   */
+  documentId?: string;
 }
 
 export interface TexteOfficiel {
@@ -108,7 +164,7 @@ export interface ChiffreCle {
 
 export interface EntreeHistorique {
   version: number;
-  date: string;
+  date: DateISO;
   note: string;
 }
 
@@ -123,9 +179,9 @@ export interface DossierChamps {
   titreCourt?: string;
   rubrique: string;
   statut: StatutDossier;
-  ouvertLe?: string;
+  ouvertLe?: DateISO;
   version?: number;
-  misAJourLe?: string;
+  misAJourLe?: DateISO;
   resume?: string;
 
   affirmation?: Affirmation;
