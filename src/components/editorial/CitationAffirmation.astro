@@ -6,16 +6,24 @@
 interface Props {
   texte: string; // sans guillemets — posés par le composant
   provenance?: string; // « FACEBOOK · 18 AOÛT · 12 400 PARTAGES »
+  provenanceLongue?: string; // variante desktop (§6.2), sinon `provenance`
   grande?: boolean; // page vérification desktop : 26/1.4 (§6.2)
 }
-const { texte, provenance, grande = false } = Astro.props;
+const { texte, provenance, provenanceLongue, grande = false } = Astro.props;
 ---
 
 <div>
   <p class:list={['typo-citation', 'affirmation', { 'typo-citation-grande': grande }]}>
     «&nbsp;{texte}&nbsp;»
   </p>
-  {provenance && <div class="provenance">{provenance}</div>}
+  {
+    provenance && (
+      <div class="provenance">
+        <span class:list={[{ 'prov-mobile': !!provenanceLongue }]}>{provenance}</span>
+        {provenanceLongue && <span class="prov-desktop">{provenanceLongue}</span>}
+      </div>
+    )
+  }
 </div>
 
 <style>
@@ -31,6 +39,9 @@ const { texte, provenance, grande = false } = Astro.props;
     text-transform: uppercase;
     color: var(--ss-mid);
   }
+  .prov-desktop {
+    display: none;
+  }
   @media (min-width: 1024px) {
     .affirmation {
       padding-left: 18px;
@@ -38,6 +49,12 @@ const { texte, provenance, grande = false } = Astro.props;
     .provenance {
       margin-top: 10px;
       padding-left: 20px;
+    }
+    .prov-mobile {
+      display: none;
+    }
+    .prov-desktop {
+      display: inline;
     }
   }
 </style>

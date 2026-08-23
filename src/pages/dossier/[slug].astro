@@ -1,0 +1,599 @@
+---
+import Base from '../../layouts/Base.astro';
+import CitationAffirmation from '../../components/editorial/CitationAffirmation.astro';
+import CitationOfficielle from '../../components/editorial/CitationOfficielle.astro';
+import ModuleConsequences from '../../components/editorial/ModuleConsequences.astro';
+import LignePreuve from '../../components/editorial/LignePreuve.astro';
+import EncartNote from '../../components/editorial/EncartNote.astro';
+import Jauge from '../../components/ui/Jauge.astro';
+import Carre from '../../components/ui/Carre.astro';
+import {
+  dossiersAvecPage,
+  collecte,
+  numeroAffiche,
+  fines,
+  segmentsRenvois,
+  type Dossier,
+} from '../../lib/contenu';
+
+export async function getStaticPaths() {
+  return (await dossiersAvecPage()).map((d) => ({ params: { slug: d.id }, props: { dossier: d } }));
+}
+
+interface Props {
+  dossier: Dossier;
+}
+const { dossier } = Astro.props;
+const d = dossier.data;
+const num = numeroAffiche(d.numero);
+const j = collecte(dossier);
+const rubriquePrincipale = d.rubrique.split('·')[0]!.trim();
+const preuvesMobiles = d.preuves.filter((p) => p.mobile);
+const etablies = d.preuves.filter((p) => p.etabli);
+const nonEtablies = d.preuves.filter((p) => !p.etabli);
+const consequence = d.consequenceDossier;
+const description = d.verdict
+  ? `${d.affirmation?.texte ?? d.titre} — Verdict : ${d.verdict.mot}. ${d.resume ?? ''}`.trim()
+  : `${d.titre} Dossier en instruction : ${j.obtenues} pièces obtenues sur ${j.total}.`;
+---
+
+<Base titre={`Dossier ${num} — ${d.titre}`} description={description}>
+  <!-- Barre de retour (§5.2 / §6.2) -->
+  <div class="barre">
+    <a class="barre-retour" href="/">← Dossier {num}<span class="barre-rubrique"> · {rubriquePrincipale}</span></a>
+    <span class="barre-meta">
+      <span class="barre-meta-mobile">
+        {d.version ? `v${d.version} · ${d.misAJourLe ?? ''}` : d.ouvertLe ? `Ouvert le ${d.ouvertLe}` : ''}
+      </span>
+      <span class="barre-meta-desktop">
+        {
+          d.version
+            ? `Version ${d.version} · Mise à jour le ${d.misAJourLe ?? ''} · ${j.total} pièces`
+            : d.ouvertLe
+              ? `Ouvert le ${d.ouvertLe} · ${j.total} pièces`
+              : `${j.total} pièces`
+        }
+      </span>
+    </span>
+  </div>
+
+  <div class="corps">
+    <!-- ===== COLONNE PRINCIPALE ===== -->
+    <main class="principale">
+      {
+        d.affirmation && (
+          <section class="affirmation">
+            <span class="typo-label">
+              {d.verdict ? "L'affirmation vérifiée" : "L'affirmation en cours de vérification"}
+            </span>
+            <div class="affirmation-citation">
+              <CitationAffirmation
+                texte={d.affirmation.texte}
+                provenance={d.affirmation.provenance}
+                provenanceLongue={d.affirmation.provenanceLongue}
+                grande
+              />
+            </div>
+          </section>
+        )
+      }
+
+      <!-- Bloc verdict / en instruction (§4.1 / §4.2) -->
+      <section class="verdict">
+        {
+          d.verdict ? (
+            <>
+              <div class="verdict-ligne">
+                <span class="verdict-etiquette">Verdict</span>
+                <span class="typo-verdict typo-verdict-grand">{d.verdict.mot}</span>
+              </div>
+              {d.verdict.resumeCourt && (
+                <p class="verdict-resume verdict-resume--mobile">{d.verdict.resumeCourt}</p>
+              )}
+              <p
+                class:list={[
+                  'verdict-resume',
+                  { 'verdict-resume--desktop': !!d.verdict.resumeCourt },
+                ]}
+              >
+                {segmentsRenvois(d.verdict.resume).map((s) =>
+                  s.type === 'renvoi' ? <span class="souligne-ocre">{s.valeur}</span> : s.valeur,
+                )}
+              </p>
+            </>
+          ) : (
+            <>
+              <div class="verdict-ligne">
+                <span class="verdict-etiquette">En instruction</span>
+                <span class="sans-verdict">Pas encore de verdict</span>
+              </div>
+              {d.instruction && <p class="verdict-resume">{d.instruction.explication}</p>}
+              <div class="verdict-jauge">
+                <Jauge
+                  obtenues={j.obtenues}
+                  total={j.total}
+                  libelle={`${j.obtenues} / ${j.total}${d.instruction ? ` · Prochain point le ${d.instruction.prochainPoint}` : ''}`}
+                  largeurBarre={16}
+                />
+              </div>
+            </>
+          )
+        }
+      </section>
+
+      <!-- Preuves — gabarit mobile (§5.2) : liste unique avec cotes -->
+      {
+        preuvesMobiles.length > 0 && (
+          <section class="preuves-mobile">
+            <span class="typo-label">
+              {d.verdict ? 'Ce qui est établi, et par quoi' : 'Ce que nous savons déjà'}
+            </span>
+            <div class="preuves-liste">
+              {preuvesMobiles.map((p, i) => (
+                <LignePreuve
+                  texte={p.texte}
+                  etabli={p.etabli}
+                  meta={p.meta ?? ''}
+                  derniere={i === preuvesMobiles.length - 1}
+                />
+              ))}
+            </div>
+            <div class="preuves-jauge">
+              <Jauge
+                obtenues={j.obtenues}
+                total={j.total}
+                libelle={`${j.obtenues} obtenues · ${j.total - j.obtenues} manquantes`}
+              />
+            </div>
+          </section>
+        )
+      }
+
+      <!-- Preuves — gabarit desktop (§6.2) : deux colonnes -->
+      {
+        d.preuves.length > 0 && (
+          <section class="preuves-desktop">
+            <div>
+              <span class="typo-label">Ce qui est établi</span>
+              <div class="colonne-liste">
+                {etablies.map((p) => (
+                  <div class="colonne-item">
+                    <Carre etat="plein" taille={7} decale />
+                    <span class="colonne-texte">{p.texteCourt ?? p.texte}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div class="colonne-non">
+              <span class="typo-label">Ce qui n'est pas établi</span>
+              <div class="colonne-liste">
+                {nonEtablies.map((p) => (
+                  <div class="colonne-item">
+                    <Carre etat="vide" taille={7} decale />
+                    <span class="colonne-texte colonne-texte--non">{p.texteCourt ?? p.texte}</span>
+                  </div>
+                ))}
+                {d.nonEtabliMeta && <div class="colonne-meta">{d.nonEtabliMeta}</div>}
+              </div>
+            </div>
+          </section>
+        )
+      }
+
+      <!-- Texte officiel (§4.7) -->
+      {
+        d.texteOfficiel && (
+          <section class="officiel">
+            <span class="typo-label">
+              <span class="officiel-label-mobile">Le texte officiel</span>
+              <span class="officiel-label-desktop">Ce que dit le texte officiel</span>
+            </span>
+            <div class="officiel-bloc officiel-bloc--mobile">
+              <CitationOfficielle
+                texte={d.texteOfficiel.texteCourt ?? d.texteOfficiel.texte}
+                cote={d.texteOfficiel.cote}
+                action={d.texteOfficiel.actionCourte ?? d.texteOfficiel.action}
+                href="#pieces"
+              />
+            </div>
+            <div class="officiel-bloc officiel-bloc--desktop">
+              <CitationOfficielle
+                texte={d.texteOfficiel.texte}
+                cote={d.texteOfficiel.cote}
+                action={d.texteOfficiel.action}
+                href="#pieces"
+              />
+            </div>
+          </section>
+        )
+      }
+
+      <!-- Module conséquences — flux mobile (§5.2) / encart absent (§7) -->
+      {
+        consequence ? (
+          <div class="module-mobile">
+            <ModuleConsequences
+              profil={consequence.profil}
+              chiffre={fines(consequence.chiffre)}
+              qualification={fines(consequence.qualification)}
+              hypothese={consequence.hypothese && fines(consequence.hypothese)}
+            />
+          </div>
+        ) : (
+          d.encartAbsence && (
+            <div class="module-mobile">
+              <EncartNote label={d.encartAbsence.label} texte={d.encartAbsence.texte} />
+            </div>
+          )
+        )
+      }
+
+      <!-- Pied mobile (§5.2 / §5.3) -->
+      <div class="pied-mobile">
+        <span class="pied-mobile-texte">
+          {d.verdict ? `Voir les ${j.total} pièces du dossier` : 'Être prévenu de la conclusion'}
+        </span>
+        <span class="pied-mobile-fleche">→</span>
+      </div>
+    </main>
+
+    <!-- ===== RAIL DESKTOP (§6.2) ===== -->
+    <aside class="rail">
+      {
+        consequence ? (
+          <ModuleConsequences
+            profil={consequence.profil}
+            chiffre={fines(consequence.chiffre)}
+            qualification={fines(consequence.qualification)}
+            qualificationDesktop={
+              consequence.qualificationDesktop && fines(consequence.qualificationDesktop)
+            }
+            hypothese={consequence.hypothese && fines(consequence.hypothese)}
+            action="Voir les autres profils →"
+          />
+        ) : (
+          d.encartAbsence && <EncartNote label={d.encartAbsence.label} texte={d.encartAbsence.texte} />
+        )
+      }
+      {
+        d.pieces.length > 0 && (
+          <div id="pieces">
+            <span class="typo-label">Les {j.total} pièces</span>
+            <div class="rail-pieces">
+              {d.pieces.map((p, i) => (
+                <div class:list={['rail-piece', { 'rail-piece--manquante': !p.obtenue, 'rail-piece--fin': i === d.pieces.length - 1 }]}>
+                  <span class="rail-n">[{p.n}]</span>
+                  <span class="rail-titre">{p.titreCourt ?? p.titre}</span>
+                  <Carre etat={p.obtenue ? 'plein' : 'vide'} taille={7} decale />
+                </div>
+              ))}
+            </div>
+            <div class="rail-registre">Ouvrir le registre →</div>
+          </div>
+        )
+      }
+      {
+        d.historique.length > 0 && (
+          <div>
+            <span class="typo-label">Historique de publication</span>
+            <div class="rail-historique">
+              {d.historique.map((h) => (
+                <>
+                  V{h.version} · {h.date} — {h.note}
+                  <br />
+                </>
+              ))}
+            </div>
+          </div>
+        )
+      }
+      <div class="rail-erreur">
+        Une erreur dans ce dossier&nbsp;? <span class="rail-erreur-lien">Signalez-la</span> — nous
+        republions en version datée.
+      </div>
+    </aside>
+  </div>
+</Base>
+
+<style>
+  /* ---- Barre de retour ---- */
+  .barre {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--ss-ink);
+  }
+  .barre-retour {
+    font: 500 10px/1 var(--ss-font-mono);
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--ss-ink);
+    white-space: nowrap;
+  }
+  .barre-rubrique {
+    display: none;
+  }
+  .barre-meta {
+    font: 400 10px/1 var(--ss-font-mono);
+    text-transform: uppercase;
+    color: var(--ss-mid);
+    white-space: nowrap;
+  }
+  .barre-meta-desktop {
+    display: none;
+  }
+
+  /* ---- Affirmation ---- */
+  .affirmation {
+    padding: 20px 20px 0;
+  }
+  .affirmation-citation {
+    margin-top: 10px;
+  }
+
+  /* ---- Verdict ---- */
+  .verdict {
+    margin: 20px 20px 0;
+    border-top: 1px solid var(--ss-ink);
+    border-bottom: 1px solid var(--ss-rule);
+    padding: 14px 0;
+  }
+  .verdict-ligne {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+  }
+  .verdict-etiquette {
+    font: 500 9px/1 var(--ss-font-mono);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ss-mid);
+    white-space: nowrap;
+  }
+  .sans-verdict {
+    font: 400 24px/1.1 var(--ss-font-serif);
+    color: var(--ss-mid);
+  }
+  .verdict-resume {
+    margin: 12px 0 0;
+    font: 400 15.5px/1.6 var(--ss-font-sans);
+    color: var(--ss-ink-90);
+    text-wrap: pretty;
+  }
+  .verdict-jauge {
+    margin-top: 12px;
+  }
+
+  /* ---- Preuves mobile ---- */
+  .preuves-mobile {
+    padding: 18px 20px 0;
+  }
+  .preuves-liste {
+    margin-top: 12px;
+  }
+  .preuves-jauge {
+    margin-top: 12px;
+  }
+  .preuves-desktop {
+    display: none;
+  }
+
+  /* ---- Texte officiel ---- */
+  .officiel {
+    padding: 18px 20px 0;
+  }
+  .officiel-bloc {
+    margin-top: 10px;
+  }
+  .officiel-label-desktop,
+  .officiel-bloc--desktop,
+  .verdict-resume--desktop {
+    display: none;
+  }
+
+  /* ---- Module / pied mobile ---- */
+  .module-mobile {
+    margin: 18px 20px;
+  }
+  .pied-mobile {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    padding: 14px 20px;
+    border-top: 1px solid var(--ss-ink);
+  }
+  .pied-mobile-texte {
+    font: 400 13.5px/1.2 var(--ss-font-serif);
+  }
+  .pied-mobile-fleche {
+    font: 500 10px/1 var(--ss-font-mono);
+    color: var(--ss-ochre);
+  }
+  .rail {
+    display: none;
+  }
+
+  /* =============== ≥1024 (§6.2) =============== */
+  @media (min-width: 1024px) {
+    .barre {
+      padding: 16px 48px;
+    }
+    .barre-retour,
+    .barre-meta {
+      font-size: 10.5px;
+    }
+    .barre-rubrique,
+    .barre-meta-desktop {
+      display: inline;
+    }
+    .barre-meta-mobile {
+      display: none;
+    }
+    .corps {
+      display: grid;
+      grid-template-columns: 1fr var(--ss-rail);
+    }
+    .principale {
+      border-right: 1px solid var(--ss-rule);
+      padding: 34px 40px 34px 48px;
+    }
+    .affirmation {
+      padding: 0;
+    }
+    .affirmation-citation {
+      margin-top: 12px;
+    }
+    .verdict {
+      margin: 26px 0 0;
+      padding: 16px 0;
+      max-width: var(--ss-texte-max);
+    }
+    .verdict-etiquette {
+      font-size: 9.5px;
+    }
+    .verdict-resume {
+      margin-top: 14px;
+      font-size: 16.5px;
+      line-height: 1.65;
+      max-width: 64ch;
+    }
+    .preuves-mobile {
+      display: none;
+    }
+    .preuves-desktop {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 36px;
+      margin-top: 26px;
+      max-width: var(--ss-texte-max);
+    }
+    .colonne-liste {
+      margin-top: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .colonne-item {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+    .colonne-texte {
+      font: 400 14px/1.5 var(--ss-font-sans);
+      color: var(--ss-ink);
+      flex: 1;
+    }
+    .colonne-texte--non {
+      color: var(--ss-mid);
+      font-style: italic;
+    }
+    .colonne-meta {
+      font: 400 10px/1.5 var(--ss-font-mono);
+      text-transform: uppercase;
+      color: var(--ss-mid);
+    }
+    .officiel {
+      margin-top: 30px;
+      padding: 22px 0 0;
+      border-top: 1px solid var(--ss-ink);
+      max-width: var(--ss-texte-max);
+    }
+    .officiel-bloc {
+      margin-top: 12px;
+    }
+    .officiel-label-mobile,
+    .officiel-bloc--mobile,
+    .verdict-resume--mobile {
+      display: none;
+    }
+    .officiel-label-desktop {
+      display: inline;
+    }
+    .officiel-bloc--desktop {
+      display: block;
+    }
+    .verdict-resume--desktop {
+      display: block;
+    }
+    .module-mobile,
+    .pied-mobile {
+      display: none;
+    }
+    .rail {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      padding: 34px 48px 34px 32px;
+    }
+    .rail-pieces {
+      margin-top: 12px;
+    }
+    .rail-piece {
+      display: flex;
+      gap: 10px;
+      padding: 9px 0;
+      border-top: 1px solid var(--ss-rule);
+      align-items: baseline;
+    }
+    .rail-piece--fin {
+      border-bottom: 1px solid var(--ss-rule);
+    }
+    .rail-n {
+      font: 500 10px/1.5 var(--ss-font-mono);
+      color: var(--ss-ochre);
+    }
+    .rail-piece--manquante .rail-n {
+      color: var(--ss-mid);
+      font-weight: 400;
+    }
+    .rail-titre {
+      font: 400 13px/1.45 var(--ss-font-sans);
+      flex: 1;
+    }
+    .rail-piece--manquante .rail-titre {
+      color: var(--ss-mid);
+      font-style: italic;
+    }
+    .rail-registre {
+      margin-top: 12px;
+      font: 500 10px/1 var(--ss-font-mono);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ss-ochre);
+    }
+    .rail-historique {
+      margin-top: 10px;
+      font: 400 12px/1.7 var(--ss-font-mono);
+      text-transform: uppercase;
+      color: var(--ss-mid);
+    }
+    .rail-erreur {
+      margin-top: auto;
+      padding-top: 16px;
+      border-top: 1px solid var(--ss-rule);
+      font: 400 12.5px/1.6 var(--ss-font-sans);
+      color: var(--ss-ink-60);
+    }
+    .rail-erreur-lien {
+      color: var(--ss-ochre);
+    }
+  }
+  @media (min-width: 1440px) {
+    .corps {
+      grid-template-columns: 1fr var(--ss-rail-xl);
+    }
+    .barre {
+      padding-left: 64px;
+      padding-right: 64px;
+    }
+    .principale {
+      padding-left: 64px;
+    }
+    .rail {
+      padding-right: 64px;
+    }
+  }
+</style>

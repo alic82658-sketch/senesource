@@ -1,0 +1,451 @@
+---
+import Base from '../layouts/Base.astro';
+import EnTete from '../components/layout/EnTete.astro';
+import CarteDossier from '../components/editorial/CarteDossier.astro';
+import ModuleConsequences from '../components/editorial/ModuleConsequences.astro';
+import BandeauInverse from '../components/editorial/BandeauInverse.astro';
+import RailPiece from '../components/editorial/RailPiece.astro';
+import Jauge from '../components/ui/Jauge.astro';
+import Carre from '../components/ui/Carre.astro';
+import Bouton from '../components/ui/Bouton.astro';
+import { listeDossiers, collecte, numeroAffiche, fines, segmentsRenvois } from '../lib/contenu';
+
+const dossiers = await listeDossiers();
+const tete = dossiers.find((d) => d.data.pageComplete) ?? dossiers[0]!;
+// Ordre des secondaires : numéro croissant, comme l'écran de référence (§5.1/§6.1)
+const secondaires = dossiers
+  .filter((d) => d.id !== tete.id)
+  .slice(0, 2)
+  .sort((a, b) => a.data.numero - b.data.numero);
+const jaugeTete = collecte(tete);
+const urlTete = `/dossier/${tete.id}/`;
+---
+
+<Base
+  titre="Vérifications, pièces et conséquences"
+  description="SeneSource — média sénégalais de vérification documentaire : dossiers, verdicts, pièces et conséquences concrètes."
+>
+  <EnTete courante="verifications" meta="Sam. 22 août" />
+
+  <div class="corps">
+    <!-- ===== COLONNE PRINCIPALE ===== -->
+    <main class="principale">
+      <div class="ouverts">
+        <span class="ouverts-label">Ouverts cette semaine</span>
+        <span class="ouverts-nombre">{String(dossiers.length).padStart(2, '0')}</span>
+      </div>
+
+      <!-- Dossier de tête -->
+      <article class="tete">
+        <div class="tete-etiquette">
+          <span class="etiquette-numero">Dossier {numeroAffiche(tete.data.numero)}</span>
+          <span class="etiquette-rubrique">
+            {tete.data.rubrique}<span class="etiquette-ouvert">
+              {tete.data.ouvertLe && ` · Ouvert le ${tete.data.ouvertLe}`}</span
+            >
+          </span>
+        </div>
+        <h1 class="typo-display tete-titre">
+          <a class="lien-titre" href={urlTete}>
+            <span class:list={[{ 'titre-mobile': !!tete.data.titreCourt }]}>{tete.data.titre}</span>
+            {tete.data.titreCourt && <span class="titre-desktop">{tete.data.titreCourt}</span>}
+          </a>
+        </h1>
+
+        <div class="tete-verdict">
+          {
+            tete.data.verdict ? (
+              <>
+                <span class="verdict-label">Verdict</span>
+                <span class="verdict-mot">{tete.data.verdict.mot}</span>
+              </>
+            ) : (
+              <span class="verdict-label">En instruction</span>
+            )
+          }
+          <span class="verdict-droite">
+            <span class="verdict-jauge">
+              <Jauge
+                obtenues={jaugeTete.obtenues}
+                total={jaugeTete.total}
+                libelle={`${jaugeTete.obtenues} pièces sur ${jaugeTete.total}`}
+                largeurBarre={18}
+              />
+            </span>
+            <span class="verdict-compte">{jaugeTete.obtenues} pièces sur {jaugeTete.total}</span>
+          </span>
+        </div>
+
+        <div class="tete-grille">
+          <div>
+            {tete.data.resume && <p class="typo-corps tete-resume">{tete.data.resume}</p>}
+            <div class="points">
+              {
+                tete.data.pointsCles.map((p) => (
+                  <div class:list={['point', { 'point--non': !p.etabli }]}>
+                    <Carre etat={p.etabli ? 'plein' : 'vide'} taille={7} decale />
+                    <span class="point-texte">
+                      {segmentsRenvois(p.texte).map((s) =>
+                        s.type === 'renvoi' ? <span class="point-renvoi">{s.valeur}</span> : s.valeur,
+                      )}
+                    </span>
+                  </div>
+                ))
+              }
+            </div>
+          </div>
+          {
+            tete.data.consequenceHome && (
+              <div class="tete-module">
+                <ModuleConsequences
+                  profil={tete.data.consequenceHome.profil}
+                  chiffre={fines(tete.data.consequenceHome.chiffre)}
+                  qualification={fines(tete.data.consequenceHome.qualification)}
+                  qualificationDesktop={
+                    tete.data.consequenceHome.qualificationDesktop &&
+                    fines(tete.data.consequenceHome.qualificationDesktop)
+                  }
+                  hypothese={tete.data.consequenceHome.hypothese && fines(tete.data.consequenceHome.hypothese)}
+                  note={tete.data.consequenceHome.note}
+                  noteAccent={tete.data.consequenceHome.noteAccent}
+                />
+              </div>
+            )
+          }
+        </div>
+      </article>
+
+      <!-- Dossiers secondaires -->
+      <div class="secondaires">
+        {
+          secondaires.map((d) => {
+            const j = collecte(d);
+            return (
+              <div class="secondaire">
+                <CarteDossier
+                  numero={numeroAffiche(d.data.numero)}
+                  rubrique={d.data.rubrique}
+                  titre={d.data.titre}
+                  verdict={d.data.verdict?.mot ?? null}
+                  jauge={
+                    d.data.verdict
+                      ? undefined
+                      : { obtenues: j.obtenues, total: j.total, libelle: `${j.obtenues} / ${j.total} · Pas encore de verdict` }
+                  }
+                  chiffre={
+                    d.data.chiffreCle && {
+                      valeur: fines(d.data.chiffreCle.valeur),
+                      qualification: d.data.chiffreCle.qualification,
+                    }
+                  }
+                />
+              </div>
+            );
+          })
+        }
+      </div>
+    </main>
+
+    <!-- ===== RAIL (desktop uniquement, §6.1) ===== -->
+    <aside class="rail">
+      <div>
+        <span class="typo-label">Ce que nous avons obtenu · ce qui manque</span>
+        <div class="rail-liste">
+          {
+            tete.data.pieces
+              .filter((p) => p.rail)
+              .map((p, i, arr) => (
+                <RailPiece
+                  titre={p.titre}
+                  meta={p.meta ?? ''}
+                  obtenue={p.obtenue}
+                  derniere={i === arr.length - 1}
+                />
+              ))
+          }
+        </div>
+      </div>
+      <div class="rail-profil">
+        <span class="typo-label">Votre profil</span>
+        <p class="rail-profil-texte">
+          Dites-nous comment vous payez et ce que vous conduisez&nbsp;: chaque dossier affichera
+          d'abord vos chiffres.
+        </p>
+        <Bouton variante="contour">Définir mon profil</Bouton>
+      </div>
+      <div class="rail-cta">
+        <p class="rail-cta-texte">Une information circule&nbsp;? Faites-la vérifier.</p>
+        <Bouton variante="plein">Ouvrir un signalement →</Bouton>
+      </div>
+    </aside>
+  </div>
+
+  <!-- Pied mobile (§5.1) -->
+  <div class="pied-mobile">
+    <BandeauInverse texte="Une information à faire vérifier ?" action="Déposer →" />
+  </div>
+</Base>
+
+<style>
+  .corps {
+    display: block;
+  }
+  /* ---- « Ouverts cette semaine » (§5.1) ---- */
+  .ouverts {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 14px 20px 0;
+  }
+  .ouverts-label {
+    font: 400 9.5px/1 var(--ss-font-mono);
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--ss-mid);
+  }
+  .ouverts-nombre {
+    font: 400 9.5px/1 var(--ss-font-mono);
+    color: var(--ss-mid);
+  }
+
+  /* ---- Dossier de tête ---- */
+  .tete {
+    padding: 16px 20px 20px;
+    border-bottom: 1px solid var(--ss-rule);
+  }
+  .tete-etiquette {
+    display: flex;
+    gap: 10px;
+    align-items: baseline;
+    margin-bottom: 10px;
+  }
+  .etiquette-numero {
+    font: 600 10px/1 var(--ss-font-mono);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ss-ochre);
+    white-space: nowrap;
+  }
+  .etiquette-rubrique {
+    font: 400 10px/1 var(--ss-font-mono);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ss-mid);
+  }
+  .etiquette-ouvert {
+    display: none;
+  }
+  .tete-titre {
+    margin-bottom: 14px;
+  }
+  .titre-desktop {
+    display: none;
+  }
+  .tete-verdict {
+    display: flex;
+    align-items: baseline;
+    gap: 9px;
+    padding: 9px 0;
+    border-top: 1px solid var(--ss-ink);
+    border-bottom: 1px solid var(--ss-rule);
+    margin-bottom: 12px;
+  }
+  .verdict-label {
+    font: 500 9px/1 var(--ss-font-mono);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ss-mid);
+    white-space: nowrap;
+  }
+  .verdict-mot {
+    font: 400 17px/1 var(--ss-font-serif);
+    font-style: italic;
+  }
+  .verdict-droite {
+    margin-left: auto;
+  }
+  .verdict-jauge {
+    display: none;
+  }
+  .verdict-compte {
+    font: 400 9.5px/1 var(--ss-font-mono);
+    text-transform: uppercase;
+    color: var(--ss-mid);
+    white-space: nowrap;
+  }
+  .tete-resume {
+    margin-bottom: 16px;
+  }
+  .points {
+    display: none;
+  }
+  .tete-grille {
+    display: block;
+  }
+
+  /* ---- Secondaires ---- */
+  .secondaire {
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--ss-rule);
+  }
+
+  /* ---- Rail et pied ---- */
+  .rail {
+    display: none;
+  }
+  .pied-mobile {
+    margin-top: 0;
+  }
+
+  /* =============== ≥1024 (§6.1) =============== */
+  @media (min-width: 1024px) {
+    .corps {
+      display: grid;
+      grid-template-columns: 1fr var(--ss-rail);
+    }
+    .principale {
+      border-right: 1px solid var(--ss-rule);
+      padding: 0 40px 32px 48px;
+    }
+    .ouverts {
+      display: none;
+    }
+    .tete {
+      padding: 34px 0 0;
+      border-bottom: 0;
+    }
+    .tete-etiquette {
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .etiquette-numero,
+    .etiquette-rubrique {
+      font-size: 11px;
+    }
+    .etiquette-ouvert {
+      display: inline;
+    }
+    .tete-titre {
+      margin-bottom: 22px;
+    }
+    .titre-mobile {
+      display: none;
+    }
+    .titre-desktop {
+      display: inline;
+    }
+    .tete-verdict {
+      gap: 14px;
+      padding: 12px 0;
+      margin-bottom: 0;
+      max-width: var(--ss-texte-max);
+    }
+    .verdict-label {
+      font-size: 9.5px;
+    }
+    .verdict-mot {
+      font-size: 24px;
+    }
+    .verdict-droite {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .verdict-jauge {
+      display: block;
+    }
+    /* La jauge porte déjà son libellé « 4 pièces sur 6 » (§6.1) */
+    .verdict-compte {
+      display: none;
+    }
+    .tete-grille {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 36px;
+      margin-top: 22px;
+      max-width: var(--ss-texte-max);
+    }
+    .tete-resume {
+      margin-bottom: 18px;
+    }
+    .points {
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+    }
+    .point {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+    .point-texte {
+      font: 400 13.5px/1.5 var(--ss-font-sans);
+      color: var(--ss-ink);
+      flex: 1;
+    }
+    .point--non .point-texte {
+      color: var(--ss-mid);
+      font-style: italic;
+    }
+    .point-renvoi {
+      font: 400 10px/1.7 var(--ss-font-mono);
+      color: var(--ss-ochre);
+    }
+    .tete-module {
+      align-self: start;
+    }
+    .secondaires {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 36px;
+      margin-top: 32px;
+      padding-top: 22px;
+      border-top: 1px solid var(--ss-ink);
+      max-width: var(--ss-texte-max);
+    }
+    .secondaire {
+      padding: 0;
+      border-bottom: 0;
+    }
+    .rail {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      padding: 34px 48px 32px 32px;
+    }
+    .rail-liste {
+      margin-top: 12px;
+    }
+    .rail-profil {
+      padding: 18px;
+      background: var(--ss-paper-2);
+    }
+    .rail-profil-texte {
+      margin: 10px 0 12px;
+      font: 400 15px/1.5 var(--ss-font-serif);
+    }
+    .rail-cta {
+      margin-top: auto;
+      padding-top: 20px;
+      border-top: 1px solid var(--ss-ink);
+    }
+    .rail-cta-texte {
+      margin: 0 0 12px;
+      font: 400 20px/1.25 var(--ss-font-serif);
+    }
+    .pied-mobile {
+      display: none;
+    }
+  }
+  @media (min-width: 1440px) {
+    .corps {
+      grid-template-columns: 1fr var(--ss-rail-xl);
+    }
+    .principale {
+      padding-left: 64px;
+    }
+    .rail {
+      padding-right: 64px;
+    }
+  }
+</style>

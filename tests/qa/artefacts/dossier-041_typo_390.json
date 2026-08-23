@@ -1,0 +1,48 @@
+{
+  "titre": null,
+  "verdict": {
+    "famille": "Newsreader",
+    "taille": "28px",
+    "interligne": "28px",
+    "graisse": "400",
+    "interlettrage": "normal",
+    "style": "italic",
+    "couleur": "rgb(23, 22, 26)"
+  },
+  "chiffre": {
+    "famille": "Newsreader",
+    "taille": "42px",
+    "interligne": "36.96px",
+    "graisse": "400",
+    "interlettrage": "normal",
+    "style": "normal",
+    "couleur": "rgb(162, 98, 27)"
+  },
+  "corps": {
+    "famille": "Public Sans",
+    "taille": "15.5px",
+    "interligne": "24.8px",
+    "graisse": "400",
+    "interlettrage": "normal",
+    "style": "normal",
+    "couleur": "rgb(43, 41, 37)"
+  },
+  "label": {
+    "famille": "IBM Plex Mono",
+    "taille": "10px",
+    "interligne": "10px",
+    "graisse": "500",
+    "interlettrage": "0.9px",
+    "style": "normal",
+    "couleur": "rgb(107, 102, 93)"
+  },
+  "citation": {
+    "famille": "Newsreader",
+    "taille": "19px",
+    "interligne": "25.65px",
+    "graisse": "400",
+    "interlettrage": "normal",
+    "style": "italic",
+    "couleur": "rgb(23, 22, 26)"
+  }
+}

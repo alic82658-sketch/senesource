@@ -10,16 +10,18 @@ interface Props {
   profil: string; // « TAXI », « CHOISIR »
   chiffre: string; // « 78 000 F » — espaces fines insécables déjà posées
   qualification: string; // « sur une année,\nen payant en espèces »
+  qualificationDesktop?: string; // phrase sous le chiffre, disposition bloc (§6.1/§6.2)
   hypothese?: string; // « HYPOTHÈSE : 30 000 F/SEMAINE · 52 SEMAINES »
   note?: string; // variante : phrase sans mono (« Profil actif : … »)
   noteAccent?: string; // portion en --ink dans la note
   action?: string; // « CHANGER DE PROFIL → »
 }
-const { profil, chiffre, qualification, hypothese, note, noteAccent, action } = Astro.props;
+const { profil, chiffre, qualification, qualificationDesktop, hypothese, note, noteAccent, action } =
+  Astro.props;
 const lignesQualif = qualification.split('\n');
 ---
 
-<div class="module">
+<div class:list={['module', { 'module--bloc': !!qualificationDesktop }]}>
   <div class="module-tete">
     <span class="module-etiquette">Ce que ça change pour vous</span>
     <button class="module-selecteur">{profil} ▾</button>
@@ -36,6 +38,7 @@ const lignesQualif = qualification.split('\n');
         ))
       }
     </span>
+    {qualificationDesktop && <p class="module-qualif-desktop">{qualificationDesktop}</p>}
   </div>
   <div class="module-pied">
     {hypothese && <span class="module-hypothese">{hypothese}</span>}
@@ -114,6 +117,9 @@ const lignesQualif = qualification.split('\n');
     text-transform: uppercase;
     color: var(--ss-mid);
   }
+  .module-qualif-desktop {
+    display: none;
+  }
   @media (min-width: 1024px) {
     .module {
       padding: 18px;
@@ -123,6 +129,24 @@ const lignesQualif = qualification.split('\n');
     }
     .module-pied {
       margin-top: 14px;
+    }
+    /* Disposition bloc (§6.1/§6.2) : le chiffre seul, la phrase dessous */
+    .module--bloc .module-corps {
+      display: block;
+    }
+    .module--bloc .typo-chiffre {
+      font-size: 44px;
+      line-height: 0.9;
+    }
+    .module--bloc .module-qualif {
+      display: none;
+    }
+    .module--bloc .module-qualif-desktop {
+      display: block;
+      margin: 10px 0 0;
+      font: 400 13px/1.5 var(--ss-font-sans);
+      color: var(--ss-ink-70);
+      text-wrap: pretty;
     }
   }
 </style>

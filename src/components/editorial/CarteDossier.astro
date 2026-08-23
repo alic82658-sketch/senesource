@@ -36,7 +36,7 @@ const { numero, rubrique, titre, href, verdict = null, jauge, chiffre } = Astro.
       </div>
     ) : (
       jauge && (
-        <div class="carte-verdict">
+        <div class="carte-verdict carte-verdict--desktop">
           <span class="carte-verdict-label">En instruction</span>
           <span class="carte-instruction">
             {jauge.obtenues} pièces sur {jauge.total}
@@ -129,6 +129,12 @@ const { numero, rubrique, titre, href, verdict = null, jauge, chiffre } = Astro.
     font: 400 11.5px/1.4 var(--ss-font-sans);
     color: var(--ss-mid);
   }
+  /* Carte en instruction : la ligne « En instruction · n pièces sur m »
+     n'apparaît qu'en desktop (§6.1) ; le libellé de la jauge, qu'en
+     mobile (§5.1). */
+  .carte-verdict--desktop {
+    display: none;
+  }
   @media (min-width: 1024px) {
     .carte-titre {
       margin-bottom: 10px;
@@ -140,6 +146,12 @@ const { numero, rubrique, titre, href, verdict = null, jauge, chiffre } = Astro.
     }
     .carte-chiffre {
       font-size: 24px;
+    }
+    .carte-verdict--desktop {
+      display: flex;
+    }
+    .carte-pied :global(.jauge-libelle) {
+      display: none;
     }
   }
 </style>

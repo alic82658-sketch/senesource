@@ -177,10 +177,12 @@
     }
   }
 
-  /* figure : Newsreader 400 ocre · 42/0.88 encart · 52/0.9 page (§2) */
+  /* figure : Newsreader 400 ocre · 42/0.88 encart · 52/0.9 page (§2)
+     Un chiffre ne se coupe jamais en fin de ligne (règle §2 / QA E5). */
   .typo-chiffre {
     font: 400 42px/0.88 var(--ss-font-serif);
     color: var(--ss-ochre);
+    white-space: nowrap;
   }
   .typo-chiffre-page {
     font: 400 52px/0.9 var(--ss-font-serif);
@@ -239,6 +241,14 @@
     text-decoration-color: var(--ss-ochre);
     text-decoration-thickness: 1px;
     text-underline-offset: 2px;
+  }
+
+  /* Renvoi [n] inline dans le texte courant (§6.2) : mono ocre,
+     soulignement 1px ocre du passage fondé. */
+  .souligne-ocre {
+    font: 400 10px/1.7 var(--ss-font-mono);
+    color: var(--ss-ochre);
+    border-bottom: 1px solid var(--ss-ochre);
   }
 
   /* Chargement (§4.9) : blocs --rule de la hauteur du texte, aucune pulsation */
