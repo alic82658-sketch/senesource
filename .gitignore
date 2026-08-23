@@ -8,3 +8,4 @@ pnpm-debug.log*
 tests/qa/artefacts/
 apps/studio/schema.json
 apps/studio/dist/
+apps/studio/.sanity/

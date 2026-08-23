@@ -1,5 +1,6 @@
 import { dossier } from './dossier';
 import { document, extraitDocument } from './document';
+import { illustration } from './illustration';
 import { objectTypes } from './objects';
 
 /**
@@ -8,4 +9,4 @@ import { objectTypes } from './objects';
  * entre dossiers ; une pièce le référence. Pas d'entité `Organisation`
  * (l'émetteur reste une chaîne — V1).
  */
-export const schemaTypes = [dossier, document, extraitDocument, ...objectTypes];
+export const schemaTypes = [dossier, document, extraitDocument, illustration, ...objectTypes];

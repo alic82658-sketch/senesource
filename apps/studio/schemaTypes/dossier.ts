@@ -169,6 +169,11 @@ export const dossier = defineType({
     defineField({ name: 'encartAbsence', title: 'Encart « pourquoi pas de chiffre »', type: 'encartAbsence', group: 'consequences' }),
 
     // ---------- Affichage & carte ----------
+    // Illustrations — toutes FACULTATIVES. Un dossier est complet sans image ;
+    // en l'absence d'image, aucun bloc/placeholder n'est rendu (spec 14).
+    defineField({ name: 'illustration', title: 'Illustration principale (facultative)', type: 'illustration', group: 'affichage' }),
+    defineField({ name: 'illustrationsContenu', title: 'Illustrations dans le contenu (facultatives)', type: 'array', of: [{ type: 'illustration' }], group: 'affichage' }),
+    defineField({ name: 'partageSocial', title: 'Visuel de partage social (facultatif)', type: 'illustration', group: 'affichage', description: 'Si absent : image de marque par défaut. Non affiché dans la page.' }),
     defineField({ name: 'chiffreCle', title: 'Chiffre-clé (carte secondaire)', type: 'chiffreCle', group: 'affichage' }),
     defineField({ name: 'ouvertLe', title: 'Ouvert le', type: 'date', options: { dateFormat: 'YYYY-MM-DD' }, group: 'affichage', description: 'Date ISO ; l’affichage « 18.08 » est produit par packages/editorial.' }),
     defineField({ name: 'version', title: 'Version', type: 'number', group: 'affichage', validation: (r) => r.integer().positive() }),

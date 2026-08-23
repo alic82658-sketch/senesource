@@ -102,6 +102,34 @@ export interface DossierRef {
   titre: string;
 }
 
+/** Point focal normalisé (0–1), pour le cadrage responsive. */
+export interface PointFocal {
+  x: number;
+  y: number;
+}
+
+/**
+ * Illustration FACULTATIVE. Un dossier reste visuellement complet sans image ;
+ * aucune illustration n'est obligatoire. En l'absence d'illustration, le bloc
+ * n'est pas rendu — jamais de placeholder vide côté lecteur (règle produit,
+ * voir docs/architecture/14-illustrations-spec.md).
+ *
+ * `alt` est obligatoire dès qu'une image existe (accessibilité). `src`,
+ * dimensions et `focal` sont résolus par l'adapter (Sanity/CDN) ; les autres
+ * champs sont éditoriaux.
+ */
+export interface Illustration {
+  src: string; // URL de l'image (résolue par l'adapter)
+  alt: string; // texte alternatif — requis si image présente
+  largeur?: number;
+  hauteur?: number;
+  focal?: PointFocal; // point focal / cadrage
+  legende?: string;
+  credit?: string;
+  sourceUrl?: string;
+  droits?: string; // information de droits / licence
+}
+
 /** Vue calculée : un document + les dossiers qui le citent (non stockée). */
 export interface DocumentAvecUsages extends Document {
   utilisePar: DossierRef[];
@@ -201,6 +229,11 @@ export interface DossierChamps {
   encartAbsence?: EncartAbsence;
 
   chiffreCle?: ChiffreCle;
+
+  // Illustrations — toutes FACULTATIVES (un dossier fonctionne sans image).
+  illustration?: Illustration; // 1. illustration principale du dossier
+  illustrationsContenu?: Illustration[]; // 2. illustrations intégrées au contenu
+  partageSocial?: Illustration; // 3. visuel de partage social (sinon défaut de marque)
 
   historique: EntreeHistorique[];
 
