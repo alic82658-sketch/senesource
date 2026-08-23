@@ -6,3 +6,5 @@ dist/
 npm-debug.log*
 pnpm-debug.log*
 tests/qa/artefacts/
+apps/studio/schema.json
+apps/studio/dist/

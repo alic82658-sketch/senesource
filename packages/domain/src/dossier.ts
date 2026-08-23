@@ -25,10 +25,12 @@ export const VERDICTS = [
 export type Verdict = (typeof VERDICTS)[number];
 
 /** Un dossier n'est pas forcément un fact-check (modèle multi-type). */
-export type TypeDossier = 'verification' | 'impact' | 'document' | 'explication';
+export const TYPES_DOSSIER = ['verification', 'impact', 'document', 'explication'] as const;
+export type TypeDossier = (typeof TYPES_DOSSIER)[number];
 
 /** Statuts publics d'un dossier (« brouillon » = draft, hors modèle public). */
-export type StatutDossier = 'en_instruction' | 'publie' | 'archive';
+export const STATUTS_DOSSIER = ['en_instruction', 'publie', 'archive'] as const;
+export type StatutDossier = (typeof STATUTS_DOSSIER)[number];
 
 export interface Affirmation {
   texte: string;

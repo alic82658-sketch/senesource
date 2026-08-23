@@ -1,0 +1,24 @@
+{
+  "name": "@senesource/studio",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "sanity dev",
+    "build": "sanity build",
+    "start": "sanity start",
+    "schema:extract": "sanity schema extract --path schema.json",
+    "schema:validate": "sanity schema validate"
+  },
+  "dependencies": {
+    "@senesource/domain": "workspace:*",
+    "@sanity/vision": "^6.10.1",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "sanity": "^6.10.1",
+    "styled-components": "^6.1.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3"
+  }
+}
