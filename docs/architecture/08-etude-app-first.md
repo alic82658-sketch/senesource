@@ -91,25 +91,71 @@ Douze critères, trois finalistes après présélection. Notation ⭐ (faible) �
 
 ---
 
-## 4. Choix recommandé : **Directus** (auto-hébergé), **Sanity en plan B**
+## 4. Décision : **Sanity pour la V1** (Directus reversé en migration ultérieure)
 
-**Directus** — plateforme open-source posée sur **votre propre PostgreSQL**, qui génère automatiquement une admin éditoriale configurable, une **API REST + GraphQL standard**, un RBAC fin, du stockage de fichiers, du versioning natif et des *flows* (automatisations/webhooks). En clair : la puissance relationnelle de Supabase **plus** une vraie interface d'écriture, **sans avoir à la construire**.
+> **DÉCISION DU PROPRIÉTAIRE (2026-08-23) :** l'architecture générale, Expo et le monorepo
+> sont validés. Pour la source de contenu, **Sanity est retenu pour la V1**. Directus n'est
+> pas abandonné : il devient l'**option de migration ultérieure** si la souveraineté des
+> données ou le coût à grande échelle le justifient. La comparaison des §3–§4 est conservée
+> comme trace du raisonnement ; le reste du document est aligné sur Sanity ci-dessous.
 
-**Configuration cible :** Directus (Docker) sur VPS UE (Hetzner/Scaleway) + PostgreSQL sauvegardé ; **Cloudflare** devant l'API (cache des GET publics → latence Sénégal excellente, protection, TLS) ; **Cloudflare R2** pour les PDF/images (**egress gratuit** → le poste bande passante s'effondre, avantage décisif sur Sanity). Un **flow à la publication** fait trois choses d'un coup : invalide le cache Cloudflare, déclenche la revalidation Astro, et envoie le push « nouveau dossier ». **Coût visé : ~30–80 $/mois, plat, même à 100k lecteurs** (le CDN absorbe la lecture).
+**Pourquoi ce choix se défend pour une V1 :** Sanity est **la meilleure expérience d'écriture
+du marché** pour une rédaction non-technique (Studio soigné, brouillons et prévisualisation
+temps réel natifs), **zéro serveur à administrer** (pas d'ops, pas de sauvegardes Postgres à
+tenir — décisif si l'équipe n'a pas de ressource d'exploitation continue), et une **propagation
+instantanée** vers l'app sans rebuild store. C'est le choix qui minimise le temps-jusqu'à-la-V1
+et la charge d'exploitation. Les deux compromis assumés (souveraineté et coût à la bande
+passante) sont **traités ci-dessous**, et le modèle de données ayant été conçu de façon
+agnostique au fournisseur, la migration ultérieure vers Directus reste un simple échange
+d'implémentation derrière l'interface `DataSource` (voir §9).
 
-**Contre Sanity** (qui gagne sur l'écriture pure et la latence sans effort) : Directus vous rend **propriétaire des données** (crucial pour des sources sensibles au Sénégal), **plafonne le coût** (forfait vs facture à la bande passante), et expose une **API standard** sans langage propriétaire (GROQ) ni format propriétaire (Portable Text à re-sérialiser deux fois). Prix à payer : un serveur à administrer et une expérience d'écriture un cran en dessous.
+**Configuration cible (Sanity) :**
+- **Sanity** : dataset de production, contenu riche en **Portable Text**, requêtes **GROQ**, et
+  la **Live Content API** pour servir le contenu frais à l'app sans rebuild.
+- **Sanity Studio** (l'interface d'écriture, open-source) hébergé par nos soins — dans le
+  monorepo (`apps/studio`), déployable sur l'hébergement statique du web ou sur Sanity.
+- **Webhooks Sanity (GROQ-powered)** à la publication : déclenchent (1) la revalidation/rebuild
+  Astro, (2) l'envoi du push « nouveau dossier » via une petite fonction serveur. Même chaîne
+  d'effets que celle prévue avec un flow Directus, câblée sur les webhooks Sanity.
+- **Maîtrise du coût de bande passante (le point de vigilance n°1 de Sanity) :** surveiller
+  l'egress des assets ; si les fac-similés PDF/scans deviennent lourds, **router les gros
+  fichiers vers un stockage à egress gratuit (Cloudflare R2) + CDN** plutôt que de les servir
+  depuis le CDN d'assets Sanity facturé — Sanity garde alors le contenu structuré, R2 sert les
+  fichiers lourds. Décision à prendre à la mesure du poids réel (question ouverte).
+- **Souveraineté (compromis assumé) :** le contenu vit dans le content lake Sanity (régions
+  US/UE, hors Sénégal). Pour des **dossiers publics** déjà destinés à être vus, l'enjeu est
+  modéré. Pour les **soumissions de lecteurs potentiellement sensibles** (sources), c'est le
+  vrai sujet : les **isoler hors de Sanity** (formulaire → stockage dédié chiffré, ou collecte
+  différée) plutôt que de les loger dans le content lake. À cadrer avant d'ouvrir les
+  soumissions. C'est aussi l'un des déclencheurs possibles de la bascule vers Directus.
 
-**Contre Supabase** (le plus puissant sur le modèle, le moins verrouillé) : Directus **livre l'admin** au lieu de vous la faire développer — vous gardez ~90 % de la puissance Postgres (c'est le même Postgres dessous) sans payer des semaines de back-office ni sa maintenance perpétuelle.
+**Ce que Sanity impose côté code (absorbé par `packages/editorial`) :** GROQ est spécifique à
+Sanity (à apprendre, non transférable) et le **Portable Text demande un sérialiseur** côté Astro
+**et** côté React Native. Ces deux sérialiseurs vivent dans `packages/editorial` (mapping
+Portable Text → modèle de domaine + rendu), de sorte que les gabarits et l'app ne voient
+jamais que le `Dossier` de domaine — et qu'une future bascule vers Directus ne touche que ce
+paquet. La taxonomie des verdicts et les invariants (verdict ⇒ affirmation, hypothèse
+obligatoire) se posent en **règles de validation du schéma Studio**, doublées de la validation
+runtime dans `editorial`.
 
-**Le seul vrai arbitrage à trancher (question ouverte n°1, §10) :** Directus **auto-hébergé** (souveraineté + coût plat, mais un serveur à tenir : sauvegardes, montées de version) **vs Directus Cloud** (zéro ops, quelques dizaines de $/mois, rapatriable plus tard sans changer le modèle) **vs plan B Sanity** (zéro serveur, meilleure écriture, mais SaaS étranger + coût à la bande passante). **Recommandation par défaut : démarrer sur Directus Cloud 2-3 mois pour aller vite, puis rapatrier en auto-hébergé** — le modèle étant du Postgres standard, le déménagement est simple. Ce choix dépend de la disponibilité d'une ressource technique pour l'exploitation : à confirmer avec vous.
+*Directus (recommandation initiale) reste documenté aux §3–§4 comme cible de migration : le jour
+où la souveraineté (hébergement au Sénégal) ou un coût de bande passante devenu douloureux le
+justifie, on rejoue le même schéma sur Postgres et on échange l'implémentation `DataSource`.*
 
-**Note licence :** Directus est sous BSL 1.1 — **gratuit tant que le produit génère moins de 5 M$/an** (hors de portée à moyen terme), bascule GPL ensuite. Usage conforme. Si une licence 100 % ouverte est un point dur, Payload v3 (MIT) est l'alternative.
+### Pour mémoire — pourquoi Directus était la recommandation initiale (trace, non retenue pour la V1)
+
+*Ce raisonnement reste valable et fonde le choix de Directus comme **cible de migration** ; il n'est plus la recommandation V1 (voir la décision en tête de §4).*
+
+- **Directus contre Sanity :** Directus rend **propriétaire des données** (sources sensibles au Sénégal), **plafonne le coût** (forfait vs facture à la bande passante), et expose une **API standard** sans langage propriétaire (GROQ) ni format propriétaire (Portable Text à re-sérialiser). Prix à payer : un serveur à administrer et une écriture un cran en dessous — **ce sont ces deux coûts que la décision V1 a préféré éviter** en retenant Sanity.
+- **Directus contre Supabase :** Directus **livre l'admin** au lieu de la faire développer (~90 % de la puissance Postgres sans semaines de back-office).
+- **Note licence (pour la migration future) :** Directus est sous BSL 1.1 — gratuit sous 5 M$/an de revenus, bascule GPL ensuite. Usage conforme. Payload v3 (MIT) reste l'alternative 100 % ouverte.
+- **Seuils de bascule Sanity → Directus** (à fixer, question ouverte §10) : coût de bande passante devenu douloureux, ou exigence de souveraineté imposant un hébergement au Sénégal. Le modèle étant du contenu structuré agnostique, la migration = rejouer le schéma sur Postgres + échanger l'implémentation `DataSource`.
 
 ---
 
 ## 5. Architecture app ↔ backend ↔ web (sans duplication)
 
-Une seule source de vérité (la base Directus), **deux consommateurs de la même API**, **le même mapping et les mêmes règles** :
+Une seule source de vérité (le dataset Sanity), **deux consommateurs de la même API** (GROQ / Live Content API), **le même mapping et les mêmes règles** :
 
 - **`packages/editorial`** expose une interface neutre `DataSource` — `listeDossiers()`, `dossier(slug)`, `dossiersCitant(cote)` — et rend **toujours** un `Dossier` de **domaine** (type neutre `@senesource/types`), jamais une forme fournisseur. Le mapping (payload → Dossier) et les règles (5 verdicts, `fines` U+202F, `collecte` non-agrégeable, relations) sont **partagés à l'identique**.
 - **Web (Astro, build)** appelle une implémentation `ApiDataSource` **au build** : `getStaticPaths` itère `listeDossiers()`, la publication déclenche une **revalidation par webhook**. Quelques routes chaudes peuvent passer en ISR/SSR si le rythme l'exige ; les pages dossier restent statiques.
@@ -126,7 +172,7 @@ Une seule source de vérité (la base Directus), **deux consommateurs de la mêm
 - **Cycle du token :** après opt-in, obtenir l'`ExpoPushToken`, l'envoyer au backend, le persister (MMKV + table `devices` avec plateforme/langue/préférences), purger les invalides.
 - **Déclencheurs, alignés sur l'éditorial :** (1) **nouveau dossier publié** (principal) ; (2) **correction/mise à jour** d'un dossier — précieux pour un fact-checker, renforce la crédibilité ; (3) **conclusion d'un dossier « en instruction » suivi** (opt-in « suivre ce dossier ») ; (4) optionnel : résumé hebdo faible fréquence.
 - **Opt-in & segmentation :** écran d'amorçage expliquant la valeur avant la permission système ; préférences granulaires par type ; canaux Android par type ; chaque push embarque en `data` l'URL du dossier `/dossier/NNN-slug` (le tap deep-linke).
-- **Déclenchement par la rédaction, automatique :** quand un dossier passe à « publié » (ou « corrigé », ou « conclu »), un **flow Directus / webhook** sélectionne les tokens abonnés, compose le message et appelle Expo Push. Aucun envoi manuel ; une case « notifier les lecteurs » permet de distinguer une correction mineure d'une alerte. Idempotence pour éviter les doublons (un doublon nuit à la crédibilité).
+- **Déclenchement par la rédaction, automatique :** quand un dossier passe à « publié » (ou « corrigé », ou « conclu »), un **webhook Sanity** appelle une petite fonction serveur qui sélectionne les tokens abonnés, compose le message et appelle Expo Push. Aucun envoi manuel ; une case « notifier les lecteurs » dans le Studio permet de distinguer une correction mineure d'une alerte. Idempotence pour éviter les doublons (un doublon nuit à la crédibilité).
 
 ---
 
@@ -150,11 +196,13 @@ senesource/                      # monorepo (dépôt actuel restructuré)
 ├─ apps/
 │  ├─ web/                       # le projet Astro ACTUEL déplacé tel quel
 │  │  └─ src/{pages,components,layouts,styles,lib}  # composants INCHANGÉS
-│  └─ mobile/                    # app Expo (nouvelle) — expo-router, écrans, cache offline
+│  ├─ mobile/                    # app Expo (nouvelle) — expo-router, écrans, cache offline
+│  └─ studio/                    # Sanity Studio (interface d'écriture, schémas + validations)
 ├─ packages/
 │  ├─ types/                     # @senesource/types — types de DOMAINE purs, zéro import framework
 │  ├─ editorial/                 # @senesource/editorial — règles (verdicts, fines, collecte,
-│  │                             #   segmentsRenvois, relations), mapping, interface DataSource
+│  │                             #   segmentsRenvois, relations), mapping (Portable Text → Dossier),
+│  │                             #   sérialiseurs PT web+RN, interface DataSource
 │  └─ design-tokens/             # @senesource/design-tokens — source unique --ss-*,
 │                                #   buildée en tokens.css (web) + tokens.ts (RN)
 └─ docs/architecture/            # 00…08
@@ -173,8 +221,8 @@ senesource/                      # monorepo (dépôt actuel restructuré)
 **Préalable non négociable — assainir la couche d'accès (dette réelle confirmée dans le code).** Aujourd'hui `src/lib/contenu.ts` expose `export type Dossier = CollectionEntry<'dossiers'>` et les gabarits lisent `dossier.data.*` / `dossier.id` : l'abstraction **fuit la forme Astro**, la promesse « rebrancher sans toucher aux gabarits » n'est donc **pas encore vraie**. Périmètre petit (six fonctions, un fichier), corrigible en une passe.
 
 - **Étape 0 :** créer `@senesource/types.Dossier` (calque exact du `data` Zod actuel + `slug` = ex-`id`) ; faire renvoyer la couche d'accès ce `Dossier` de domaine ; remplacer dans les gabarits `dossier.data.*` → `dossier.*` et `dossier.id` → `dossier.slug` (**seule retouche de gabarits du projet, mécanique**) ; déplacer `fines`/`collecte`/`numeroAffiche`/`segmentsRenvois` + garde-fous verdict dans `packages/editorial`. **Critère de sortie : `dist/` byte-identique à l'actuel.** On ne migre aucune donnée tant que ce refactor n'est pas vert.
-- **Étape 1 :** modéliser le schéma Zod dans Directus (enums pour statut/type/verdict ; objets imbriqués ; relation **explicite** dossier→documents par la cote pour que `dossiersCitant` soit une requête). **Rejouer les invariants Zod** côté CMS **et** garder la validation runtime dans `editorial` — le code reste le gardien des 5 verdicts.
-- **Étape 2 :** script d'import **one-shot idempotent** : lit les 3 `.mdx`, mappe `frontmatter → Dossier → payload`, téléverse les fichiers, crée les documents en **préservant le slug**, puis **vérifie** que le `Dossier` relu via l'API est **strictement égal** à celui issu du MDX.
+- **Étape 1 :** modéliser le schéma Zod dans les **schémas Sanity Studio** (enums pour statut/type/verdict ; objets imbriqués ; `reference` vers les documents-sources pour que `dossiersCitant` soit une requête GROQ ; corps en Portable Text). **Rejouer les invariants Zod** en **règles de validation Studio** **et** garder la validation runtime dans `editorial` — le code reste le gardien des 5 verdicts.
+- **Étape 2 :** script d'import **one-shot idempotent** (client d'écriture Sanity + Mutations API) : lit les 3 `.mdx`, mappe `frontmatter → Dossier → document Sanity` (corps → Portable Text), téléverse les fichiers comme assets, crée les documents en **préservant le slug**, puis **vérifie** que le `Dossier` relu via l'API (GROQ) est **strictement égal** à celui issu du MDX.
 - **Étape 3 :** bascule = changer quelle `DataSource` l'adaptateur instancie (`Mdx` → `Api`), derrière un drapeau `SOURCE=mdx|api`. **Aucun gabarit touché.**
 - **Étape 4 :** coexistence (MDX en secours derrière le drapeau) jusqu'à preuve de non-régression (`dist` depuis `api` == `dist` depuis `mdx`, diff HTML nul) + plusieurs publications réelles en prod, puis retrait du MDX. **Les URLs ne bougent jamais.**
 
@@ -187,7 +235,7 @@ Phases ordonnées par **dépendances** (pas de dates), chacune avec un critère 
 | Phase | Contenu | Dépend de | Definition of Done |
 |---|---|---|---|
 | **A — Fondations monorepo** | Restructurer (pnpm+Turbo), déplacer Astro en `apps/web`, créer `types`/`editorial`/`design-tokens`, extraire règles+jetons, assainir la couche d'accès (§9 étape 0) | — | `apps/web` build **byte-identique** à l'actuel ; QA Playwright/axe verte ; jetons buildés CSS **et** TS ; plus aucun `astro:content` dans les gabarits |
-| **B — Source de contenu + migration** | Modéliser Directus, `ApiDataSource`, script d'import, importer 040/041/042 | A | `dist` depuis API == depuis MDX (diff nul) ; slugs préservés ; invariants rejoués CMS + editorial ; webhook rebuild câblé |
+| **B — Source de contenu + migration** | Schémas Sanity Studio (`apps/studio`), sérialiseurs Portable Text, `ApiDataSource` (GROQ), script d'import, importer 040/041/042 | A | `dist` depuis API == depuis MDX (diff nul) ; slugs préservés ; invariants rejoués (validation Studio + editorial) ; webhook rebuild câblé |
 | **C — App V0 (lecture seule)** | App Expo : liste, page dossier (avec verdict / en instruction / document / impact), verdicts+fines+collecte fidèles, offline sur contenu vu | A, B | parité de contenu avec le web ; hors-ligne OK ; navigation par slug ; conformité jetons (revue design) |
 | **D — Deep links + partage** | Universal/App Links servis par le web, `senesource://` ↔ URL web, partage sortant vers l'URL permanente | C (chevauche B) | lien installé ouvre l'app sur le bon dossier ; non installé ouvre le web ; aucun forçage d'installation |
 | **E — Push** | `expo-notifications` + Expo Push, déclenché par flow de publication (nouveau dossier / mise à jour / conclusion) | C | un « publie » déclenche un push ; tap deep-linke ; opt-in respecté |
@@ -210,17 +258,19 @@ On **réutilise à chaque phase** l'existant : design system, modèle de donnée
 | 6 | **Rupture d'URL / slug modifié après publication** (SEO + deep links morts) | Slug **immuable après publication** côté CMS + table de 301 ; test dans le script d'import |
 | 7 | **ClaimReview mal émis** (sur un dossier en instruction, ou barème incohérent) → pénalité fact-check Google | Mapping type→balisage centralisé ; jamais de ClaimReview sans verdict ; test Rich Results en DoD |
 | 8 | **Neutralisation des défauts natifs** (ripple, élévation, radius de sheets) | Bibliothèque de primitifs verrouillée + revue design |
-| 9 | **Souveraineté partielle** (VPS UE, pas Sénégal ; soumissions sensibles) | Cloisonner/chiffrer les soumissions ; migration vers hébergeur local facile (Postgres portable) |
-| 10 | **Petite équipe, surface qui double** (2 apps + 3 paquets + CMS) | Frugalité assumée (pas de Nx/Changesets tant qu'inutiles), docs à jour, QA automatisée comme filet |
+| 9 | **Souveraineté (Sanity = content lake US/UE)** ; soumissions de lecteurs potentiellement sensibles | Isoler les soumissions **hors de Sanity** (stockage dédié chiffré) ; modèle agnostique → bascule vers Directus/Postgres au Sénégal possible sans réécriture |
+| 10 | **Coût de bande passante Sanity** (fac-similés PDF/scans servis par le CDN d'assets facturé) | Router les gros fichiers vers R2 (egress gratuit) + CDN ; dérivés dimensionnés ; mesurer le poids réel avant lancement |
+| 11 | **Petite équipe, surface qui double** (3 apps + 3 paquets + CMS) | Frugalité assumée (pas de Nx/Changesets tant qu'inutiles), docs à jour, QA automatisée comme filet |
+| 12 | **Lock-in Sanity** (GROQ, Portable Text, content lake propriétaire) | Sérialiseurs et mapping isolés dans `editorial` ; export NDJSON + `DataSource` échangeable = coût de sortie borné (chemin Directus déjà tracé) |
 
 ---
 
 ## Questions ouvertes à trancher avec le propriétaire
 
-1. **Hébergement du CMS :** Directus Cloud (zéro ops, démarrage rapide) puis rapatriement auto-hébergé, ou auto-hébergé d'emblée (souveraineté max) ? → dépend de la disponibilité d'une ressource d'exploitation. *(Recommandation : Cloud 2-3 mois puis rapatriement.)*
-2. **Localisation des données**, surtout les soumissions sensibles : VPS UE (fiable, RGPD) ou hébergeur au Sénégal (souveraineté max, fiabilité/latence à vérifier) ? Exigence légale explicite ?
-3. **Budget mensuel plafond** backend+CDN+stockage à l'horizon 100k lecteurs (ordre visé Directus : 30–80 $/mois plat) ?
-4. **Qui maintient le serveur** et reprend en cas de départ (interne, prestataire, contrat) ?
+1. **Palier Sanity** (Free / Growth / Enterprise) au démarrage, et **plafond de bande passante/assets** acceptable — faut-il router les fac-similés lourds vers R2 dès la V1 ou attendre la mesure du poids réel ?
+2. **Soumissions de lecteurs sensibles :** où les loger (stockage isolé chiffré hors Sanity) et quand ouvrir cette fonction ? C'est le point souveraineté à cadrer avant d'exposer les soumissions.
+3. **Seuils de bascule vers Directus :** à partir de quel coût de bande passante ou de quelle exigence de souveraineté (hébergement au Sénégal) déclenche-t-on la migration ? (Fixer les critères maintenant évite de la subir plus tard.)
+4. **Hébergement du Studio :** avec le web (même hébergeur statique) ou déploiement Sanity ? Qui gère les montées de version du Studio et des schémas ?
 5. **`Invérifiable` et ClaimReview :** `reviewRating` sans note numérique, ou basculer ces dossiers en `NewsArticle` ?
 6. **Profondeur offline de l'app :** cache « déjà vu » (léger) ou téléchargement proactif pour lecture hors-ligne complète (pertinent vu la connectivité) ?
 7. **Portée du push :** nouveaux dossiers seulement, ou aussi mises à jour et passages instruction→verdict ? Fréquence / fatigue de notification ?
@@ -232,4 +282,4 @@ On **réutilise à chaque phase** l'existant : design system, modèle de donnée
 
 ## Recommandation en une phrase
 
-**Expo/React Native** (New Arch, EAS Build+Update ; jetons TS + primitifs verrouillés, pas de NativeWind) pour l'app produit-principal ; **Directus auto-hébergé** (Postgres + Cloudflare + R2) comme source de contenu unique — Sanity en plan B ; **un monorepo pnpm+Turborepo frugal** (`apps/web`, `apps/mobile`, `packages/{types,editorial,design-tokens}`) qui définit verdicts, fines et jetons **une seule fois** ; migration MDX→API **invisible pour les gabarits** après avoir assaini la couche d'accès ; URLs permanentes partagées web/app pour le SEO, le partage et les deep links — le tout en **conservant intégralement** le design system et le handoff Claude Design comme source de vérité visuelle.
+**Expo/React Native** (New Arch, EAS Build+Update ; jetons TS + primitifs verrouillés, pas de NativeWind) pour l'app produit-principal ; **Sanity** (Studio auto-hébergé, GROQ/Portable Text) comme source de contenu unique pour la V1 — **Directus reversé en migration ultérieure** si la souveraineté ou le coût à grande échelle le justifient ; **un monorepo pnpm+Turborepo frugal** (`apps/web`, `apps/mobile`, `apps/studio`, `packages/{types,editorial,design-tokens}`) qui définit verdicts, fines et jetons **une seule fois** ; migration MDX→API **invisible pour les gabarits** après avoir assaini la couche d'accès ; URLs permanentes partagées web/app pour le SEO, le partage et les deep links — le tout en **conservant intégralement** le design system et le handoff Claude Design comme source de vérité visuelle.
