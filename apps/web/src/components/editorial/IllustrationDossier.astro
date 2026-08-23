@@ -1,0 +1,126 @@
+---
+/**
+ * Illustration principale d'un dossier — rendu documentaire, jamais décoratif.
+ *
+ * Réutilise EXCLUSIVEMENT le modèle de domaine `Illustration`
+ * (packages/domain/src/dossier.ts ; spec docs/architecture/14-illustrations-spec.md).
+ * Emplacement unique : colonne média du hero (desktop) / pleine largeur de la
+ * colonne de contenu (mobile). Recadrage piloté par le point focal (`focal`,
+ * normalisé 0–1) — jamais de déformation. Légende, crédit, droits et « Voir
+ * l'original → » sont du texte : l'information ne repose jamais sur la seule image.
+ *
+ * Règles design system : zéro radius, zéro ombre, zéro gradient. Le seul filet
+ * est un filet fin `--rule` (même niveau) séparant la légende de l'image.
+ */
+interface Props {
+  src: string;
+  alt: string;
+  largeur?: number;
+  hauteur?: number;
+  focal?: { x: number; y: number };
+  legende?: string;
+  credit?: string;
+  sourceUrl?: string;
+  droits?: string;
+}
+
+const { src, alt, largeur, hauteur, focal, legende, credit, sourceUrl, droits } = Astro.props;
+
+// Point focal → object-position (défaut centré). Normalisé 0–1 côté domaine.
+const objPos = focal
+  ? `${Math.round(focal.x * 100)}% ${Math.round(focal.y * 100)}%`
+  : '50% 50%';
+
+const aLegende = Boolean(legende || credit || droits || sourceUrl);
+---
+
+<figure class="illu">
+  <div class="illu-cadre">
+    <img
+      class="illu-img"
+      src={src}
+      alt={alt}
+      width={largeur}
+      height={hauteur}
+      style={`object-position: ${objPos};`}
+      loading="lazy"
+      decoding="async"
+    />
+  </div>
+  {
+    aLegende && (
+      <figcaption class="illu-legende">
+        {legende && <span class="illu-texte">{legende}</span>}
+        {(credit || droits) && (
+          <span class="illu-credit">
+            {credit}
+            {credit && droits ? ' · ' : ''}
+            {droits}
+          </span>
+        )}
+        {sourceUrl && (
+          <a class="illu-source" href={sourceUrl} target="_blank" rel="noopener noreferrer">
+            Voir l’original →
+          </a>
+        )}
+      </figcaption>
+    )
+  }
+</figure>
+
+<style>
+  .illu {
+    margin: 0;
+  }
+  /* Cadre au ratio éditorial 3:2. object-fit: cover + focal : recadrage sans
+     déformation. Zéro radius, zéro ombre. */
+  .illu-cadre {
+    aspect-ratio: 3 / 2;
+    overflow: hidden;
+  }
+  .illu-img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* object-position : piloté par le point focal (inline) */
+  }
+  .illu-legende {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    margin-top: 9px;
+    padding-top: 9px;
+    border-top: 1px solid var(--ss-rule); /* filet fin — même niveau */
+  }
+  .illu-texte {
+    font: 400 12.5px/1.5 var(--ss-font-sans);
+    color: var(--ss-ink-60);
+    text-wrap: pretty;
+  }
+  .illu-credit {
+    font: 400 9.5px/1.5 var(--ss-font-mono);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--ss-mid);
+  }
+  .illu-source {
+    align-self: start;
+    margin-top: 3px;
+    font: 500 9.5px/1 var(--ss-font-mono);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ss-ochre);
+  }
+  .illu-source:hover {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+  }
+
+  @media (min-width: 1024px) {
+    .illu-texte {
+      font-size: 13px;
+    }
+  }
+</style>

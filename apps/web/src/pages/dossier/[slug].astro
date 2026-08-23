@@ -5,6 +5,7 @@ import CitationOfficielle from '../../components/editorial/CitationOfficielle.as
 import ModuleConsequences from '../../components/editorial/ModuleConsequences.astro';
 import LignePreuve from '../../components/editorial/LignePreuve.astro';
 import EncartNote from '../../components/editorial/EncartNote.astro';
+import IllustrationDossier from '../../components/editorial/IllustrationDossier.astro';
 import Jauge from '../../components/ui/Jauge.astro';
 import Carre from '../../components/ui/Carre.astro';
 import PiedDeSite from '../../components/layout/PiedDeSite.astro';
@@ -35,316 +36,351 @@ const preuvesMobiles = d.preuves.filter((p) => p.mobile);
 const etablies = d.preuves.filter((p) => p.etabli);
 const nonEtablies = d.preuves.filter((p) => !p.etabli);
 const consequence = d.consequenceDossier;
+// L'illustration principale est FACULTATIVE : présente, elle ouvre une vraie
+// colonne média dans le hero desktop ; absente, le layout se reconfigure
+// automatiquement en deux colonnes (contenu + sources), sans zone vide.
+const illustration = d.illustration;
+const avecImage = Boolean(illustration);
 const description = d.verdict
   ? `${d.affirmation?.texte ?? d.titre} — Verdict : ${d.verdict.mot}. ${d.resume ?? ''}`.trim()
   : `${d.titre} Dossier en instruction : ${j.obtenues} pièces obtenues sur ${j.total}.`;
 ---
 
 <Base titre={`Dossier ${num} — ${d.titre}`} description={description}>
-  <!-- Barre de retour (§5.2 / §6.2) -->
-  <div class="barre">
-    <a class="barre-retour" href="/">← Dossier {num}<span class="barre-rubrique"> · {rubriquePrincipale}</span></a>
-    <span class="barre-meta">
-      <span class="barre-meta-mobile">
-        {d.version ? `v${d.version} · ${d.misAJourLe ? dateComplete(d.misAJourLe) : ''}` : d.ouvertLe ? `Ouvert le ${dateJourMois(d.ouvertLe)}` : ''}
+  <div class:list={['dossier', { 'dossier--avec-image': avecImage }]}>
+    <!-- Barre de retour (§5.2 / §6.2) -->
+    <div class="barre">
+      <a class="barre-retour" href="/">← Dossier {num}<span class="barre-rubrique"> · {rubriquePrincipale}</span></a>
+      <span class="barre-meta">
+        <span class="barre-meta-mobile">
+          {d.version ? `v${d.version} · ${d.misAJourLe ? dateComplete(d.misAJourLe) : ''}` : d.ouvertLe ? `Ouvert le ${dateJourMois(d.ouvertLe)}` : ''}
+        </span>
+        <span class="barre-meta-desktop">
+          {
+            d.version
+              ? `Version ${d.version} · Mise à jour le ${d.misAJourLe ? dateComplete(d.misAJourLe) : ''} · ${j.total} pièces`
+              : d.ouvertLe
+                ? `Ouvert le ${dateJourMois(d.ouvertLe)} · ${j.total} pièces`
+                : `${j.total} pièces`
+          }
+        </span>
       </span>
-      <span class="barre-meta-desktop">
-        {
-          d.version
-            ? `Version ${d.version} · Mise à jour le ${d.misAJourLe ? dateComplete(d.misAJourLe) : ''} · ${j.total} pièces`
-            : d.ouvertLe
-              ? `Ouvert le ${dateJourMois(d.ouvertLe)} · ${j.total} pièces`
-              : `${j.total} pièces`
-        }
-      </span>
-    </span>
-  </div>
+    </div>
 
-  <div class="corps">
-    <!-- ===== COLONNE PRINCIPALE ===== -->
-    <main class="principale">
+    <div class="corps">
+      <!-- ===== MÉDIA — illustration principale (hero desktop / haut mobile) ===== -->
       {
-        d.affirmation && (
-          <section class="affirmation">
-            <span class="typo-label">
-              {d.verdict ? "L'affirmation vérifiée" : "L'affirmation en cours de vérification"}
-            </span>
-            <div class="affirmation-citation">
-              <CitationAffirmation
-                texte={d.affirmation.texte}
-                provenance={d.affirmation.provenance}
-                provenanceLongue={d.affirmation.provenanceLongue}
-                grande
-              />
-            </div>
-          </section>
+        illustration && (
+          <div class="dossier-media">
+            <IllustrationDossier
+              src={illustration.src}
+              alt={illustration.alt}
+              largeur={illustration.largeur}
+              hauteur={illustration.hauteur}
+              focal={illustration.focal}
+              legende={illustration.legende}
+              credit={illustration.credit}
+              sourceUrl={illustration.sourceUrl}
+              droits={illustration.droits}
+            />
+          </div>
         )
       }
 
-      <!-- Bloc verdict / en instruction (§4.1 / §4.2) -->
-      <section class="verdict">
+      <!-- ===== INTRO ÉDITORIALE — affirmation + verdict (hero, colonne gauche) ===== -->
+      <section class="dossier-intro">
         {
-          d.verdict ? (
-            <>
-              <div class="verdict-ligne">
-                <span class="verdict-etiquette">Verdict</span>
-                <span class="typo-verdict typo-verdict-grand">{d.verdict.mot}</span>
+          d.affirmation && (
+            <div class="affirmation">
+              <span class="typo-label">
+                {d.verdict ? "L'affirmation vérifiée" : "L'affirmation en cours de vérification"}
+              </span>
+              <div class="affirmation-citation">
+                <CitationAffirmation
+                  texte={d.affirmation.texte}
+                  provenance={d.affirmation.provenance}
+                  provenanceLongue={d.affirmation.provenanceLongue}
+                  grande
+                />
               </div>
-              {d.verdict.resumeCourt && (
-                <p class="verdict-resume verdict-resume--mobile">{d.verdict.resumeCourt}</p>
-              )}
-              <p
-                class:list={[
-                  'verdict-resume',
-                  { 'verdict-resume--desktop': !!d.verdict.resumeCourt },
-                ]}
-              >
-                {segmentsRenvois(d.verdict.resume).map((s) =>
-                  s.type === 'renvoi' ? <span class="souligne-ocre">{s.valeur}</span> : s.valeur,
+            </div>
+          )
+        }
+
+        <!-- Bloc verdict / en instruction (§4.1 / §4.2) -->
+        <div class="verdict">
+          {
+            d.verdict ? (
+              <>
+                <div class="verdict-ligne">
+                  <span class="verdict-etiquette">Verdict</span>
+                  <span class="typo-verdict typo-verdict-grand">{d.verdict.mot}</span>
+                </div>
+                {d.verdict.resumeCourt && (
+                  <p class="verdict-resume verdict-resume--mobile">{d.verdict.resumeCourt}</p>
                 )}
-              </p>
-            </>
-          ) : (
-            <>
-              <div class="verdict-ligne">
-                <span class="verdict-etiquette">En instruction</span>
-                <span class="sans-verdict">Pas encore de verdict</span>
+                <p
+                  class:list={[
+                    'verdict-resume',
+                    { 'verdict-resume--desktop': !!d.verdict.resumeCourt },
+                  ]}
+                >
+                  {segmentsRenvois(d.verdict.resume).map((s) =>
+                    s.type === 'renvoi' ? <span class="souligne-ocre">{s.valeur}</span> : s.valeur,
+                  )}
+                </p>
+              </>
+            ) : (
+              <>
+                <div class="verdict-ligne">
+                  <span class="verdict-etiquette">En instruction</span>
+                  <span class="sans-verdict">Pas encore de verdict</span>
+                </div>
+                {d.instruction && <p class="verdict-resume">{d.instruction.explication}</p>}
+                <div class="verdict-jauge">
+                  <Jauge
+                    obtenues={j.obtenues}
+                    total={j.total}
+                    libelle={`${j.obtenues} / ${j.total}${d.instruction ? ` · Prochain point le ${dateJourMois(d.instruction.prochainPoint)}` : ''}`}
+                    largeurBarre={16}
+                  />
+                </div>
+              </>
+            )
+          }
+        </div>
+      </section>
+
+      <!-- ===== SUITE — preuves, texte officiel, conséquences, sources, historique ===== -->
+      <div class="dossier-suite">
+        <!-- Preuves — gabarit mobile (§5.2) : liste unique avec cotes -->
+        {
+          preuvesMobiles.length > 0 && (
+            <section class="preuves-mobile">
+              <span class="typo-label">
+                {d.verdict ? 'Ce qui est établi, et par quoi' : 'Ce que nous savons déjà'}
+              </span>
+              <div class="preuves-liste">
+                {preuvesMobiles.map((p, i) => (
+                  <LignePreuve
+                    texte={p.texte}
+                    etabli={p.etabli}
+                    meta={p.meta ?? ''}
+                    derniere={i === preuvesMobiles.length - 1}
+                  />
+                ))}
               </div>
-              {d.instruction && <p class="verdict-resume">{d.instruction.explication}</p>}
-              <div class="verdict-jauge">
+              <div class="preuves-jauge">
                 <Jauge
                   obtenues={j.obtenues}
                   total={j.total}
-                  libelle={`${j.obtenues} / ${j.total}${d.instruction ? ` · Prochain point le ${dateJourMois(d.instruction.prochainPoint)}` : ''}`}
-                  largeurBarre={16}
+                  libelle={`${j.obtenues} obtenues · ${j.total - j.obtenues} manquantes`}
                 />
               </div>
-            </>
+            </section>
           )
         }
-      </section>
 
-      <!-- Preuves — gabarit mobile (§5.2) : liste unique avec cotes -->
-      {
-        preuvesMobiles.length > 0 && (
-          <section class="preuves-mobile">
-            <span class="typo-label">
-              {d.verdict ? 'Ce qui est établi, et par quoi' : 'Ce que nous savons déjà'}
-            </span>
-            <div class="preuves-liste">
-              {preuvesMobiles.map((p, i) => (
-                <LignePreuve
-                  texte={p.texte}
-                  etabli={p.etabli}
-                  meta={p.meta ?? ''}
-                  derniere={i === preuvesMobiles.length - 1}
+        <!-- Preuves — gabarit desktop (§6.2) : deux colonnes -->
+        {
+          d.preuves.length > 0 && (
+            <section class="preuves-desktop">
+              <div>
+                <span class="typo-label">Ce qui est établi</span>
+                <div class="colonne-liste">
+                  {etablies.map((p) => (
+                    <div class="colonne-item">
+                      <Carre etat="plein" taille={7} decale />
+                      <span class="colonne-texte">{p.texteCourt ?? p.texte}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div class="colonne-non">
+                <span class="typo-label">Ce qui n'est pas établi</span>
+                <div class="colonne-liste">
+                  {nonEtablies.map((p) => (
+                    <div class="colonne-item">
+                      <Carre etat="vide" taille={7} decale />
+                      <span class="colonne-texte colonne-texte--non">{p.texteCourt ?? p.texte}</span>
+                    </div>
+                  ))}
+                  {d.nonEtabliMeta && <div class="colonne-meta">{d.nonEtabliMeta}</div>}
+                </div>
+              </div>
+            </section>
+          )
+        }
+
+        <!-- Texte officiel (§4.7) -->
+        {
+          d.texteOfficiel && (
+            <section class="officiel">
+              <span class="typo-label">
+                <span class="officiel-label-mobile">Le texte officiel</span>
+                <span class="officiel-label-desktop">Ce que dit le texte officiel</span>
+              </span>
+              <div class="officiel-bloc officiel-bloc--mobile">
+                <CitationOfficielle
+                  texte={d.texteOfficiel.texteCourt ?? d.texteOfficiel.texte}
+                  cote={d.texteOfficiel.cote}
+                  action={d.texteOfficiel.actionCourte ?? d.texteOfficiel.action}
+                  href="#pieces"
                 />
-              ))}
-            </div>
-            <div class="preuves-jauge">
-              <Jauge
-                obtenues={j.obtenues}
-                total={j.total}
-                libelle={`${j.obtenues} obtenues · ${j.total - j.obtenues} manquantes`}
-              />
-            </div>
-          </section>
-        )
-      }
-
-      <!-- Preuves — gabarit desktop (§6.2) : deux colonnes -->
-      {
-        d.preuves.length > 0 && (
-          <section class="preuves-desktop">
-            <div>
-              <span class="typo-label">Ce qui est établi</span>
-              <div class="colonne-liste">
-                {etablies.map((p) => (
-                  <div class="colonne-item">
-                    <Carre etat="plein" taille={7} decale />
-                    <span class="colonne-texte">{p.texteCourt ?? p.texte}</span>
-                  </div>
-                ))}
               </div>
-            </div>
-            <div class="colonne-non">
-              <span class="typo-label">Ce qui n'est pas établi</span>
-              <div class="colonne-liste">
-                {nonEtablies.map((p) => (
-                  <div class="colonne-item">
-                    <Carre etat="vide" taille={7} decale />
-                    <span class="colonne-texte colonne-texte--non">{p.texteCourt ?? p.texte}</span>
-                  </div>
-                ))}
-                {d.nonEtabliMeta && <div class="colonne-meta">{d.nonEtabliMeta}</div>}
+              <div class="officiel-bloc officiel-bloc--desktop">
+                <CitationOfficielle
+                  texte={d.texteOfficiel.texte}
+                  cote={d.texteOfficiel.cote}
+                  action={d.texteOfficiel.action}
+                  href="#pieces"
+                />
               </div>
-            </div>
-          </section>
-        )
-      }
+            </section>
+          )
+        }
 
-      <!-- Texte officiel (§4.7) -->
-      {
-        d.texteOfficiel && (
-          <section class="officiel">
-            <span class="typo-label">
-              <span class="officiel-label-mobile">Le texte officiel</span>
-              <span class="officiel-label-desktop">Ce que dit le texte officiel</span>
-            </span>
-            <div class="officiel-bloc officiel-bloc--mobile">
-              <CitationOfficielle
-                texte={d.texteOfficiel.texteCourt ?? d.texteOfficiel.texte}
-                cote={d.texteOfficiel.cote}
-                action={d.texteOfficiel.actionCourte ?? d.texteOfficiel.action}
-                href="#pieces"
+        <!-- Conséquences — flux mobile (§5.2) / encart absent (§7) -->
+        {
+          consequence ? (
+            <div class="module-mobile">
+              <ModuleConsequences
+                profil={consequence.profil}
+                chiffre={fines(consequence.chiffre)}
+                qualification={fines(consequence.qualification)}
+                hypothese={consequence.hypothese && fines(consequence.hypothese)}
               />
             </div>
-            <div class="officiel-bloc officiel-bloc--desktop">
-              <CitationOfficielle
-                texte={d.texteOfficiel.texte}
-                cote={d.texteOfficiel.cote}
-                action={d.texteOfficiel.action}
-                href="#pieces"
-              />
-            </div>
-          </section>
-        )
-      }
+          ) : (
+            d.encartAbsence && (
+              <div class="module-mobile">
+                <EncartNote label={d.encartAbsence.label} texte={d.encartAbsence.texte} />
+              </div>
+            )
+          )
+        }
 
-      <!-- Sources en accès direct — mobile (le rail les porte en desktop) -->
-      {
-        d.pieces.some((p) => p.url) && (
-          <section class="sources-mobile">
-            <span class="typo-label">Les sources, en accès direct</span>
-            <ul class="sources-liste">
-              {d.pieces
-                .filter((p) => p.url)
-                .map((p) => (
-                  <li class="source-item">
-                    <span class="source-titre">{p.titre}</span>
-                    <a class="source-lien" href={p.url} target="_blank" rel="noopener noreferrer">
-                      Ouvrir la source →
-                    </a>
+        <!-- Sources en accès direct — mobile (le rail les porte en desktop) -->
+        {
+          d.pieces.some((p) => p.url) && (
+            <section class="sources-mobile">
+              <span class="typo-label">Les sources, en accès direct</span>
+              <ul class="sources-liste">
+                {d.pieces
+                  .filter((p) => p.url)
+                  .map((p) => (
+                    <li class="source-item">
+                      <span class="source-titre">{p.titre}</span>
+                      <a class="source-lien" href={p.url} target="_blank" rel="noopener noreferrer">
+                        Ouvrir la source →
+                      </a>
+                    </li>
+                  ))}
+              </ul>
+            </section>
+          )
+        }
+
+        <!-- Historique de publication — mobile (rail sur desktop) -->
+        {
+          d.historique.length > 0 && (
+            <section class="historique-mobile">
+              <span class="typo-label">Historique de publication</span>
+              <ol class="historique-liste">
+                {d.historique.map((h) => (
+                  <li class="historique-entree">
+                    <span class="historique-repere">V{h.version} · {dateComplete(h.date)}</span>
+                    <span class="historique-note">{h.note}</span>
                   </li>
                 ))}
-            </ul>
-          </section>
-        )
-      }
+              </ol>
+            </section>
+          )
+        }
 
-      <!-- Module conséquences — flux mobile (§5.2) / encart absent (§7) -->
-      {
-        consequence ? (
-          <div class="module-mobile">
+        <!-- Pied mobile (§5.2 / §5.3) -->
+        <div class="pied-mobile">
+          <span class="pied-mobile-texte">
+            {d.verdict ? `Voir les ${j.total} pièces du dossier` : 'Être prévenu de la conclusion'}
+          </span>
+          <span class="pied-mobile-fleche">→</span>
+        </div>
+      </div>
+
+      <!-- ===== RAIL SOURCES (desktop, §6.2) ===== -->
+      <aside class="rail">
+        {
+          consequence ? (
             <ModuleConsequences
               profil={consequence.profil}
               chiffre={fines(consequence.chiffre)}
               qualification={fines(consequence.qualification)}
+              qualificationDesktop={
+                consequence.qualificationDesktop && fines(consequence.qualificationDesktop)
+              }
               hypothese={consequence.hypothese && fines(consequence.hypothese)}
+              action="Voir les autres profils →"
             />
-          </div>
-        ) : (
-          d.encartAbsence && (
-            <div class="module-mobile">
-              <EncartNote label={d.encartAbsence.label} texte={d.encartAbsence.texte} />
+          ) : (
+            d.encartAbsence && <EncartNote label={d.encartAbsence.label} texte={d.encartAbsence.texte} />
+          )
+        }
+        {
+          d.pieces.length > 0 && (
+            <div id="pieces">
+              <span class="typo-label">Les {j.total} pièces</span>
+              <div class="rail-pieces">
+                {d.pieces.map((p, i) => (
+                  <div class:list={['rail-piece-item', { 'rail-piece-item--manquante': !p.obtenue, 'rail-piece-item--fin': i === d.pieces.length - 1 }]}>
+                    <div class="rail-piece">
+                      <span class="rail-n">[{p.n}]</span>
+                      <span class="rail-titre">{p.titreCourt ?? p.titre}</span>
+                      <Carre etat={p.obtenue ? 'plein' : 'vide'} taille={7} decale />
+                    </div>
+                    {p.url && (
+                      <a class="rail-source" href={p.url} target="_blank" rel="noopener noreferrer">
+                        Ouvrir la source →
+                      </a>
+                    )}
+                  </div>
+                ))}
+              </div>
             </div>
           )
-        )
-      }
-
-      <!-- Historique de publication — mobile (rail sur desktop) -->
-      {
-        d.historique.length > 0 && (
-          <section class="historique-mobile">
-            <span class="typo-label">Historique de publication</span>
-            <ol class="historique-liste">
-              {d.historique.map((h) => (
-                <li class="historique-entree">
-                  <span class="historique-repere">V{h.version} · {dateComplete(h.date)}</span>
-                  <span class="historique-note">{h.note}</span>
-                </li>
-              ))}
-            </ol>
-          </section>
-        )
-      }
-
-      <!-- Pied mobile (§5.2 / §5.3) -->
-      <div class="pied-mobile">
-        <span class="pied-mobile-texte">
-          {d.verdict ? `Voir les ${j.total} pièces du dossier` : 'Être prévenu de la conclusion'}
-        </span>
-        <span class="pied-mobile-fleche">→</span>
-      </div>
-    </main>
-
-    <!-- ===== RAIL DESKTOP (§6.2) ===== -->
-    <aside class="rail">
-      {
-        consequence ? (
-          <ModuleConsequences
-            profil={consequence.profil}
-            chiffre={fines(consequence.chiffre)}
-            qualification={fines(consequence.qualification)}
-            qualificationDesktop={
-              consequence.qualificationDesktop && fines(consequence.qualificationDesktop)
-            }
-            hypothese={consequence.hypothese && fines(consequence.hypothese)}
-            action="Voir les autres profils →"
-          />
-        ) : (
-          d.encartAbsence && <EncartNote label={d.encartAbsence.label} texte={d.encartAbsence.texte} />
-        )
-      }
-      {
-        d.pieces.length > 0 && (
-          <div id="pieces">
-            <span class="typo-label">Les {j.total} pièces</span>
-            <div class="rail-pieces">
-              {d.pieces.map((p, i) => (
-                <div class:list={['rail-piece-item', { 'rail-piece-item--manquante': !p.obtenue, 'rail-piece-item--fin': i === d.pieces.length - 1 }]}>
-                  <div class="rail-piece">
-                    <span class="rail-n">[{p.n}]</span>
-                    <span class="rail-titre">{p.titreCourt ?? p.titre}</span>
-                    <Carre etat={p.obtenue ? 'plein' : 'vide'} taille={7} decale />
-                  </div>
-                  {p.url && (
-                    <a class="rail-source" href={p.url} target="_blank" rel="noopener noreferrer">
-                      Ouvrir la source →
-                    </a>
-                  )}
-                </div>
-              ))}
+        }
+        {
+          d.historique.length > 0 && (
+            <div>
+              <span class="typo-label">Historique de publication</span>
+              <div class="rail-historique">
+                {d.historique.map((h) => (
+                  <>
+                    V{h.version} · {dateComplete(h.date)} — {h.note}
+                    <br />
+                  </>
+                ))}
+              </div>
             </div>
-          </div>
-        )
-      }
-      {
-        d.historique.length > 0 && (
-          <div>
-            <span class="typo-label">Historique de publication</span>
-            <div class="rail-historique">
-              {d.historique.map((h) => (
-                <>
-                  V{h.version} · {dateComplete(h.date)} — {h.note}
-                  <br />
-                </>
-              ))}
-            </div>
-          </div>
-        )
-      }
-      <div class="rail-erreur">
-        Une erreur dans ce dossier&nbsp;? <span class="rail-erreur-lien">Signalez-la</span> — nous
-        republions en version datée.
-      </div>
-    </aside>
+          )
+        }
+        <div class="rail-erreur">
+          Une erreur dans ce dossier&nbsp;? <span class="rail-erreur-lien">Signalez-la</span> — nous
+          republions en version datée.
+        </div>
+      </aside>
+    </div>
   </div>
 
   <PiedDeSite />
 </Base>
 
 <style>
+  /* Conteneur éditorial centré (desktop) : borne la largeur pour éviter le grand
+     vide des écrans larges. Mobile : pleine largeur, aucun effet. */
+  .dossier {
+    width: 100%;
+  }
+
   /* ---- Barre de retour ---- */
   .barre {
     display: flex;
@@ -355,8 +391,9 @@ const description = d.verdict
     border-bottom: 1px solid var(--ss-ink);
   }
   .barre-retour {
+    /* Mono allégé (moins d'interlettrage) pour un rendu numérique contemporain. */
     font: 500 10px/1 var(--ss-font-mono);
-    letter-spacing: 0.09em;
+    letter-spacing: 0.05em;
     text-transform: uppercase;
     color: var(--ss-ink);
     white-space: nowrap;
@@ -366,12 +403,18 @@ const description = d.verdict
   }
   .barre-meta {
     font: 400 10px/1 var(--ss-font-mono);
+    letter-spacing: 0.04em;
     text-transform: uppercase;
     color: var(--ss-mid);
     white-space: nowrap;
   }
   .barre-meta-desktop {
     display: none;
+  }
+
+  /* ---- Média mobile : image pleine largeur de la colonne de contenu ---- */
+  .dossier-media {
+    padding: 18px 20px 0;
   }
 
   /* ---- Affirmation ---- */
@@ -442,7 +485,7 @@ const description = d.verdict
     display: none;
   }
 
-  /* ---- Module / pied mobile ---- */
+  /* ---- Conséquences / pied mobile ---- */
   .module-mobile {
     margin: 18px 20px;
   }
@@ -527,8 +570,18 @@ const description = d.verdict
     display: none;
   }
 
-  /* =============== ≥1024 (§6.2) =============== */
+  /* =============== ≥1024 (§6.2) — conteneur centré + hero multi-colonnes =============== */
   @media (min-width: 1024px) {
+    /* Conteneur éditorial centré. Avec image : large (hero 42/36/22).
+       Sans image : plus resserré → deux colonnes contenu + sources, sans vide. */
+    .dossier {
+      max-width: 1160px;
+      margin-inline: auto;
+    }
+    .dossier--avec-image {
+      max-width: 1520px;
+    }
+
     .barre {
       padding: 16px 48px;
     }
@@ -543,14 +596,42 @@ const description = d.verdict
     .barre-meta-mobile {
       display: none;
     }
+
+    /* Grille du corps. Sans image : contenu + rail. */
     .corps {
       display: grid;
-      grid-template-columns: 1fr var(--ss-rail);
+      align-items: start;
+      column-gap: 44px;
+      row-gap: 4px;
+      padding: 34px 48px;
+      grid-template-columns: minmax(0, 1fr) 320px;
+      grid-template-areas:
+        'intro rail'
+        'suite rail';
     }
-    .principale {
-      border-right: 1px solid var(--ss-rule);
-      padding: 34px 40px 34px 48px;
+    /* Avec image : contenu 42 % · illustration 36 % · rail 22 %. */
+    .dossier--avec-image .corps {
+      grid-template-columns: 42fr 36fr 22fr;
+      grid-template-areas:
+        'intro media rail'
+        'suite suite rail';
     }
+
+    .dossier-media {
+      grid-area: media;
+      padding: 0;
+    }
+    .dossier-intro {
+      grid-area: intro;
+      min-width: 0;
+    }
+    .dossier-suite {
+      grid-area: suite;
+      min-width: 0;
+      margin-top: 26px;
+    }
+
+    /* Intro : affirmation + verdict, sans les gouttières mobiles. */
     .affirmation {
       padding: 0;
     }
@@ -558,28 +639,27 @@ const description = d.verdict
       margin-top: 12px;
     }
     .verdict {
-      margin: 26px 0 0;
+      margin: 22px 0 0;
       padding: 16px 0;
-      max-width: var(--ss-texte-max);
     }
     .verdict-etiquette {
       font-size: 9.5px;
     }
+    /* Résumé (Public Sans) : davantage de place et d'air — lecture numérique. */
     .verdict-resume {
       margin-top: 14px;
-      font-size: 16.5px;
-      line-height: 1.65;
-      max-width: 64ch;
+      font-size: 17px;
+      line-height: 1.7;
     }
+
+    /* Preuves desktop : occupent la largeur de la suite (contenu + média). */
     .preuves-mobile {
       display: none;
     }
     .preuves-desktop {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 36px;
-      margin-top: 26px;
-      max-width: var(--ss-texte-max);
+      gap: 48px;
     }
     .colonne-liste {
       margin-top: 12px;
@@ -606,6 +686,7 @@ const description = d.verdict
       text-transform: uppercase;
       color: var(--ss-mid);
     }
+
     .officiel {
       margin-top: 30px;
       padding: 22px 0 0;
@@ -629,17 +710,23 @@ const description = d.verdict
     .verdict-resume--desktop {
       display: block;
     }
+
+    /* Blocs mobiles masqués en desktop (repris par le rail). */
     .module-mobile,
     .pied-mobile,
     .historique-mobile,
     .sources-mobile {
       display: none;
     }
+
+    /* Rail sources : colonne continue, rapprochée du contenu par un filet fin. */
     .rail {
+      grid-area: rail;
       display: flex;
       flex-direction: column;
       gap: 24px;
-      padding: 34px 48px 34px 32px;
+      border-left: 1px solid var(--ss-rule);
+      padding-left: 28px;
     }
     .rail-pieces {
       margin-top: 12px;
@@ -702,18 +789,14 @@ const description = d.verdict
       color: var(--ss-ochre);
     }
   }
+
   @media (min-width: 1440px) {
-    .corps {
-      grid-template-columns: 1fr var(--ss-rail-xl);
-    }
     .barre {
       padding-left: 64px;
       padding-right: 64px;
     }
-    .principale {
+    .corps {
       padding-left: 64px;
-    }
-    .rail {
       padding-right: 64px;
     }
   }

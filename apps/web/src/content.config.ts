@@ -121,6 +121,25 @@ const dossiers = defineCollection({
         .object({ valeur: z.string(), qualification: z.string() })
         .optional(),
 
+      // Illustration principale FACULTATIVE (docs/architecture/14-illustrations-spec.md).
+      // Se conforme au modèle de domaine `Illustration` (packages/domain) — ne le
+      // redéfinit pas. `alt` obligatoire dès qu'une image existe (accessibilité) ;
+      // `focal` normalisé 0–1. Un dossier reste complet sans image : en son absence
+      // le bloc n'est pas rendu (jamais de placeholder).
+      illustration: z
+        .object({
+          src: z.string(),
+          alt: z.string(),
+          largeur: z.number().int().positive().optional(),
+          hauteur: z.number().int().positive().optional(),
+          focal: z.object({ x: z.number().min(0).max(1), y: z.number().min(0).max(1) }).optional(),
+          legende: z.string().optional(),
+          credit: z.string().optional(),
+          sourceUrl: z.string().url().optional(),
+          droits: z.string().optional(),
+        })
+        .optional(),
+
       historique: z
         .array(z.object({ version: z.number().int(), date: dateISO, note: z.string() }))
         .default([]),
