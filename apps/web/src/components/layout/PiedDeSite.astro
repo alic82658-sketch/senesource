@@ -1,0 +1,61 @@
+---
+/**
+ * Pied de site — présent à la fin de chaque page publique.
+ * Compose le bloc de politique de correction citoyenne puis affiche
+ * discrètement la marque et le slogan « Les faits, jusqu’à la source. ».
+ * Le slogan n'apparaît qu'ici (jamais dans l'en-tête mobile, pour ne pas
+ * le surcharger). Aucun radius / ombre / gradient ; aucun JS client.
+ */
+import PolitiqueCorrection from '../editorial/PolitiqueCorrection.astro';
+---
+
+<footer class="pied-site">
+  <PolitiqueCorrection />
+  <div class="pied-bas">
+    <a class="pied-marque" href="/">Sene<span class="pied-marque-accent">Source</span></a>
+    <span class="pied-slogan">Les faits, jusqu’à la source.</span>
+  </div>
+</footer>
+
+<style>
+  .pied-bas {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 6px 14px;
+    padding: 14px 20px 24px;
+    border-top: 1px solid var(--ss-rule); /* filet fin : même niveau */
+  }
+  .pied-marque {
+    font: 500 15px/1 var(--ss-font-serif);
+    letter-spacing: -0.01em;
+    color: var(--ss-ink);
+  }
+  .pied-marque-accent {
+    color: var(--ss-ochre);
+  }
+  .pied-slogan {
+    font: 400 13px/1.3 var(--ss-font-serif);
+    font-style: italic;
+    color: var(--ss-ink-60);
+  }
+
+  @media (min-width: 1024px) {
+    .pied-bas {
+      padding: 16px 48px 28px;
+      gap: 6px 18px;
+    }
+    .pied-marque {
+      font-size: 16px;
+    }
+    .pied-slogan {
+      font-size: 14px;
+    }
+  }
+  @media (min-width: 1440px) {
+    .pied-bas {
+      padding-left: 64px;
+      padding-right: 64px;
+    }
+  }
+</style>

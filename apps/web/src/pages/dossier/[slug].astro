@@ -7,6 +7,7 @@ import LignePreuve from '../../components/editorial/LignePreuve.astro';
 import EncartNote from '../../components/editorial/EncartNote.astro';
 import Jauge from '../../components/ui/Jauge.astro';
 import Carre from '../../components/ui/Carre.astro';
+import PiedDeSite from '../../components/layout/PiedDeSite.astro';
 import {
   dossiersAvecPage,
   collecte,
@@ -230,6 +231,23 @@ const description = d.verdict
         )
       }
 
+      <!-- Historique de publication — mobile (rail sur desktop) -->
+      {
+        d.historique.length > 0 && (
+          <section class="historique-mobile">
+            <span class="typo-label">Historique de publication</span>
+            <ol class="historique-liste">
+              {d.historique.map((h) => (
+                <li class="historique-entree">
+                  <span class="historique-repere">V{h.version} · {dateComplete(h.date)}</span>
+                  <span class="historique-note">{h.note}</span>
+                </li>
+              ))}
+            </ol>
+          </section>
+        )
+      }
+
       <!-- Pied mobile (§5.2 / §5.3) -->
       <div class="pied-mobile">
         <span class="pied-mobile-texte">
@@ -281,7 +299,7 @@ const description = d.verdict
             <div class="rail-historique">
               {d.historique.map((h) => (
                 <>
-                  V{h.version} · {dateJourMois(h.date)} — {h.note}
+                  V{h.version} · {dateComplete(h.date)} — {h.note}
                   <br />
                 </>
               ))}
@@ -295,6 +313,8 @@ const description = d.verdict
       </div>
     </aside>
   </div>
+
+  <PiedDeSite />
 </Base>
 
 <style>
@@ -414,6 +434,35 @@ const description = d.verdict
     font: 500 10px/1 var(--ss-font-mono);
     color: var(--ss-ochre);
   }
+
+  /* ---- Historique mobile ---- */
+  .historique-mobile {
+    padding: 18px 20px 0;
+  }
+  .historique-liste {
+    margin: 12px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  .historique-entree {
+    padding: 9px 0;
+    border-top: 1px solid var(--ss-rule);
+  }
+  .historique-repere {
+    display: block;
+    font: 400 10px/1.5 var(--ss-font-mono);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ss-ochre);
+  }
+  .historique-note {
+    display: block;
+    margin-top: 4px;
+    font: 400 13.5px/1.5 var(--ss-font-sans);
+    color: var(--ss-ink-80);
+    text-wrap: pretty;
+  }
+
   .rail {
     display: none;
   }
@@ -521,7 +570,8 @@ const description = d.verdict
       display: block;
     }
     .module-mobile,
-    .pied-mobile {
+    .pied-mobile,
+    .historique-mobile {
       display: none;
     }
     .rail {

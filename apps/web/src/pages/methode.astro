@@ -1,0 +1,285 @@
+---
+import Base from '../layouts/Base.astro';
+import EnTete from '../components/layout/EnTete.astro';
+import PiedDeSite from '../components/layout/PiedDeSite.astro';
+
+/**
+ * /methode — Notre méthode et notre politique de correction.
+ * Page publique, mobile-first, sans JS client. Réutilise l'échelle
+ * typographique et les filets du design system (aucune valeur inventée).
+ */
+
+// Hiérarchie des sources (section A) — de la plus solide à la plus faible.
+const sources = [
+  'les documents officiels',
+  'les textes de loi et règlements',
+  'les données publiques',
+  'les rapports et audits',
+  'les réponses écrites d’administrations',
+  'les sources directes et intérieures au pays concerné',
+  'puis, seulement si nécessaire, des sources secondaires',
+];
+
+// Vocabulaire de la preuve (section B) — états documentaires, jamais une couleur.
+const etats = [
+  { mot: 'Établi', sens: 'appuyé par une source vérifiable que nous pouvons montrer.' },
+  { mot: 'Non établi', sens: 'pas encore démontré — ce qui ne veut pas dire faux.' },
+  { mot: 'En instruction', sens: 'la collecte des pièces est en cours.' },
+  { mot: 'Invérifiable', sens: 'aucune source fiable ne permet de trancher à ce jour.' },
+];
+
+// Ce qui se passe lors d'une correction importante (section D).
+const correction = [
+  'le dossier est mis à jour ;',
+  'la date de mise à jour est visible ;',
+  'une nouvelle version est créée ;',
+  'l’historique indique ce qui a changé ;',
+  'une correction n’est jamais supprimée silencieusement.',
+];
+
+// Ce que les lecteurs peuvent transmettre (section E).
+const contributions = [
+  'un document officiel',
+  'un rapport',
+  'une statistique',
+  'une décision administrative',
+  'une source primaire',
+  'un élément contradictoire mieux sourcé',
+];
+---
+
+<Base
+  titre="Notre méthode"
+  description="La méthode de SeneSource et sa politique de correction : hiérarchie des sources, vocabulaire de la preuve, corrections publiques et datées, participation des lecteurs."
+>
+  <EnTete courante="methode" />
+
+  <main class="methode">
+    <header class="methode-tete">
+      <span class="typo-label">Méthode &amp; politique de correction</span>
+      <h1 class="typo-display methode-titre">Notre méthode</h1>
+      <p class="methode-promesse">Ce qui est dit. Ce qui est prouvé. Ce que ça change.</p>
+      <p class="methode-intro">
+        SeneSource est un projet citoyen de documentation de l’information. Notre objectif n’est
+        pas d’avoir raison à tout prix, mais d’établir les faits avec les meilleures sources
+        disponibles à un instant donné.
+      </p>
+    </header>
+
+    <!-- A -->
+    <section class="section">
+      <span class="typo-label">A</span>
+      <h2 class="section-titre">Les faits, jusqu’à la source</h2>
+      <p class="section-texte">SeneSource privilégie les sources dans cet ordre&nbsp;:</p>
+      <ol class="liste liste--ordonnee">
+        {sources.map((s) => <li class="liste-item">{s}</li>)}
+      </ol>
+    </section>
+
+    <!-- B -->
+    <section class="section">
+      <span class="typo-label">B</span>
+      <h2 class="section-titre">Ce que nous savons, ce que nous ne savons pas</h2>
+      <p class="section-texte">
+        Nous ne transformons jamais une absence de preuve en preuve d’absence. Chaque élément
+        d’un dossier est qualifié clairement&nbsp;:
+      </p>
+      <dl class="etats">
+        {
+          etats.map((e) => (
+            <div class="etat">
+              <dt class="etat-mot">{e.mot}</dt>
+              <dd class="etat-sens">{e.sens}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </section>
+
+    <!-- C -->
+    <section class="section">
+      <span class="typo-label">C</span>
+      <h2 class="section-titre">Nous pouvons nous tromper</h2>
+      <p class="section-texte">
+        Une erreur peut arriver, une source peut devenir obsolète et de nouveaux documents peuvent
+        apparaître. Toute correction documentée est bienvenue.
+      </p>
+    </section>
+
+    <!-- D -->
+    <section class="section">
+      <span class="typo-label">D</span>
+      <h2 class="section-titre">Corriger plutôt que défendre</h2>
+      <p class="principe">Une erreur corrigée vaut mieux qu’une erreur défendue.</p>
+      <p class="section-texte">Lorsqu’une correction importante est apportée&nbsp;:</p>
+      <ul class="liste">
+        {correction.map((c) => <li class="liste-item">{c}</li>)}
+      </ul>
+    </section>
+
+    <!-- E -->
+    <section class="section">
+      <span class="typo-label">E</span>
+      <h2 class="section-titre">Participer</h2>
+      <p class="section-texte">Vous pouvez nous transmettre&nbsp;:</p>
+      <ul class="liste">
+        {contributions.map((c) => <li class="liste-item">{c}</li>)}
+      </ul>
+      <p class="section-texte section-texte--note">
+        Recevoir une contribution ne signifie pas qu’elle sera automatiquement considérée comme
+        vraie&nbsp;: elle sera vérifiée.
+      </p>
+    </section>
+  </main>
+
+  <PiedDeSite />
+</Base>
+
+<style>
+  .methode {
+    padding: 22px 20px 8px;
+    max-width: var(--ss-texte-max);
+  }
+
+  /* ---- Tête ---- */
+  .methode-titre {
+    margin-top: 12px;
+  }
+  .methode-promesse {
+    margin-top: 14px;
+    font: 400 17px/1.4 var(--ss-font-serif);
+    font-style: italic;
+    color: var(--ss-ink);
+  }
+  .methode-intro {
+    margin-top: 14px;
+    font: 400 15.5px/1.62 var(--ss-font-sans);
+    color: var(--ss-ink-80);
+    max-width: var(--ss-corps-max);
+    text-wrap: pretty;
+  }
+
+  /* ---- Sections ---- */
+  .section {
+    margin-top: 26px;
+    padding-top: 20px;
+    border-top: 1px solid var(--ss-ink); /* filet fort entre sections */
+  }
+  .section-titre {
+    margin-top: 8px;
+    font: 400 21px/1.25 var(--ss-font-serif);
+    letter-spacing: -0.01em;
+    color: var(--ss-ink);
+  }
+  .section-texte {
+    margin-top: 12px;
+    font: 400 15px/1.62 var(--ss-font-sans);
+    color: var(--ss-ink-80);
+    max-width: var(--ss-corps-max);
+    text-wrap: pretty;
+  }
+  .section-texte--note {
+    margin-top: 14px;
+    color: var(--ss-ink-60);
+  }
+
+  /* ---- Listes ---- */
+  .liste {
+    margin: 12px 0 0;
+    padding: 0;
+    list-style: none;
+    max-width: var(--ss-corps-max);
+  }
+  .liste-item {
+    position: relative;
+    padding: 8px 0 8px 22px;
+    border-top: 1px solid var(--ss-rule); /* filet fin : items d'un même niveau */
+    font: 400 14.5px/1.5 var(--ss-font-sans);
+    color: var(--ss-ink-80);
+    counter-increment: liste;
+  }
+  /* Puce mono ocre — cohérente avec le renvoi [n] du design system */
+  .liste-item::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    font: 400 12px/1.7 var(--ss-font-mono);
+    color: var(--ss-ochre);
+  }
+  .liste--ordonnee {
+    counter-reset: liste;
+  }
+  .liste--ordonnee .liste-item::before {
+    content: counter(liste);
+  }
+
+  /* ---- Vocabulaire de la preuve (B) ---- */
+  .etats {
+    margin: 14px 0 0;
+    max-width: var(--ss-corps-max);
+  }
+  .etat {
+    padding: 10px 0;
+    border-top: 1px solid var(--ss-rule);
+  }
+  .etat-mot {
+    font: 500 10px/1 var(--ss-font-mono);
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--ss-ink);
+  }
+  .etat-sens {
+    margin: 6px 0 0;
+    font: 400 14.5px/1.5 var(--ss-font-sans);
+    color: var(--ss-ink-60);
+  }
+
+  /* ---- Principe (D) ---- */
+  .principe {
+    margin-top: 12px;
+    font: 400 22px/1.35 var(--ss-font-serif);
+    font-style: italic;
+    color: var(--ss-ink);
+    max-width: 26ch;
+  }
+
+  /* =============== ≥1024 =============== */
+  @media (min-width: 1024px) {
+    .methode {
+      padding: 34px 48px 12px;
+    }
+    .methode-promesse {
+      font-size: 19px;
+    }
+    .methode-intro {
+      font-size: 16.5px;
+      line-height: 1.65;
+    }
+    .section {
+      margin-top: 32px;
+      padding-top: 24px;
+    }
+    .section-titre {
+      font-size: 23px;
+    }
+    .section-texte {
+      font-size: 16px;
+      line-height: 1.65;
+    }
+    .liste-item {
+      font-size: 15px;
+    }
+    .etat-sens {
+      font-size: 15px;
+    }
+    .principe {
+      font-size: 26px;
+    }
+  }
+  @media (min-width: 1440px) {
+    .methode {
+      padding-left: 64px;
+      padding-right: 64px;
+    }
+  }
+</style>

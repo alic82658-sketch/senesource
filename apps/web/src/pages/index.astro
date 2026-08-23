@@ -4,6 +4,7 @@ import EnTete from '../components/layout/EnTete.astro';
 import CarteDossier from '../components/editorial/CarteDossier.astro';
 import ModuleConsequences from '../components/editorial/ModuleConsequences.astro';
 import BandeauInverse from '../components/editorial/BandeauInverse.astro';
+import PiedDeSite from '../components/layout/PiedDeSite.astro';
 import RailPiece from '../components/editorial/RailPiece.astro';
 import Jauge from '../components/ui/Jauge.astro';
 import Carre from '../components/ui/Carre.astro';
@@ -184,6 +185,8 @@ const urlTete = `/dossier/${tete.slug}/`;
   <div class="pied-mobile">
     <BandeauInverse texte="Une information à faire vérifier ?" action="Déposer →" />
   </div>
+
+  <PiedDeSite />
 </Base>
 
 <style>
