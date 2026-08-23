@@ -6,7 +6,7 @@
 
 :root {
   /* ---- Couleurs — palette fermée de onze valeurs (§1) ---- */
-  --ss-paper: #faf8f4;      /* fond de toutes les pages */
+  --ss-paper: #fdfdfc;      /* fond de toutes les pages */
   --ss-paper-2: #f2eee6;    /* encadrés secondaires, citation officielle */
   --ss-ink: #17161a;        /* titres, filets forts, pieds inversés */
   --ss-ink-80: #33312c;     /* corps de texte long */
