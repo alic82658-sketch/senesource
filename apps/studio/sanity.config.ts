@@ -7,12 +7,14 @@ import { structure } from './structure';
 /**
  * Studio SeneSource (B1) — schémas uniquement.
  *
- * `projectId`/`dataset` viennent de l'environnement. Tant qu'aucun projet
- * Sanity n'est créé, une valeur de remplacement permet de compiler/valider
- * les schémas hors ligne ; se connecter à un vrai dataset (login + édition)
- * exige un projectId réel — voir docs/architecture/11-rapport-b1.md.
+ * Connecté au projet Sanity réel `oug8iag3` / dataset `production`.
+ * `projectId`/`dataset` restent surchargeables par l'environnement
+ * (`SANITY_STUDIO_PROJECT_ID` / `SANITY_STUDIO_DATASET`). Le projectId
+ * n'est pas un secret (il est exposé dans le bundle client). L'édition et
+ * le déploiement des schémas exigent une authentification Sanity
+ * (`sanity login` ou `SANITY_AUTH_TOKEN`).
  */
-const projectId = process.env.SANITY_STUDIO_PROJECT_ID || 'placeholder-project-id';
+const projectId = process.env.SANITY_STUDIO_PROJECT_ID || 'oug8iag3';
 const dataset = process.env.SANITY_STUDIO_DATASET || 'production';
 
 export default defineConfig({
