@@ -1,6 +1,6 @@
 import { defineCollection, z } from 'astro:content';
 import { glob } from 'astro/loaders';
-import { VERDICTS } from './domain/dossier';
+import { VERDICTS } from '@senesource/domain';
 
 /**
  * Collection « dossiers » — modèle MULTI-TYPE (docs/architecture/05-contenu-mdx.md).

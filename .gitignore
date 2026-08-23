@@ -1,4 +1,8 @@
 node_modules/
 dist/
 .astro/
+**/dist/
+**/.astro/
 npm-debug.log*
+pnpm-debug.log*
+tests/qa/artefacts/

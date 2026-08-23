@@ -9,12 +9,9 @@
  * Sens des dépendances (architecture app-first, docs 08) :
  *     domain  ←  editorial  ←  (web, mobile)
  * `domain` est la feuille : il n'importe personne, tout le monde l'importe.
- * Le schéma de validation (Zod) et le mapping vivent en dehors d'ici — dans
- * la couche Astro (`src/lib/contenu.ts`) en A1, puis `packages/editorial`
- * en A2 — et se conforment à ces types, jamais l'inverse.
- *
- * NB (A1) : ce dossier deviendra `packages/domain` en A2, par simple
- * déplacement — aucun de ces types ne référence quoi que ce soit d'externe.
+ * Le schéma de validation (Zod) vit dans `apps/web` (content.config.ts) et
+ * le mapping/les règles dans `packages/editorial` — tous se conforment à ces
+ * types, jamais l'inverse.
  */
 
 /** Les cinq verdicts autorisés (handoff §4.1) — jamais d'autres. */

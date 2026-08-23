@@ -16,12 +16,22 @@ publique, redirection vers l'app). Architecture validée :
 
 - **Mobile :** Expo / React Native (New Architecture, EAS Build+Update).
 - **Source de contenu :** **Sanity** pour la V1 (Directus reversé en migration ultérieure).
-- **Structure :** monorepo pnpm + Turborepo — `apps/web`, `apps/mobile`, `apps/studio`,
-  `packages/{types, editorial, design-tokens}`.
-- **Prochaine étape :** Phase A — fondations monorepo + assainissement de la couche d'accès
-  (`src/lib/contenu.ts` fuit encore le type Astro). En attente de validation pour démarrer.
+- **Structure :** monorepo **pnpm workspaces** (Turborepo différé) — `apps/web` +
+  `packages/{domain, editorial, design-tokens}`. `apps/mobile` et `apps/studio` viendront plus tard.
+- **Phase A réalisée :** A1 (assainissement du domaine — modèle `Dossier` neutre, `contenu.ts`
+  = mapper) et A2 (monorepo minimal). Web byte-identique hors CSS mort supprimé. En attente de
+  validation d'A2 avant la suite.
 
 Le handoff Claude Design (`design/handoff/`) reste la **source de vérité visuelle unique**.
+
+## Développement
+
+```bash
+pnpm install
+pnpm build     # build de apps/web
+pnpm check     # typecheck (astro check)
+pnpm dev       # serveur de dev
+```
 
 ## Documentation
 

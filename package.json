@@ -1,25 +1,15 @@
 {
-  "name": "senesource",
-  "type": "module",
-  "version": "0.0.1",
+  "name": "senesource-monorepo",
+  "version": "0.0.0",
   "private": true,
+  "type": "module",
   "scripts": {
-    "dev": "astro dev",
-    "build": "astro build",
-    "preview": "astro preview",
-    "check": "astro check"
+    "dev": "pnpm --filter @senesource/web dev",
+    "build": "pnpm --filter @senesource/web build",
+    "preview": "pnpm --filter @senesource/web preview",
+    "check": "pnpm --filter @senesource/web check"
   },
-  "dependencies": {
-    "@astrojs/mdx": "^4.3.14",
-    "astro": "^5.13.0"
-  },
-  "devDependencies": {
-    "@astrojs/check": "^0.9.10",
-    "@axe-core/playwright": "^4.13.0",
-    "@tailwindcss/vite": "^4.1.0",
-    "playwright": "^1.62.1",
-    "serve": "^14.2.6",
-    "tailwindcss": "^4.1.0",
-    "typescript": "^5.9.3"
+  "pnpm": {
+    "onlyBuiltDependencies": ["esbuild", "sharp"]
   }
 }
