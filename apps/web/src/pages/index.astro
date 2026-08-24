@@ -4,7 +4,6 @@ import EnTete from '../components/layout/EnTete.astro';
 import CarteDossier from '../components/editorial/CarteDossier.astro';
 import BandeauInverse from '../components/editorial/BandeauInverse.astro';
 import ImageDossier from '../components/editorial/ImageDossier.astro';
-import PiedDeSite from '../components/layout/PiedDeSite.astro';
 import { listeDossiers, collecte, numeroAffiche, dateJourMois, dateComplete } from '../lib/contenu';
 
 const dossiers = await listeDossiers();
@@ -137,7 +136,30 @@ const dateHeader = new Intl.DateTimeFormat('fr-FR', {
     </a>
   </div>
 
-  <PiedDeSite />
+  <!-- Pied de la homepage : dans le MÊME conteneur centré que la une.
+       Bloc institutionnel (correction) centré en largeur de lecture, texte
+       aligné à gauche ; puis la marque, sur la largeur utile. La page dossier
+       conserve son propre pied de site (composant partagé inchangé). -->
+  <footer class="accueil-pied">
+    <section class="accueil-institution" aria-labelledby="hp-correction-titre">
+      <h2 id="hp-correction-titre" class="institution-titre">
+        Une information plus récente ou une source plus solide&nbsp;?
+      </h2>
+      <p class="institution-texte">
+        SeneSource peut se tromper. Si vous disposez d’un document, d’une donnée officielle ou
+        d’une source mieux étayée, signalez-le-nous. Les dossiers sont corrigés et mis à jour
+        publiquement lorsque de nouveaux éléments l’exigent.
+      </p>
+      <a class="institution-lien" href="/methode">
+        Notre méthode et notre politique de correction →
+      </a>
+    </section>
+
+    <div class="accueil-marque">
+      <a class="marque" href="/">Sene<span class="marque-accent">Source</span></a>
+      <span class="marque-slogan">Les faits, jusqu’à la source.</span>
+    </div>
+  </footer>
 </Base>
 
 <style>
@@ -281,10 +303,77 @@ const dateHeader = new Intl.DateTimeFormat('fr-FR', {
     display: none;
   }
 
-  /* ===== ≥640 — grille deux colonnes ===== */
+  /* ===== Pied de la homepage — même conteneur centré que la une ===== */
+  .accueil-pied {
+    width: 100%;
+    max-width: 1280px;
+    margin: 32px auto 0;
+    padding: 0 20px;
+  }
+  /* Bloc institutionnel : centré dans la page, texte aligné à gauche,
+     largeur de lecture maîtrisée. Filet fin, aucun aplat. */
+  .accueil-institution {
+    max-width: 620px;
+    margin-inline: auto;
+    padding-top: 22px;
+    border-top: 1px solid var(--ss-rule);
+  }
+  .institution-titre {
+    margin: 0;
+    font: 400 19px/1.3 var(--ss-font-serif);
+    letter-spacing: -0.01em;
+    color: var(--ss-ink);
+    max-width: 34ch;
+    text-wrap: pretty;
+  }
+  .institution-texte {
+    margin: 10px 0 0;
+    font: 400 14px/1.6 var(--ss-font-sans);
+    color: var(--ss-ink-60);
+    max-width: 62ch;
+    text-wrap: pretty;
+  }
+  .institution-lien {
+    display: inline-block;
+    margin-top: 14px;
+    font: 500 10px/1 var(--ss-font-mono);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ss-ochre);
+  }
+  .institution-lien:hover {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+  }
+  /* Marque : sur la largeur utile, filet fin. */
+  .accueil-marque {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 6px 14px;
+    margin-top: 26px;
+    padding: 14px 0 24px;
+    border-top: 1px solid var(--ss-rule);
+  }
+  .marque {
+    font: 500 15px/1 var(--ss-font-serif);
+    letter-spacing: -0.01em;
+    color: var(--ss-ink);
+  }
+  .marque-accent {
+    color: var(--ss-ochre);
+  }
+  .marque-slogan {
+    font: 400 13px/1.3 var(--ss-font-serif);
+    font-style: italic;
+    color: var(--ss-ink-60);
+  }
+
+  /* ===== ≥640 — grille deux colonnes (largeur intermédiaire) ===== */
   @media (min-width: 640px) {
     .grille {
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      grid-template-columns: repeat(2, 1fr);
       gap: 32px 28px;
     }
   }
@@ -330,6 +419,10 @@ const dateHeader = new Intl.DateTimeFormat('fr-FR', {
     .suite {
       margin-top: 48px;
     }
+    /* Grille : jusqu'à 3 colonnes quand l'espace le permet. */
+    .grille {
+      grid-template-columns: repeat(3, 1fr);
+    }
 
     /* CTA desktop éditorial : filet fin, pas d'aplat noir, hauteur réduite. */
     .accueil-cta {
@@ -364,6 +457,24 @@ const dateHeader = new Intl.DateTimeFormat('fr-FR', {
       text-decoration-thickness: 1px;
       text-underline-offset: 3px;
     }
+
+    /* Pied homepage aligné sur le conteneur centré. */
+    .accueil-pied {
+      padding: 0 48px;
+    }
+    .institution-titre {
+      font-size: 22px;
+    }
+    .institution-texte {
+      font-size: 15px;
+      line-height: 1.65;
+    }
+    .marque {
+      font-size: 16px;
+    }
+    .marque-slogan {
+      font-size: 14px;
+    }
   }
 
   @media (min-width: 1280px) {
@@ -377,6 +488,10 @@ const dateHeader = new Intl.DateTimeFormat('fr-FR', {
     /* ≥1440 : titre éditorial, sans excès tabloïd. */
     .une-titre {
       font-size: 48px;
+    }
+    .accueil-pied {
+      padding-left: 64px;
+      padding-right: 64px;
     }
   }
 </style>
