@@ -24,23 +24,38 @@ const uneDate = une.misAJourLe
     : '';
 const uneMeta = [`${jUne.total} pièces`, uneDate].filter(Boolean).join(' · ');
 
-// Cadrage dynamique de la une (homepage uniquement) : plus serré que la page
-// dossier pour donner de la présence au FPSO. On réutilise le MÊME composant
-// image (object-fit: cover + point focal) — sans toucher au fichier ni au
-// cadrage documentaire, plus large, de la page dossier.
-const uneRatio = '16 / 9';
-const uneFocal = { x: 0.5, y: 0.62 };
+// Cadrage de la une (homepage uniquement) : grand bandeau horizontal centré sur
+// le FPSO. On réutilise le MÊME composant image (object-fit: cover + point
+// focal) — sans toucher au fichier ni au cadrage documentaire (16/9) de la page
+// dossier. Bandeau 2:1 en desktop, cadrage documentaire 3/2 conservé en mobile.
+const uneRatio = '2 / 1';
+const uneFocal = { x: 0.5, y: 0.55 };
+
+// Date d'en-tête : dérivée de la date de build (jamais de date figée fausse).
+const dateHeader = new Intl.DateTimeFormat('fr-FR', {
+  weekday: 'short',
+  day: 'numeric',
+  month: 'long',
+}).format(new Date());
 ---
 
 <Base
   titre="Vérifications, pièces et conséquences"
   description="SeneSource — média sénégalais de vérification documentaire : dossiers, verdicts, pièces et conséquences concrètes."
 >
-  <EnTete courante="verifications" meta="Sam. 22 août" />
+  <EnTete courante="verifications" meta={dateHeader} />
 
   <main class="accueil">
-    <!-- ===== A — À LA UNE ===== -->
+    <!-- ===== A — À LA UNE (composition verticale : méta → image → titre …) ===== -->
     <section class:list={['une', { 'une--avec-image': !!une.illustration }]}>
+      <!-- 1 — sur-titre / rubrique -->
+      <p class="une-surtitre">
+        <span class="une-numero">Dossier {numeroAffiche(une.numero)}</span>
+        <span class="une-rubrique">{une.rubrique}</span>
+        <span class="une-alaune">À la une</span>
+      </p>
+
+      <!-- 2 — grande image Sangomar (point d'entrée visuel) -->
       {
         une.illustration && (
           <a class="une-media" href={urlUne} aria-label={`Ouvrir le dossier : ${une.titre}`}>
@@ -56,12 +71,9 @@ const uneFocal = { x: 0.5, y: 0.62 };
           </a>
         )
       }
+
+      <!-- 3 → 6 — titre, verdict, résumé, bas de une -->
       <div class="une-corps">
-        <p class="une-surtitre">
-          <span class="une-numero">Dossier {numeroAffiche(une.numero)}</span>
-          <span class="une-rubrique">{une.rubrique}</span>
-          <span class="une-alaune">À la une</span>
-        </p>
         <h1 class="une-titre">
           <a class="lien-titre" href={urlUne}>{une.titreCourt ?? une.titre}</a>
         </h1>
@@ -136,24 +148,31 @@ const uneFocal = { x: 0.5, y: 0.62 };
     padding: 20px 20px 8px;
   }
 
-  /* ===== À la une — mobile : image puis bloc éditorial ===== */
+  /* ===== À la une — composition verticale ===== */
   .une {
     display: flex;
     flex-direction: column;
+    gap: 14px;
   }
+  /* Mobile : image d'abord, puis sur-titre, puis corps (comportement conservé).
+     Desktop : le sur-titre repasse au-dessus de l'image (voir ≥1024). */
   .une-media {
+    order: 1;
     display: block;
-    margin-bottom: 16px;
   }
   .une-media:hover {
     opacity: 0.96;
   }
   .une-surtitre {
+    order: 2;
     display: flex;
     flex-wrap: wrap;
     align-items: baseline;
     gap: 6px 12px;
-    margin: 0 0 12px;
+    margin: 0;
+  }
+  .une-corps {
+    order: 3;
   }
   .une-numero {
     font: 600 11px/1 var(--ss-font-mono);
@@ -272,48 +291,49 @@ const uneFocal = { x: 0.5, y: 0.62 };
 
   /* ===== ≥1024 — À la une côte à côte ===== */
   @media (min-width: 1024px) {
-    /* Une élargie : le hero prend nettement plus de présence, centré, sans
-       occuper seulement le tiers central de l'écran. */
+    /* Une verticale : conteneur ~1280, image quasi pleine largeur du contenu →
+       forte présence média, centrée. */
     .accueil {
-      max-width: 1440px;
+      max-width: 1280px;
       padding: 34px 48px 8px;
     }
-    /* Composition cible : image ≈ 55 % · texte ≈ 45 %. */
-    .une--avec-image {
-      display: grid;
-      grid-template-columns: 55fr 45fr;
-      column-gap: 48px;
-      align-items: center;
+    .une {
+      gap: 18px;
     }
-    .une--avec-image .une-media {
-      margin-bottom: 0;
+    /* Le sur-titre repasse au-dessus de la grande image. */
+    .une-surtitre {
+      order: 0;
     }
-    /* Le texte ne s'étire pas démesurément même dans une colonne large. */
-    .une--avec-image .une-corps {
-      max-width: 600px;
+    .une-numero,
+    .une-rubrique {
+      font-size: 11.5px;
     }
+    /* Titre sous l'image : éditorial, largeur de lecture maîtrisée (2–3 lignes). */
     .une-titre {
-      font-size: 40px;
-      line-height: 1.07;
+      font-size: 44px;
+      line-height: 1.08;
+      max-width: 30ch;
     }
-    /* Sans image : le titre occupe une largeur de lecture, pas toute la page. */
-    .une:not(.une--avec-image) .une-titre,
-    .une:not(.une--avec-image) .une-resume {
-      max-width: 34ch;
+    .une-verdict {
+      margin-top: 16px;
     }
     .une-verdict-mot {
-      font-size: 28px;
+      font-size: 30px;
     }
     .une-resume {
       font-size: 17px;
+      max-width: 62ch;
+    }
+    .une-pied {
+      margin-top: 18px;
     }
     .suite {
-      margin-top: 44px;
+      margin-top: 48px;
     }
 
     /* CTA desktop éditorial : filet fin, pas d'aplat noir, hauteur réduite. */
     .accueil-cta {
-      max-width: 1440px;
+      max-width: 1280px;
       padding: 0 48px;
     }
     .cta-mobile {
@@ -354,9 +374,9 @@ const uneFocal = { x: 0.5, y: 0.62 };
   }
 
   @media (min-width: 1440px) {
-    /* ≥1440 : titre légèrement plus grand, sans être gigantesque. */
+    /* ≥1440 : titre éditorial, sans excès tabloïd. */
     .une-titre {
-      font-size: 50px;
+      font-size: 48px;
     }
   }
 </style>
