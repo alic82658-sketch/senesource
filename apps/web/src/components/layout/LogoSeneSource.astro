@@ -1,0 +1,62 @@
+---
+/**
+ * Logo SeneSource — symbole vectoriel + mot-symbole typographique.
+ *
+ * Le symbole (deux guillemets, gauche sombre / droit ocre avec check) est un
+ * SVG vectoriel net à toute taille (apps/web/public/brand/senesource-symbol.svg).
+ * Le mot-symbole reste du TEXTE (Newsreader déjà chargé) : « Sene » en encre,
+ * « Source » en ocre — pas de police embarquée, pas de rendu flou, accessible.
+ *
+ * Lien vers l'accueil ; le symbole est décoratif (alt="" + aria-hidden), le
+ * nom accessible est porté par aria-label sur le lien. Aucun radius / ombre /
+ * gradient. Le slogan n'apparaît jamais ici (réservé au pied de page).
+ */
+interface Props {
+  class?: string;
+}
+const { class: klass } = Astro.props;
+---
+
+<a class:list={['logo', klass]} href="/" aria-label="SeneSource — Accueil">
+  <img class="logo-symbole" src="/brand/senesource-symbol.svg" alt="" aria-hidden="true" width="41" height="28" />
+  <span class="logo-mot"><span class="logo-sene">Sene</span><span class="logo-source">Source</span></span>
+</a>
+
+<style>
+  .logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--ss-ink);
+    white-space: nowrap;
+  }
+  /* Symbole : hauteur pilotée en CSS, largeur automatique (ratio du viewBox)
+     → toujours net, centré verticalement avec le mot-symbole. */
+  .logo-symbole {
+    display: block;
+    height: 23px;
+    width: auto;
+  }
+  .logo-mot {
+    font: 500 21px/1 var(--ss-font-serif);
+    letter-spacing: -0.01em;
+  }
+  .logo-sene {
+    color: var(--ss-ink);
+  }
+  .logo-source {
+    color: var(--ss-ochre);
+  }
+
+  @media (min-width: 1024px) {
+    .logo {
+      gap: 10px;
+    }
+    .logo-symbole {
+      height: 29px;
+    }
+    .logo-mot {
+      font-size: 26px;
+    }
+  }
+</style>

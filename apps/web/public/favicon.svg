@@ -1,1 +1,10 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" fill="#FAF8F4"/><rect x="8" y="8" width="16" height="16" fill="#17161A"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 58" fill="none" role="img" aria-label="SeneSource">
+  <!-- Guillemet gauche — sombre -->
+  <rect x="4" y="6" width="24" height="24" rx="7" fill="#111A13"/>
+  <path d="M11 27 H26 L9 48 Z" fill="#111A13"/>
+  <!-- Guillemet droit — ocre -->
+  <rect x="32" y="6" width="24" height="24" rx="7" fill="#C9962A"/>
+  <path d="M39 27 H54 L37 48 Z" fill="#C9962A"/>
+  <!-- Check blanc (légèrement plus gras pour la lisibilité 16px) -->
+  <path d="M39 18 L45 24 L55 11" fill="none" stroke="#FFFFFF" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

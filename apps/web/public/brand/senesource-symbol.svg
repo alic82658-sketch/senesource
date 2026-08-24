@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 88 60" fill="none" role="img" aria-label="SeneSource">
+  <!-- Guillemet gauche — sombre -->
+  <rect x="6" y="6" width="30" height="30" rx="8.5" fill="#111A13"/>
+  <path d="M14 33 H34 L12 55 Z" fill="#111A13"/>
+  <!-- Guillemet droit — ocre -->
+  <rect x="52" y="6" width="30" height="30" rx="8.5" fill="#C9962A"/>
+  <path d="M60 33 H80 L58 55 Z" fill="#C9962A"/>
+  <!-- Check blanc intégré au guillemet ocre -->
+  <path d="M60 21 L67 28 L78 14" fill="none" stroke="#FFFFFF" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

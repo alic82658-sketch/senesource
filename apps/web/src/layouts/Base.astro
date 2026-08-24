@@ -19,6 +19,7 @@ const { titre, description, noindex = false } = Astro.props;
     {description && <meta name="description" content={description} />}
     {noindex && <meta name="robots" content="noindex, nofollow" />}
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link
       rel="preload"
       href="/fonts/newsreader-normal-400-500-latin.woff2"
