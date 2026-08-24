@@ -5,12 +5,24 @@
  * discrètement la marque et le slogan « Les faits, jusqu’à la source. ».
  * Le slogan n'apparaît qu'ici (jamais dans l'en-tête mobile, pour ne pas
  * le surcharger). Aucun radius / ombre / gradient ; aucun JS client.
+ *
+ * `contenu` (opt-in) : « centre » aligne le pied sur le MÊME conteneur centré
+ * que le corps d'une page centrée (page dossier) — bloc de correction en
+ * largeur de lecture centrée, marque sur la largeur utile. Par défaut
+ * (« pleine »), le rendu est INCHANGÉ (pleine largeur) : les autres pages
+ * (méthode) ne bougent pas.
  */
 import PolitiqueCorrection from '../editorial/PolitiqueCorrection.astro';
+
+interface Props {
+  contenu?: 'pleine' | 'centre';
+}
+const { contenu = 'pleine' } = Astro.props;
+const centre = contenu === 'centre';
 ---
 
-<footer class="pied-site">
-  <PolitiqueCorrection />
+<footer class:list={['pied-site', { 'pied-site--centre': centre }]}>
+  <PolitiqueCorrection centre={centre} />
   <div class="pied-bas">
     <a class="pied-marque" href="/">Sene<span class="pied-marque-accent">Source</span></a>
     <span class="pied-slogan">Les faits, jusqu’à la source.</span>
@@ -56,6 +68,20 @@ import PolitiqueCorrection from '../editorial/PolitiqueCorrection.astro';
     .pied-bas {
       padding-left: 64px;
       padding-right: 64px;
+    }
+  }
+
+  /* Variante centrée (opt-in, page dossier) : le pied appartient au conteneur
+     centré du dossier (mêmes bornes que `.dossier`). La marque garde ses
+     gouttières via `.pied-bas` ; le bloc de correction est centré en largeur
+     de lecture (voir PolitiqueCorrection.correction--centre). */
+  .pied-site--centre {
+    max-width: 1180px;
+    margin-inline: auto;
+  }
+  @media (min-width: 1440px) {
+    .pied-site--centre {
+      max-width: 1240px;
     }
   }
 </style>

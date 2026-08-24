@@ -6,10 +6,19 @@
  * Sobre et conforme au design system : séparation par filet fort typographique
  * (1px --ink), papier / encre / ocre uniquement, aucun radius, aucune ombre,
  * aucun gradient, aucun JS client. Mobile-first. Le lien pointe vers /methode.
+ *
+ * `centre` (opt-in) : variante « largeur de lecture centrée » pour les pages
+ * dont le corps est lui-même centré (page dossier). Sans la prop, le rendu par
+ * défaut (pleine largeur, filet fort) est INCHANGÉ — les autres pages (méthode)
+ * ne bougent pas.
  */
+interface Props {
+  centre?: boolean;
+}
+const { centre = false } = Astro.props;
 ---
 
-<section class="correction" aria-labelledby="correction-titre">
+<section class:list={['correction', { 'correction--centre': centre }]} aria-labelledby="correction-titre">
   <h2 id="correction-titre" class="correction-titre">
     Une information plus récente ou une source plus solide&nbsp;?
   </h2>
@@ -53,9 +62,24 @@
     text-underline-offset: 3px;
   }
 
+  /* Variante centrée (opt-in) : bloc en largeur de lecture, centré, texte
+     toujours aligné à gauche. Filet fin (au lieu du filet fort). Les gouttières
+     mobiles sont conservées ; en desktop, la largeur de lecture suffit. */
+  .correction--centre {
+    max-width: 660px;
+    margin-inline: auto;
+    border-top-color: var(--ss-rule);
+  }
+
   @media (min-width: 1024px) {
     .correction {
       padding: 30px 48px;
+    }
+    /* Variante centrée : la largeur de lecture définit la mesure, pas le padding
+       latéral (le conteneur du pied fournit déjà les gouttières). */
+    .correction--centre {
+      padding-left: 0;
+      padding-right: 0;
     }
     .correction-titre {
       font-size: 22px;
