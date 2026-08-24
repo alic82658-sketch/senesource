@@ -26,7 +26,8 @@ interface Props {
   credit?: string;
   sourceUrl?: string;
   droits?: string;
-  ratio?: string; // ex. "16 / 9", "3 / 2", "4 / 3"
+  ratio?: string; // ex. "16 / 9", "3 / 2", "4 / 3" — appliqué ≥1024
+  ratioMobile?: string; // cadrage < 1024 (par défaut : identique à `ratio`)
   avecLegende?: boolean; // rend la légende/crédit/source sous l'image
   class?: string;
 }
@@ -42,9 +43,16 @@ const {
   sourceUrl,
   droits,
   ratio = '3 / 2',
+  ratioMobile,
   avecLegende = false,
   class: klass,
 } = Astro.props;
+
+// Cadrage responsive : par défaut identique à toutes les tailles ; un appelant
+// (ex. la une homepage) peut fournir un cadrage mobile distinct sans créer un
+// second système d'image. Le dossier et les cartes ne passent pas `ratioMobile`
+// → comportement inchangé.
+const ratioMobileEff = ratioMobile ?? ratio;
 
 // Point focal → object-position (défaut centré). Normalisé 0–1 côté domaine.
 const objPos = focal
@@ -58,7 +66,7 @@ const credLigne = [credit, droits].filter(Boolean).join(' · ');
 {
   src && (
     <figure class:list={['img', klass]}>
-      <div class="img-cadre" style={`aspect-ratio: ${ratio};`}>
+      <div class="img-cadre">
         <img
           class="img-el"
           src={src}
@@ -85,14 +93,21 @@ const credLigne = [credit, droits].filter(Boolean).join(' · ');
   )
 }
 
-<style>
+<style define:vars={{ imgRatio: ratio, imgRatioMobile: ratioMobileEff }}>
   .img {
     margin: 0;
   }
   /* object-fit: cover + point focal : recadrage responsive sans déformation.
-     Zéro radius, zéro ombre. Le ratio est piloté par l'appelant. */
+     Zéro radius, zéro ombre. Ratio piloté par l'appelant, distinct possible
+     en mobile / desktop. */
   .img-cadre {
     overflow: hidden;
+    aspect-ratio: var(--imgRatioMobile);
+  }
+  @media (min-width: 1024px) {
+    .img-cadre {
+      aspect-ratio: var(--imgRatio);
+    }
   }
   .img-el {
     display: block;

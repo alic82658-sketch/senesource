@@ -23,6 +23,13 @@ const uneDate = une.misAJourLe
     ? `Ouvert le ${dateJourMois(une.ouvertLe)}`
     : '';
 const uneMeta = [`${jUne.total} pièces`, uneDate].filter(Boolean).join(' · ');
+
+// Cadrage dynamique de la une (homepage uniquement) : plus serré que la page
+// dossier pour donner de la présence au FPSO. On réutilise le MÊME composant
+// image (object-fit: cover + point focal) — sans toucher au fichier ni au
+// cadrage documentaire, plus large, de la page dossier.
+const uneRatio = '16 / 9';
+const uneFocal = { x: 0.5, y: 0.62 };
 ---
 
 <Base
@@ -40,10 +47,11 @@ const uneMeta = [`${jUne.total} pièces`, uneDate].filter(Boolean).join(' · ');
             <ImageDossier
               src={une.illustration.src}
               alt={une.illustration.alt}
-              focal={une.illustration.focal}
+              focal={uneFocal}
               largeur={une.illustration.largeur}
               hauteur={une.illustration.hauteur}
-              ratio="3 / 2"
+              ratio={uneRatio}
+              ratioMobile="3 / 2"
             />
           </a>
         )
@@ -104,9 +112,17 @@ const uneMeta = [`${jUne.total} pièces`, uneDate].filter(Boolean).join(' · ');
     }
   </main>
 
-  <!-- Appel : faire vérifier une information -->
+  <!-- Appel : faire vérifier une information.
+       Mobile : bandeau existant inchangé. Desktop : traitement éditorial
+       discret (filet, pas d'aplat noir), moins « bannière ». -->
   <div class="accueil-cta">
-    <BandeauInverse texte="Une information à faire vérifier ?" action="Déposer →" />
+    <div class="cta-mobile">
+      <BandeauInverse texte="Une information à faire vérifier ?" action="Déposer →" />
+    </div>
+    <a class="cta-desktop" href="#">
+      <span class="cta-texte">Une information à faire vérifier&nbsp;?</span>
+      <span class="cta-action">Déposer →</span>
+    </a>
   </div>
 
   <PiedDeSite />
@@ -239,7 +255,11 @@ const uneMeta = [`${jUne.total} pièces`, uneDate].filter(Boolean).join(' · ');
 
   .accueil-cta {
     max-width: 1200px;
-    margin: 28px auto 0;
+    margin: 24px auto 0;
+  }
+  /* CTA éditorial desktop : masqué en mobile (bandeau existant conservé). */
+  .cta-desktop {
+    display: none;
   }
 
   /* ===== ≥640 — grille deux colonnes ===== */
@@ -252,21 +272,29 @@ const uneMeta = [`${jUne.total} pièces`, uneDate].filter(Boolean).join(' · ');
 
   /* ===== ≥1024 — À la une côte à côte ===== */
   @media (min-width: 1024px) {
+    /* Une élargie : le hero prend nettement plus de présence, centré, sans
+       occuper seulement le tiers central de l'écran. */
     .accueil {
-      padding: 28px 48px 8px;
+      max-width: 1440px;
+      padding: 34px 48px 8px;
     }
+    /* Composition cible : image ≈ 55 % · texte ≈ 45 %. */
     .une--avec-image {
       display: grid;
-      grid-template-columns: 1.15fr 1fr;
-      column-gap: 44px;
+      grid-template-columns: 55fr 45fr;
+      column-gap: 48px;
       align-items: center;
     }
     .une--avec-image .une-media {
       margin-bottom: 0;
     }
+    /* Le texte ne s'étire pas démesurément même dans une colonne large. */
+    .une--avec-image .une-corps {
+      max-width: 600px;
+    }
     .une-titre {
-      font-size: 44px;
-      line-height: 1.05;
+      font-size: 40px;
+      line-height: 1.07;
     }
     /* Sans image : le titre occupe une largeur de lecture, pas toute la page. */
     .une:not(.une--avec-image) .une-titre,
@@ -282,18 +310,53 @@ const uneMeta = [`${jUne.total} pièces`, uneDate].filter(Boolean).join(' · ');
     .suite {
       margin-top: 44px;
     }
+
+    /* CTA desktop éditorial : filet fin, pas d'aplat noir, hauteur réduite. */
     .accueil-cta {
+      max-width: 1440px;
       padding: 0 48px;
+    }
+    .cta-mobile {
+      display: none;
+    }
+    .cta-desktop {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 13px 0;
+      border-top: 1px solid var(--ss-ink);
+      border-bottom: 1px solid var(--ss-rule);
+    }
+    .cta-texte {
+      font: 400 15px/1.3 var(--ss-font-serif);
+      color: var(--ss-ink);
+    }
+    .cta-action {
+      font: 500 10px/1 var(--ss-font-mono);
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--ss-ochre);
+      white-space: nowrap;
+    }
+    .cta-desktop:hover .cta-action {
+      text-decoration: underline;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 3px;
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .une-titre {
+      font-size: 46px;
+      line-height: 1.06;
     }
   }
 
   @media (min-width: 1440px) {
-    .accueil {
-      padding-left: 64px;
-      padding-right: 64px;
-    }
-    .accueil-cta {
-      padding: 0 64px;
+    /* ≥1440 : titre légèrement plus grand, sans être gigantesque. */
+    .une-titre {
+      font-size: 50px;
     }
   }
 </style>
