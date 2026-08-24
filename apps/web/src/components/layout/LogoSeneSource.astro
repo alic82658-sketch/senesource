@@ -18,7 +18,7 @@ const { class: klass } = Astro.props;
 ---
 
 <a class:list={['logo', klass]} href="/" aria-label="SeneSource — Accueil">
-  <img class="logo-symbole" src="/brand/senesource-symbol.svg" alt="" aria-hidden="true" width="41" height="28" />
+  <img class="logo-symbole" src="/brand/senesource-symbol.svg" alt="" aria-hidden="true" width="53" height="34" />
   <span class="logo-mot"><span class="logo-sene">Sene</span><span class="logo-source">Source</span></span>
 </a>
 
@@ -34,11 +34,11 @@ const { class: klass } = Astro.props;
      → toujours net, centré verticalement avec le mot-symbole. */
   .logo-symbole {
     display: block;
-    height: 23px;
+    height: 25px;
     width: auto;
   }
   .logo-mot {
-    font: 500 21px/1 var(--ss-font-serif);
+    font: 500 23px/1 var(--ss-font-serif);
     letter-spacing: -0.01em;
   }
   .logo-sene {
@@ -53,10 +53,10 @@ const { class: klass } = Astro.props;
       gap: 10px;
     }
     .logo-symbole {
-      height: 29px;
+      height: 34px;
     }
     .logo-mot {
-      font-size: 26px;
+      font-size: 28px;
     }
   }
 </style>

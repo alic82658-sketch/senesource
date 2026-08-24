@@ -1,10 +1,11 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 58" fill="none" role="img" aria-label="SeneSource">
-  <!-- Guillemet gauche — sombre -->
-  <rect x="4" y="6" width="24" height="24" rx="7" fill="#111A13"/>
-  <path d="M11 27 H26 L9 48 Z" fill="#111A13"/>
-  <!-- Guillemet droit — ocre -->
-  <rect x="32" y="6" width="24" height="24" rx="7" fill="#C9962A"/>
-  <path d="M39 27 H54 L37 48 Z" fill="#C9962A"/>
-  <!-- Check blanc (légèrement plus gras pour la lisibilité 16px) -->
-  <path d="M39 18 L45 24 L55 11" fill="none" stroke="#FFFFFF" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 205 132" fill="none" role="img" aria-label="SeneSource">
+  <!-- Symbole SeneSource VALIDÉ (masses pleines) — géométrie figée, identique
+       à /brand/senesource-symbol.svg. Seul le cadrage est optimisé favicon. -->
+  <g transform="rotate(180 50 66)">
+    <path d="M 0 50 a 50 50 0 1 1 100 0 a 50 50 0 1 1 -100 0 Z M 80 86 A 60 60 0 0 1 14 126 A 8 8 0 0 1 6 114 A 56 56 0 0 0 36 88 Z" fill="#111A13"/>
+  </g>
+  <g transform="translate(105 0)">
+    <path d="M 0 50 a 50 50 0 1 1 100 0 a 50 50 0 1 1 -100 0 Z M 80 86 A 60 60 0 0 1 14 126 A 8 8 0 0 1 6 114 A 56 56 0 0 0 36 88 Z" fill="#C9962A"/>
+    <path d="M 23 52 L 42 71 L 80 30" stroke="#FFFFFF" stroke-width="18" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  </g>
 </svg>
