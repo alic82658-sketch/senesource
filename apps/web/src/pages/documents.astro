@@ -1,0 +1,12 @@
+---
+import CollectionDossiers from '../components/editorial/CollectionDossiers.astro';
+import { listeDossiers } from '../lib/contenu';
+
+const dossiers = (await listeDossiers()).filter((d) => d.pieces.length > 0);
+---
+<CollectionDossiers
+  titre="Pièces et documents"
+  description="Les dossiers classés avec les textes officiels, rapports, réponses administratives et sources qui permettent de vérifier."
+  dossiers={dossiers}
+  courante="pieces"
+/>
