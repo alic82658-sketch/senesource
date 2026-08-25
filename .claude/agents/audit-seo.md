@@ -1,6 +1,6 @@
 ---
 name: audit-seo
-description: Audit SEO technique en lecture seule d'un site web donné (balises, maillage interne, vitesse, données structurées, signaux GEO). Utiliser cet agent dès qu'on demande d'analyser, auditer ou diagnostiquer techniquement un site ou une URL. Fournir l'URL du site dans le prompt. Renvoie une synthèse en français classée par priorité.
+description: Audit SEO technique en lecture seule d'un site web donné (balises, maillage interne, vitesse, données structurées, signaux GEO). Utiliser cet agent dès qu'on demande un audit, un diagnostic ou une analyse de site — quelle que soit la formulation ("audite ce site", "diagnostic SEO", "analyse ce site", "regarde ce site", "pourquoi ce site n'est pas visible", ou simplement une URL à examiner). Fournir l'URL du site dans le prompt. Renvoie une synthèse en français classée par priorité.
 tools: WebFetch, WebSearch, Bash, Read, Grep, Glob
 ---
 
