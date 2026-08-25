@@ -9,6 +9,7 @@ import ImageDossier from '../../components/editorial/ImageDossier.astro';
 import Jauge from '../../components/ui/Jauge.astro';
 import Carre from '../../components/ui/Carre.astro';
 import PiedDeSite from '../../components/layout/PiedDeSite.astro';
+import EnTete from '../../components/layout/EnTete.astro';
 import {
   dossiersAvecPage,
   collecte,
@@ -43,6 +44,7 @@ const description = d.verdict
 ---
 
 <Base titre={`Dossier ${num} — ${d.titre}`} description={description}>
+  <EnTete rubriqueCourante={d.categorie.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replaceAll(' ', '-')} />
   <article class="dossier">
     <!-- Barre de navigation fine (retour + statut de collecte) -->
     <div class="barre">
