@@ -24,6 +24,7 @@ interface Illu {
 interface Props {
   numero: string;
   rubrique: string;
+  categorie?: string;
   type?: string;
   titre: string;
   href?: string;
@@ -35,6 +36,7 @@ interface Props {
 const {
   numero,
   rubrique,
+  categorie,
   type,
   titre,
   href,
@@ -50,6 +52,7 @@ const surligne = type ? `${rubrique} · ${type}` : rubrique;
   {
     illustration?.src && (
       <a class="carte-media" href={href} tabindex="-1" aria-hidden="true">
+        {categorie && <span class="carte-categorie">{categorie}</span>}
         <ImageDossier
           src={illustration.src}
           alt={illustration.alt}
@@ -91,7 +94,20 @@ const surligne = type ? `${rubrique} · ${type}` : rubrique;
     flex-direction: column;
   }
   .carte-media {
+    position: relative;
     display: block;
+  }
+  .carte-categorie {
+    position: absolute;
+    z-index: 1;
+    top: 10px;
+    left: 10px;
+    padding: 7px 9px 6px;
+    background: var(--ss-ink);
+    color: var(--ss-paper);
+    font: 600 9px/1 var(--ss-font-mono);
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
   }
   .carte-media:hover {
     opacity: 0.94;
