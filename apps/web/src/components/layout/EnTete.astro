@@ -1,15 +1,11 @@
 ---
 /**
- * En-tête (§5.1 mobile / §6.1 desktop).
- * Navigation : quatre entrées maximum — Vérifications, Pièces,
- * Ce que ça change, Méthode. Pas de menu déroulant, pas de recherche
- * en tête sur mobile (§7). L'écran mobile de référence (§5.1) affiche
- * trois entrées ; Méthode n'apparaît qu'à partir du desktop (§6.1).
- * La marque : Newsreader, « Source » en ocre (gabarits §5.1/§6.1).
+ * En-tête SeneSource.
+ * Logo final monochrome S¹ + signature « Les faits, jusqu’à la source. »
  */
 interface Props {
   courante?: 'verifications' | 'pieces' | 'consequences' | 'methode';
-  meta?: string; // « SAM. 22 AOÛT » mobile · « SAM. 22 AOÛT 2026 · DAKAR » desktop
+  meta?: string;
 }
 const { courante = 'verifications', meta = '' } = Astro.props;
 const entrees = [
@@ -22,7 +18,14 @@ const entrees = [
 
 <header class="entete">
   <div class="entete-haut">
-    <a class="marque" href="/">Sene<span class="marque-accent">Source</span></a>
+    <a class="marque" href="/" aria-label="SeneSource — Accueil">
+      <span class="marque-symbole" aria-hidden="true">S<sup>1</sup></span>
+      <span class="marque-separateur" aria-hidden="true"></span>
+      <span class="marque-identite">
+        <span class="marque-nom">SeneSource</span>
+        <span class="marque-signature">Les faits, jusqu’à la source.</span>
+      </span>
+    </a>
     <nav class="nav nav--desktop" aria-label="Navigation principale">
       {
         entrees.map((e) => (
@@ -58,18 +61,49 @@ const entrees = [
 <style>
   .entete-haut {
     display: flex;
-    align-items: baseline;
+    align-items: center;
     justify-content: space-between;
     gap: 16px;
-    padding: 18px 20px 12px;
+    padding: 14px 20px 11px;
   }
   .marque {
-    font: 500 21px/1 var(--ss-font-serif);
-    letter-spacing: -0.01em;
+    display: inline-flex;
+    align-items: center;
+    flex: 0 0 auto;
     color: var(--ss-ink);
   }
-  .marque-accent {
-    color: var(--ss-ochre);
+  .marque-symbole {
+    position: relative;
+    font: 700 34px/0.82 var(--ss-font-serif);
+    letter-spacing: -0.06em;
+  }
+  .marque-symbole sup {
+    position: absolute;
+    top: -0.17em;
+    right: -0.55em;
+    font: 700 10px/1 var(--ss-font-sans);
+    letter-spacing: 0;
+  }
+  .marque-separateur {
+    width: 1px;
+    height: 37px;
+    margin: 0 13px 0 16px;
+    background: currentColor;
+  }
+  .marque-identite {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+  .marque-nom {
+    font: 500 20px/0.9 var(--ss-font-serif);
+    letter-spacing: -0.035em;
+  }
+  .marque-signature {
+    font: 600 5.8px/1 var(--ss-font-sans);
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    white-space: nowrap;
   }
   .entete-meta {
     font: 400 9.5px/1 var(--ss-font-mono);
@@ -102,13 +136,35 @@ const entrees = [
   .nav--desktop {
     display: none;
   }
+  @media (max-width: 359px) {
+    .marque-signature {
+      display: none;
+    }
+    .marque-separateur {
+      height: 30px;
+    }
+  }
   @media (min-width: 1024px) {
     .entete-haut {
-      padding: 22px 48px 16px;
+      padding: 17px 48px 14px;
       border-bottom: 1px solid var(--ss-ink);
     }
-    .marque {
+    .marque-symbole {
+      font-size: 42px;
+    }
+    .marque-symbole sup {
+      font-size: 12px;
+    }
+    .marque-separateur {
+      height: 45px;
+      margin-left: 20px;
+      margin-right: 16px;
+    }
+    .marque-nom {
       font-size: 26px;
+    }
+    .marque-signature {
+      font-size: 7px;
     }
     .entete-meta {
       font-size: 10.5px;
