@@ -1,0 +1,21 @@
+---
+import type { GetStaticPaths } from 'astro';
+import CollectionDossiers from '../../components/editorial/CollectionDossiers.astro';
+import { listeDossiers } from '../../lib/contenu';
+import { RUBRIQUES, rubriqueParSlug } from '../../lib/rubriques';
+
+export const getStaticPaths = (() =>
+  RUBRIQUES.map((rubrique) => ({ params: { slug: rubrique.slug } }))) satisfies GetStaticPaths;
+
+const { slug } = Astro.params;
+const rubrique = rubriqueParSlug(slug!);
+if (!rubrique) return Astro.redirect('/');
+
+const dossiers = (await listeDossiers()).filter((d) => d.categorie === rubrique.nom);
+---
+<CollectionDossiers
+  titre={rubrique.nom}
+  description={`Tous les dossiers SeneSource classés dans la rubrique ${rubrique.nom}.`}
+  dossiers={dossiers}
+  rubriqueCourante={rubrique.slug}
+/>
