@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 160" role="img" aria-labelledby="title desc">
+  <title id="title">SeneSource</title>
+  <desc id="desc">Logo SeneSource — les faits, jusqu’à la source.</desc>
+  <g fill="#17161A">
+    <text x="8" y="112" font-family="Georgia, 'Times New Roman', serif" font-size="112" font-weight="700">S</text>
+    <text x="78" y="48" font-family="Arial, sans-serif" font-size="30" font-weight="700">1</text>
+    <rect x="116" y="18" width="2" height="118"/>
+    <text x="148" y="92" font-family="Georgia, 'Times New Roman', serif" font-size="70" font-weight="500" letter-spacing="-2">SeneSource</text>
+    <text x="151" y="125" font-family="Arial, sans-serif" font-size="16" font-weight="600" letter-spacing="3.2">LES FAITS, JUSQU’À LA SOURCE.</text>
+  </g>
+</svg>
