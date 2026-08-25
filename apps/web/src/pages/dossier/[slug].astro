@@ -44,7 +44,7 @@ const description = d.verdict
 ---
 
 <Base titre={`Dossier ${num} — ${d.titre}`} description={description}>
-  <EnTete rubriqueCourante={d.categorie.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replaceAll(' ', '-')} />
+  <EnTete afficherRubriques={false} />
   <article class="dossier">
     <!-- Barre de navigation fine (retour + statut de collecte) -->
     <div class="barre">
@@ -342,6 +342,7 @@ const description = d.verdict
     white-space: nowrap;
   }
   .barre-meta {
+    display: none;
     font: 400 10px/1 var(--ss-font-mono);
     letter-spacing: 0.04em;
     text-transform: uppercase;
@@ -571,6 +572,12 @@ const description = d.verdict
   }
   .rail-erreur-lien {
     color: var(--ss-ochre);
+  }
+
+  @media (min-width: 768px) {
+    .barre-meta {
+      display: inline;
+    }
   }
 
   /* =============== ≥768 — le titre respire =============== */
