@@ -1,5 +1,6 @@
 ---
 import Rubriques from './Rubriques.astro';
+import MarqueSeneSource from './MarqueSeneSource.astro';
 /**
  * En-tête SeneSource.
  * Logo final monochrome S¹ + signature « L’actualité qui vous instruit. »
@@ -20,14 +21,7 @@ const entrees = [
 
 <header class="entete">
   <div class="entete-haut">
-    <a class="marque" href="/" aria-label="SeneSource — Accueil">
-      <span class="marque-symbole" aria-hidden="true">S<sup>1</sup></span>
-      <span class="marque-separateur" aria-hidden="true"></span>
-      <span class="marque-identite">
-        <span class="marque-nom">SeneSource</span>
-        <span class="marque-signature">L’actualité qui vous instruit.</span>
-      </span>
-    </a>
+    <MarqueSeneSource />
     <nav class="nav nav--desktop" aria-label="Navigation principale">
       {
         entrees.map((e) => (
