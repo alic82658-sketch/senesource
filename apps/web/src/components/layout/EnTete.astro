@@ -9,8 +9,9 @@ interface Props {
   courante?: 'verifications' | 'pieces' | 'consequences' | 'methode';
   meta?: string;
   rubriqueCourante?: string;
+  afficherRubriques?: boolean;
 }
-const { courante, meta = '', rubriqueCourante = '' } = Astro.props;
+const { courante, meta = '', rubriqueCourante = '', afficherRubriques = true } = Astro.props;
 const entrees = [
   { id: 'verifications', label: 'Vérifications', href: '/verifications' },
   { id: 'pieces', label: 'Pièces', href: '/documents' },
@@ -52,7 +53,7 @@ const entrees = [
         ))
     }
   </nav>
-  <Rubriques courante={rubriqueCourante} />
+  {afficherRubriques && <Rubriques courante={rubriqueCourante} />}
 </header>
 
 <style>
