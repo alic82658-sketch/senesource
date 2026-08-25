@@ -4,6 +4,7 @@ import EnTete from '../components/layout/EnTete.astro';
 import CarteDossier from '../components/editorial/CarteDossier.astro';
 import BandeauInverse from '../components/editorial/BandeauInverse.astro';
 import ImageDossier from '../components/editorial/ImageDossier.astro';
+import MarqueSeneSource from '../components/layout/MarqueSeneSource.astro';
 import { listeDossiers, collecte, numeroAffiche, dateJourMois, dateComplete } from '../lib/contenu';
 
 const dossiers = await listeDossiers();
@@ -158,8 +159,7 @@ const dateHeader = new Intl.DateTimeFormat('fr-FR', {
     </section>
 
     <div class="accueil-marque">
-      <a class="marque" href="/">SeneSource</a>
-      <span class="marque-slogan">L’actualité qui vous instruit.</span>
+      <MarqueSeneSource format="pied" />
     </div>
   </footer>
 </Base>
