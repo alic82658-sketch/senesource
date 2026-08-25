@@ -36,6 +36,18 @@ export type Verdict = (typeof VERDICTS)[number];
 export const TYPES_DOSSIER = ['verification', 'impact', 'document', 'explication'] as const;
 export type TypeDossier = (typeof TYPES_DOSSIER)[number];
 
+export const CATEGORIES = [
+  'Politique',
+  'Économie',
+  'Société',
+  'Justice',
+  'Santé',
+  'Sport',
+  'Faits divers',
+  'International',
+] as const;
+export type Categorie = (typeof CATEGORIES)[number];
+
 /** Statuts publics d'un dossier (« brouillon » = draft, hors modèle public). */
 export const STATUTS_DOSSIER = ['en_instruction', 'publie', 'archive'] as const;
 export type StatutDossier = (typeof STATUTS_DOSSIER)[number];
@@ -213,6 +225,7 @@ export interface DossierChamps {
   titre: string;
   titreCourt?: string;
   rubrique: string;
+  categorie: Categorie;
   statut: StatutDossier;
   ouvertLe?: DateISO;
   version?: number;

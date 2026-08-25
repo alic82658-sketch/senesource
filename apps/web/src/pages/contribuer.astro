@@ -1,0 +1,99 @@
+---
+import Base from '../layouts/Base.astro';
+import EnTete from '../components/layout/EnTete.astro';
+---
+
+<Base
+  titre="Proposer une information"
+  description="Transmettre à SeneSource une affirmation, un document ou un sujet d’intérêt public à vérifier."
+>
+  <EnTete />
+  <main class="contribuer">
+    <p class="repere">Contribuer</p>
+    <h1>Une information à faire vérifier&nbsp;?</h1>
+    <p class="intro">
+      Envoyez l’affirmation exacte, son origine et, si possible, les documents ou liens qui
+      permettent de la retrouver. Une proposition n’est publiée qu’après vérification.
+    </p>
+
+    <section class="consignes" aria-labelledby="consignes-titre">
+      <h2 id="consignes-titre">Ce qu’il faut transmettre</h2>
+      <ol>
+        <li>La phrase, la vidéo ou la publication concernée.</li>
+        <li>Le lien d’origine, la date et le nom de la personne ou de l’organisme.</li>
+        <li>Les documents, captures ou témoignages dont vous disposez.</li>
+        <li>Ce que vous souhaitez précisément comprendre ou vérifier.</li>
+      </ol>
+    </section>
+
+    <a
+      class="contact"
+      href="mailto:redaction@senesource.com?subject=Information%20à%20vérifier"
+    >
+      Écrire à redaction@senesource.com →
+    </a>
+    <p class="confidentialite">
+      Ne transmettez pas publiquement de données personnelles sensibles. Une adresse sécurisée
+      dédiée aux signalements confidentiels sera ajoutée dans le prochain lot.
+    </p>
+  </main>
+</Base>
+
+<style>
+  .contribuer {
+    width: min(760px, calc(100% - 40px));
+    margin-inline: auto;
+    padding: 40px 0 80px;
+  }
+  .repere {
+    margin: 0 0 12px;
+    font: 600 10px/1 var(--ss-font-mono);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ss-ochre);
+  }
+  h1 {
+    margin: 0;
+    font: 400 38px/1.06 var(--ss-font-serif);
+    letter-spacing: -0.02em;
+  }
+  .intro {
+    margin: 18px 0 0;
+    font: 400 17px/1.65 var(--ss-font-sans);
+    color: var(--ss-ink-80);
+  }
+  .consignes {
+    margin-top: 32px;
+    padding: 24px 0;
+    border-block: 1px solid var(--ss-rule);
+  }
+  h2 {
+    margin: 0;
+    font: 400 24px/1.15 var(--ss-font-serif);
+  }
+  ol {
+    margin: 18px 0 0;
+    padding-left: 22px;
+    font: 400 15px/1.7 var(--ss-font-sans);
+  }
+  .contact {
+    display: inline-block;
+    margin-top: 28px;
+    padding: 14px 16px;
+    background: var(--ss-ink);
+    color: var(--ss-paper);
+    font: 600 10px/1 var(--ss-font-mono);
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+  }
+  .confidentialite {
+    margin: 18px 0 0;
+    font: 400 12.5px/1.6 var(--ss-font-sans);
+    color: var(--ss-mid);
+  }
+  @media (min-width: 768px) {
+    h1 {
+      font-size: 54px;
+    }
+  }
+</style>

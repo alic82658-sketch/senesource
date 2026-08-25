@@ -1,0 +1,12 @@
+---
+import CollectionDossiers from '../components/editorial/CollectionDossiers.astro';
+import { listeDossiers } from '../lib/contenu';
+
+const dossiers = (await listeDossiers()).filter((d) => d.type === 'verification');
+---
+<CollectionDossiers
+  titre="Vérifications"
+  description="Les affirmations publiques confrontées aux textes, aux chiffres et aux documents disponibles."
+  dossiers={dossiers}
+  courante="verifications"
+/>

@@ -4,6 +4,7 @@ import EnTete from '../components/layout/EnTete.astro';
 import CarteDossier from '../components/editorial/CarteDossier.astro';
 import BandeauInverse from '../components/editorial/BandeauInverse.astro';
 import ImageDossier from '../components/editorial/ImageDossier.astro';
+import MarqueSeneSource from '../components/layout/MarqueSeneSource.astro';
 import { listeDossiers, collecte, numeroAffiche, dateJourMois, dateComplete } from '../lib/contenu';
 
 const dossiers = await listeDossiers();
@@ -58,6 +59,7 @@ const dateHeader = new Intl.DateTimeFormat('fr-FR', {
       {
         une.illustration && (
           <a class="une-media" href={urlUne} aria-label={`Ouvrir le dossier : ${une.titre}`}>
+            <span class="une-categorie">{une.categorie}</span>
             <ImageDossier
               src={une.illustration.src}
               alt={une.illustration.alt}
@@ -108,6 +110,7 @@ const dateHeader = new Intl.DateTimeFormat('fr-FR', {
                 <CarteDossier
                   numero={numeroAffiche(d.numero)}
                   rubrique={d.rubrique}
+                  categorie={d.categorie}
                   titre={d.titre}
                   href={d.pageComplete ? `/dossier/${d.slug}/` : undefined}
                   verdict={d.verdict?.mot ?? null}
@@ -128,9 +131,9 @@ const dateHeader = new Intl.DateTimeFormat('fr-FR', {
        discret (filet, pas d'aplat noir), moins « bannière ». -->
   <div class="accueil-cta">
     <div class="cta-mobile">
-      <BandeauInverse texte="Une information à faire vérifier ?" action="Déposer →" />
+      <BandeauInverse texte="Une information à faire vérifier ?" action="Déposer →" href="/contribuer/" />
     </div>
-    <a class="cta-desktop" href="#">
+    <a class="cta-desktop" href="/contribuer/">
       <span class="cta-texte">Une information à faire vérifier&nbsp;?</span>
       <span class="cta-action">Déposer →</span>
     </a>
@@ -156,8 +159,7 @@ const dateHeader = new Intl.DateTimeFormat('fr-FR', {
     </section>
 
     <div class="accueil-marque">
-      <a class="marque" href="/">Sene<span class="marque-accent">Source</span></a>
-      <span class="marque-slogan">Les faits, jusqu’à la source.</span>
+      <MarqueSeneSource format="pied" />
     </div>
   </footer>
 </Base>
@@ -179,8 +181,21 @@ const dateHeader = new Intl.DateTimeFormat('fr-FR', {
   /* Mobile : image d'abord, puis sur-titre, puis corps (comportement conservé).
      Desktop : le sur-titre repasse au-dessus de l'image (voir ≥1024). */
   .une-media {
+    position: relative;
     order: 1;
     display: block;
+  }
+  .une-categorie {
+    position: absolute;
+    z-index: 1;
+    top: 12px;
+    left: 12px;
+    padding: 8px 10px 7px;
+    background: var(--ss-ink);
+    color: var(--ss-paper);
+    font: 600 9px/1 var(--ss-font-mono);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
   }
   .une-media:hover {
     opacity: 0.96;

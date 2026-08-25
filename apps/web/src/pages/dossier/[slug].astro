@@ -9,6 +9,7 @@ import ImageDossier from '../../components/editorial/ImageDossier.astro';
 import Jauge from '../../components/ui/Jauge.astro';
 import Carre from '../../components/ui/Carre.astro';
 import PiedDeSite from '../../components/layout/PiedDeSite.astro';
+import EnTete from '../../components/layout/EnTete.astro';
 import {
   dossiersAvecPage,
   collecte,
@@ -43,6 +44,7 @@ const description = d.verdict
 ---
 
 <Base titre={`Dossier ${num} — ${d.titre}`} description={description}>
+  <EnTete afficherRubriques={false} />
   <article class="dossier">
     <!-- Barre de navigation fine (retour + statut de collecte) -->
     <div class="barre">
@@ -68,6 +70,7 @@ const description = d.verdict
     {
       illustration && (
         <div class="media">
+          <span class="media-categorie">{d.categorie}</span>
           <ImageDossier
             src={illustration.src}
             alt={illustration.alt}
@@ -339,6 +342,7 @@ const description = d.verdict
     white-space: nowrap;
   }
   .barre-meta {
+    display: none;
     font: 400 10px/1 var(--ss-font-mono);
     letter-spacing: 0.04em;
     text-transform: uppercase;
@@ -367,7 +371,21 @@ const description = d.verdict
 
   /* ---- C + D — grande image ---- */
   .media {
+    position: relative;
     margin-top: 18px;
+  }
+
+  .media-categorie {
+    position: absolute;
+    z-index: 1;
+    top: 12px;
+    left: 12px;
+    padding: 8px 10px 7px;
+    background: var(--ss-ink);
+    color: var(--ss-paper);
+    font: 600 9px/1 var(--ss-font-mono);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
   }
 
   /* ---- Corps ---- */
@@ -554,6 +572,12 @@ const description = d.verdict
   }
   .rail-erreur-lien {
     color: var(--ss-ochre);
+  }
+
+  @media (min-width: 768px) {
+    .barre-meta {
+      display: inline;
+    }
   }
 
   /* =============== ≥768 — le titre respire =============== */

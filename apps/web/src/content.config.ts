@@ -1,6 +1,6 @@
 import { defineCollection, z } from 'astro:content';
 import { glob } from 'astro/loaders';
-import { VERDICTS } from '@senesource/domain';
+import { CATEGORIES, VERDICTS } from '@senesource/domain';
 
 /** Date ISO `YYYY-MM-DD` — représentation unique des dates du domaine. */
 const dateISO = z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Date attendue au format ISO YYYY-MM-DD.');
@@ -41,6 +41,7 @@ const dossiers = defineCollection({
       // Variante resserrée du titre pour le hero desktop en display-1 (§6.1)
       titreCourt: z.string().max(140).optional(),
       rubrique: z.string(),
+      categorie: z.enum(CATEGORIES),
       statut: z.enum(['en_instruction', 'publie', 'archive']),
       ouvertLe: dateISO.optional(),
       version: z.number().int().positive().optional(),

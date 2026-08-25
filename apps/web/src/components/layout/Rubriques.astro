@@ -1,0 +1,68 @@
+---
+import { RUBRIQUES } from '../../lib/rubriques';
+
+interface Props {
+  courante?: string;
+}
+const { courante = '' } = Astro.props;
+---
+
+<nav class="rubriques" aria-label="Rubriques">
+  <div class="rubriques-interieur">
+    {
+      RUBRIQUES.map((rubrique) => (
+        <a
+          class:list={['rubrique-lien', { 'rubrique-lien--courante': courante === rubrique.slug }]}
+          href={`/rubrique/${rubrique.slug}/`}
+          aria-current={courante === rubrique.slug ? 'page' : undefined}
+        >
+          {rubrique.nom}
+        </a>
+      ))
+    }
+  </div>
+</nav>
+
+<style>
+  .rubriques {
+    border-bottom: 1px solid var(--ss-ink);
+    background: var(--ss-paper);
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .rubriques::-webkit-scrollbar {
+    display: none;
+  }
+  .rubriques-interieur {
+    display: flex;
+    gap: 20px;
+    width: max-content;
+    min-width: 100%;
+    padding: 10px 20px;
+  }
+  .rubrique-lien {
+    font: 500 9.5px/1 var(--ss-font-mono);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ss-mid);
+    white-space: nowrap;
+  }
+  .rubrique-lien:hover,
+  .rubrique-lien--courante {
+    color: var(--ss-ink);
+  }
+  .rubrique-lien--courante {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 4px;
+  }
+  @media (min-width: 1024px) {
+    .rubriques-interieur {
+      justify-content: center;
+      gap: 28px;
+      padding: 11px 48px;
+    }
+    .rubrique-lien {
+      font-size: 10px;
+    }
+  }

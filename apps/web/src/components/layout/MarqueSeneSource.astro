@@ -1,0 +1,101 @@
+---
+interface Props {
+  format?: 'entete' | 'pied';
+}
+const { format = 'entete' } = Astro.props;
+---
+
+<a class:list={['identite', `identite--${format}`]} href="/" aria-label="SeneSource — Accueil">
+  <span class="identite-symbole" aria-hidden="true">S<sup>1</sup></span>
+  <span class="identite-separateur" aria-hidden="true"></span>
+  <span class="identite-texte">
+    <span class="identite-nom">SeneSource</span>
+    <span class="identite-signature">L’actualité qui vous instruit.</span>
+  </span>
+</a>
+
+<style>
+  .identite {
+    display: inline-flex;
+    align-items: center;
+    flex: 0 0 auto;
+    color: var(--ss-ink);
+  }
+  .identite-symbole {
+    position: relative;
+    font: 700 34px/0.82 var(--ss-font-serif);
+    letter-spacing: -0.06em;
+  }
+  .identite-symbole sup {
+    position: absolute;
+    top: -0.17em;
+    right: -0.55em;
+    font: 700 10px/1 var(--ss-font-sans);
+    letter-spacing: 0;
+  }
+  .identite-separateur {
+    width: 1px;
+    height: 37px;
+    margin: 0 13px 0 16px;
+    background: currentColor;
+  }
+  .identite-texte {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+  .identite-nom {
+    font: 500 20px/0.9 var(--ss-font-serif);
+    letter-spacing: -0.035em;
+  }
+  .identite-signature {
+    font: 600 5.8px/1 var(--ss-font-sans);
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .identite--pied .identite-symbole {
+    font-size: 26px;
+  }
+  .identite--pied .identite-symbole sup {
+    font-size: 8px;
+  }
+  .identite--pied .identite-separateur {
+    height: 29px;
+    margin-left: 14px;
+    margin-right: 11px;
+  }
+  .identite--pied .identite-nom {
+    font-size: 17px;
+  }
+  .identite--pied .identite-signature {
+    font-size: 5.2px;
+  }
+  @media (max-width: 359px) {
+    .identite--entete .identite-signature {
+      display: none;
+    }
+    .identite--entete .identite-separateur {
+      height: 30px;
+    }
+  }
+  @media (min-width: 1024px) {
+    .identite--entete .identite-symbole {
+      font-size: 42px;
+    }
+    .identite--entete .identite-symbole sup {
+      font-size: 12px;
+    }
+    .identite--entete .identite-separateur {
+      height: 45px;
+      margin-left: 20px;
+      margin-right: 16px;
+    }
+    .identite--entete .identite-nom {
+      font-size: 26px;
+    }
+    .identite--entete .identite-signature {
+      font-size: 7px;
+    }
+  }
+</style>

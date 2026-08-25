@@ -1,0 +1,130 @@
+---
+import type { Dossier } from '@senesource/domain';
+import Base from '../../layouts/Base.astro';
+import EnTete from '../layout/EnTete.astro';
+import CarteDossier from './CarteDossier.astro';
+import { collecte, numeroAffiche } from '../../lib/contenu';
+
+interface Props {
+  titre: string;
+  description: string;
+  dossiers: Dossier[];
+  courante?: 'verifications' | 'pieces' | 'consequences' | 'methode';
+  rubriqueCourante?: string;
+}
+const { titre, description, dossiers, courante, rubriqueCourante } = Astro.props;
+---
+
+<Base titre={titre} description={description}>
+  <EnTete courante={courante} rubriqueCourante={rubriqueCourante} />
+  <main class="collection">
+    <header class="collection-tete">
+      <p class="collection-repere">SeneSource</p>
+      <h1>{titre}</h1>
+      <p>{description}</p>
+    </header>
+    {
+      dossiers.length ? (
+        <div class="grille">
+          {dossiers.map((d) => {
+            const pieces = collecte(d);
+            return (
+              <CarteDossier
+                numero={numeroAffiche(d.numero)}
+                rubrique={d.rubrique}
+                categorie={d.categorie}
+                type={d.type}
+                titre={d.titre}
+                href={d.pageComplete ? `/dossier/${d.slug}/` : undefined}
+                verdict={d.verdict?.mot ?? null}
+                statutLibelle={d.verdict ? undefined : 'En instruction'}
+                meta={`${pieces.obtenues} / ${pieces.total} pièces`}
+                illustration={d.illustration}
+              />
+            );
+          })}
+        </div>
+      ) : (
+        <section class="vide">
+          <h2>Aucun dossier publié dans cette rubrique pour le moment.</h2>
+          <p>La rubrique est ouverte. Les prochains dossiers documentés y apparaîtront automatiquement.</p>
+          <a href="/">Retour aux derniers dossiers →</a>
+        </section>
+      )
+    }
+  </main>
+</Base>
+
+<style>
+  .collection {
+    width: 100%;
+    max-width: 1200px;
+    margin-inline: auto;
+    padding: 28px 20px 64px;
+  }
+  .collection-tete {
+    max-width: 760px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--ss-ink);
+  }
+  .collection-repere {
+    margin: 0 0 10px;
+    font: 600 10px/1 var(--ss-font-mono);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ss-ochre);
+  }
+  h1 {
+    margin: 0;
+    font: 400 36px/1.06 var(--ss-font-serif);
+    letter-spacing: -0.02em;
+  }
+  .collection-tete > p:last-child {
+    margin: 14px 0 0;
+    font: 400 16px/1.55 var(--ss-font-sans);
+    color: var(--ss-ink-80);
+  }
+  .grille {
+    display: grid;
+    gap: 32px;
+    padding-top: 28px;
+  }
+  .vide {
+    max-width: 620px;
+    padding: 40px 0;
+  }
+  .vide h2 {
+    margin: 0;
+    font: 400 24px/1.2 var(--ss-font-serif);
+  }
+  .vide p {
+    margin: 12px 0 18px;
+    font: 400 15px/1.55 var(--ss-font-sans);
+    color: var(--ss-mid);
+  }
+  .vide a {
+    font: 500 10px/1 var(--ss-font-mono);
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+  }
+  @media (min-width: 768px) {
+    .collection {
+      padding-inline: 40px;
+    }
+    .grille {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (min-width: 1024px) {
+    .collection {
+      padding: 40px 48px 80px;
+    }
+    h1 {
+      font-size: 52px;
+    }
+    .grille {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 44px 28px;
+    }
+  }
+</style>

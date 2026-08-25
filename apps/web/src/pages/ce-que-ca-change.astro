@@ -1,0 +1,12 @@
+---
+import CollectionDossiers from '../components/editorial/CollectionDossiers.astro';
+import { listeDossiers } from '../lib/contenu';
+
+const dossiers = (await listeDossiers()).filter((d) => d.consequenceHome || d.consequenceDossier);
+---
+<CollectionDossiers
+  titre="Ce que ça change"
+  description="Les conséquences concrètes des décisions publiques, expliquées pour les ménages, les travailleurs et les entreprises."
+  dossiers={dossiers}
+  courante="consequences"
+/>
