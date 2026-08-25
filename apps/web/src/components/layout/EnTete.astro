@@ -1,4 +1,5 @@
 ---
+import Rubriques from './Rubriques.astro';
 /**
  * En-tête SeneSource.
  * Logo final monochrome S¹ + signature « L’actualité qui vous instruit. »
@@ -6,8 +7,9 @@
 interface Props {
   courante?: 'verifications' | 'pieces' | 'consequences' | 'methode';
   meta?: string;
+  rubriqueCourante?: string;
 }
-const { courante = 'verifications', meta = '' } = Astro.props;
+const { courante = 'verifications', meta = '', rubriqueCourante = '' } = Astro.props;
 const entrees = [
   { id: 'verifications', label: 'Vérifications', href: '/verifications' },
   { id: 'pieces', label: 'Pièces', href: '/documents' },
@@ -56,6 +58,7 @@ const entrees = [
         ))
     }
   </nav>
+  <Rubriques courante={rubriqueCourante} />
 </header>
 
 <style>
@@ -130,7 +133,6 @@ const entrees = [
     display: flex;
     gap: 16px;
     padding: 0 20px 12px;
-    border-bottom: 1px solid var(--ss-ink);
     overflow-x: auto;
   }
   .nav--desktop {
@@ -147,7 +149,6 @@ const entrees = [
   @media (min-width: 1024px) {
     .entete-haut {
       padding: 17px 48px 14px;
-      border-bottom: 1px solid var(--ss-ink);
     }
     .marque-symbole {
       font-size: 42px;
