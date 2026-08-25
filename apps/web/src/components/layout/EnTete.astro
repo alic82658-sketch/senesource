@@ -9,7 +9,7 @@ interface Props {
   meta?: string;
   rubriqueCourante?: string;
 }
-const { courante = 'verifications', meta = '', rubriqueCourante = '' } = Astro.props;
+const { courante, meta = '', rubriqueCourante = '' } = Astro.props;
 const entrees = [
   { id: 'verifications', label: 'Vérifications', href: '/verifications' },
   { id: 'pieces', label: 'Pièces', href: '/documents' },
