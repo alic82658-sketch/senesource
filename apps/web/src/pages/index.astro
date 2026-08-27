@@ -1,512 +1,219 @@
 ---
 import Base from '../layouts/Base.astro';
 import EnTete from '../components/layout/EnTete.astro';
-import CarteDossier from '../components/editorial/CarteDossier.astro';
-import BandeauInverse from '../components/editorial/BandeauInverse.astro';
 import ImageDossier from '../components/editorial/ImageDossier.astro';
+import CarteDossier from '../components/editorial/CarteDossier.astro';
 import MarqueSeneSource from '../components/layout/MarqueSeneSource.astro';
-import { listeDossiers, collecte, numeroAffiche, dateJourMois, dateComplete } from '../lib/contenu';
+import { listeDossiers, collecte, dateComplete } from '../lib/contenu';
 
 const dossiers = await listeDossiers();
-// Dossier à la une : le dossier complet le plus récent (ici, le 001).
 const une = dossiers.find((d) => d.pageComplete) ?? dossiers[0]!;
-// Les dossiers suivants alimentent la grille — numéro croissant. Vide
-// aujourd'hui (seul le 001 est publié) : on n'invente aucun contenu.
-const autres = dossiers.filter((d) => d.slug !== une.slug).sort((a, b) => a.numero - b.numero);
-
+const autres = dossiers.filter((d) => d.slug !== une.slug).sort((a, b) => b.numero - a.numero);
 const jUne = collecte(une);
 const urlUne = `/dossier/${une.slug}/`;
-const uneResume = une.verdict?.resumeCourt ?? une.resume;
-const uneDate = une.misAJourLe
-  ? `Mis à jour le ${dateComplete(une.misAJourLe)}`
-  : une.ouvertLe
-    ? `Ouvert le ${dateJourMois(une.ouvertLe)}`
-    : '';
-const uneMeta = [`${jUne.total} pièces`, uneDate].filter(Boolean).join(' · ');
-
-// Cadrage de la une (homepage uniquement) : grand bandeau horizontal centré sur
-// le FPSO. On réutilise le MÊME composant image (object-fit: cover + point
-// focal) — sans toucher au fichier ni au cadrage documentaire (16/9) de la page
-// dossier. Bandeau 2:1 en desktop, cadrage documentaire 3/2 conservé en mobile.
-const uneRatio = '2 / 1';
-const uneFocal = { x: 0.5, y: 0.55 };
-
-// Date d'en-tête : dérivée de la date de build (jamais de date figée fausse).
-const dateHeader = new Intl.DateTimeFormat('fr-FR', {
-  weekday: 'short',
-  day: 'numeric',
-  month: 'long',
-}).format(new Date());
+const uneResume = une.verdict?.resumeCourt ?? une.resume ?? '';
+const uneDate = une.misAJourLe ? `Mis à jour le ${dateComplete(une.misAJourLe)}` : '';
+const dateHeader = new Intl.DateTimeFormat('fr-FR', { weekday: 'short', day: 'numeric', month: 'long' }).format(new Date());
 ---
 
 <Base
-  titre="Vérifications, pièces et conséquences"
-  description="SeneSource — média sénégalais de vérification documentaire : dossiers, verdicts, pièces et conséquences concrètes."
+  titre="SeneSource — L’actualité qui vous instruit"
+  description="SeneSource explique l’actualité sénégalaise à partir des faits, des documents et de leurs conséquences concrètes."
 >
-  <EnTete courante="verifications" meta={dateHeader} />
+  <EnTete meta={dateHeader} />
 
   <main class="accueil">
-    <!-- ===== A — À LA UNE (composition verticale : méta → image → titre …) ===== -->
-    <section class:list={['une', { 'une--avec-image': !!une.illustration }]}>
-      <!-- 1 — sur-titre / rubrique -->
-      <p class="une-surtitre">
-        <span class="une-numero">Dossier {numeroAffiche(une.numero)}</span>
-        <span class="une-rubrique">{une.rubrique}</span>
-        <span class="une-alaune">À la une</span>
-      </p>
+    <section class="une" aria-labelledby="titre-une">
+      <p class="section-label">À la une</p>
 
-      <!-- 2 — grande image Sangomar (point d'entrée visuel) -->
-      {
-        une.illustration && (
-          <a class="une-media" href={urlUne} aria-label={`Ouvrir le dossier : ${une.titre}`}>
+      {une.illustration && (
+        <figure class="une-figure">
+          <a class="une-media" href={urlUne} aria-label={`Lire l’analyse : ${une.titre}`}>
             <span class="une-categorie">{une.categorie}</span>
             <ImageDossier
               src={une.illustration.src}
               alt={une.illustration.alt}
-              focal={uneFocal}
               largeur={une.illustration.largeur}
               hauteur={une.illustration.hauteur}
-              ratio={uneRatio}
+              focal={une.illustration.focal ?? { x: .5, y: .5 }}
+              ratio="2 / 1"
               ratioMobile="3 / 2"
             />
           </a>
-        )
-      }
+          {(une.illustration.legende || une.illustration.credit) && (
+            <figcaption>
+              {une.illustration.legende ?? une.illustration.alt}
+              {une.illustration.credit ? ` — ${une.illustration.credit}` : ''}
+            </figcaption>
+          )}
+        </figure>
+      )}
 
-      <!-- 3 → 6 — titre, verdict, résumé, bas de une -->
       <div class="une-corps">
-        <h1 class="une-titre">
-          <a class="lien-titre" href={urlUne}>{une.titreCourt ?? une.titre}</a>
-        </h1>
-        <div class="une-verdict">
-          {
-            une.verdict ? (
-              <>
-                <span class="une-verdict-label">Verdict</span>
-                <span class="une-verdict-mot">{une.verdict.mot}</span>
-              </>
-            ) : (
-              <span class="une-verdict-label">En instruction</span>
-            )
-          }
-        </div>
+        <h1 id="titre-une"><a href={urlUne}>{une.titreCourt ?? une.titre}</a></h1>
         {uneResume && <p class="une-resume">{uneResume}</p>}
-        <div class="une-pied">
-          <span class="une-pieces">{uneMeta}</span>
-          <a class="une-lien" href={urlUne}>Lire le dossier →</a>
+        <div class="une-bas">
+          <span>{[une.rubrique, uneDate, `${jUne.total} sources et pièces`].filter(Boolean).join(' · ')}</span>
+          <a class="cta" href={urlUne}>Lire l’analyse →</a>
         </div>
       </div>
     </section>
 
-    <!-- ===== B — GRILLE DES DOSSIERS SUIVANTS ===== -->
-    {
-      autres.length > 0 && (
-        <section class="suite">
-          <span class="typo-label suite-titre">Derniers dossiers</span>
-          <div class="grille">
-            {autres.map((d) => {
-              const jd = collecte(d);
-              return (
-                <CarteDossier
-                  numero={numeroAffiche(d.numero)}
-                  rubrique={d.rubrique}
-                  categorie={d.categorie}
-                  titre={d.titre}
-                  href={d.pageComplete ? `/dossier/${d.slug}/` : undefined}
-                  verdict={d.verdict?.mot ?? null}
-                  statutLibelle={d.verdict ? undefined : 'En instruction'}
-                  meta={d.verdict ? `${jd.total} pièces` : `${jd.obtenues} / ${jd.total} pièces`}
-                  illustration={d.illustration}
-                />
-              );
-            })}
-          </div>
-        </section>
-      )
-    }
+    {autres.length > 0 && (
+      <section class="suite" aria-labelledby="titre-suite">
+        <div class="section-entete">
+          <h2 id="titre-suite">À comprendre aujourd’hui</h2>
+          <span>Les faits, puis ce qu’ils changent</span>
+        </div>
+        <div class="grille">
+          {autres.map((d) => {
+            const jd = collecte(d);
+            return (
+              <CarteDossier
+                rubrique={d.rubrique}
+                categorie={d.categorie}
+                titre={d.titre}
+                href={d.pageComplete ? `/dossier/${d.slug}/` : undefined}
+                verdict={null}
+                statutLibelle={d.pageComplete ? 'Lire l’analyse' : 'En cours de vérification'}
+                meta={`${jd.total} sources et pièces`}
+                illustration={d.illustration}
+              />
+            );
+          })}
+        </div>
+      </section>
+    )}
   </main>
 
-  <!-- Appel : faire vérifier une information.
-       Mobile : bandeau existant inchangé. Desktop : traitement éditorial
-       discret (filet, pas d'aplat noir), moins « bannière ». -->
-  <div class="accueil-cta">
-    <div class="cta-mobile">
-      <BandeauInverse texte="Une information à faire vérifier ?" action="Déposer →" href="/contribuer/" />
-    </div>
-    <a class="cta-desktop" href="/contribuer/">
-      <span class="cta-texte">Une information à faire vérifier&nbsp;?</span>
-      <span class="cta-action">Déposer →</span>
-    </a>
-  </div>
-
-  <!-- Pied de la homepage : dans le MÊME conteneur centré que la une.
-       Bloc institutionnel (correction) centré en largeur de lecture, texte
-       aligné à gauche ; puis la marque, sur la largeur utile. La page dossier
-       conserve son propre pied de site (composant partagé inchangé). -->
   <footer class="accueil-pied">
-    <section class="accueil-institution" aria-labelledby="hp-correction-titre">
-      <h2 id="hp-correction-titre" class="institution-titre">
-        Une information plus récente ou une source plus solide&nbsp;?
-      </h2>
-      <p class="institution-texte">
-        SeneSource peut se tromper. Si vous disposez d’un document, d’une donnée officielle ou
-        d’une source mieux étayée, signalez-le-nous. Les dossiers sont corrigés et mis à jour
-        publiquement lorsque de nouveaux éléments l’exigent.
-      </p>
-      <a class="institution-lien" href="/methode">
-        Notre méthode et notre politique de correction →
-      </a>
-    </section>
-
-    <div class="accueil-marque">
-      <MarqueSeneSource format="pied" />
+    <div class="pied-texte">
+      <strong>Une information plus récente ou une source plus solide ?</strong>
+      <p>SeneSource corrige et met à jour ses articles lorsque de nouveaux éléments documentés l’exigent.</p>
+      <a href="/methode">Voir notre méthode →</a>
     </div>
+    <MarqueSeneSource format="pied" />
   </footer>
 </Base>
 
 <style>
   .accueil {
-    width: 100%;
-    max-width: 1200px;
+    width: min(100%, 1200px);
     margin-inline: auto;
-    padding: 20px 20px 8px;
+    padding: 18px 20px 56px;
   }
-
-  /* ===== À la une — composition verticale ===== */
+  .section-label {
+    margin: 0 0 12px;
+    font: 700 10px/1 var(--ss-font-mono);
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--ss-ink);
+  }
   .une {
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
+    padding-bottom: 34px;
+    border-bottom: 1px solid var(--ss-ink);
   }
-  /* Mobile : image d'abord, puis sur-titre, puis corps (comportement conservé).
-     Desktop : le sur-titre repasse au-dessus de l'image (voir ≥1024). */
-  .une-media {
-    position: relative;
-    order: 1;
-    display: block;
-  }
+  .une-figure { margin: 0; }
+  .une-media { position: relative; display: block; }
   .une-categorie {
     position: absolute;
-    z-index: 1;
+    z-index: 2;
     top: 12px;
     left: 12px;
     padding: 8px 10px 7px;
     background: var(--ss-ink);
     color: var(--ss-paper);
-    font: 600 9px/1 var(--ss-font-mono);
-    letter-spacing: 0.1em;
+    font: 700 9px/1 var(--ss-font-mono);
+    letter-spacing: .1em;
     text-transform: uppercase;
   }
-  .une-media:hover {
-    opacity: 0.96;
-  }
-  .une-surtitre {
-    order: 2;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    gap: 6px 12px;
-    margin: 0;
-  }
-  .une-corps {
-    order: 3;
-  }
-  .une-numero {
-    font: 600 11px/1 var(--ss-font-mono);
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: var(--ss-ochre);
-    white-space: nowrap;
-  }
-  .une-rubrique {
-    font: 400 11px/1 var(--ss-font-mono);
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
+  figcaption {
+    margin-top: 7px;
+    font: 400 10px/1.45 var(--ss-font-sans);
     color: var(--ss-mid);
   }
-  .une-alaune {
-    margin-left: auto;
-    font: 500 9.5px/1 var(--ss-font-mono);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--ss-ink);
-  }
-  /* Gros titre — Newsreader */
-  .une-titre {
+  .une-corps { padding-top: 18px; }
+  h1 {
+    max-width: 920px;
     margin: 0;
-    font: 400 30px/1.1 var(--ss-font-serif);
-    letter-spacing: -0.02em;
-    color: var(--ss-ink);
+    font: 400 clamp(32px, 7vw, 62px)/1.02 var(--ss-font-serif);
+    letter-spacing: -.035em;
     text-wrap: balance;
   }
-  .une-verdict {
-    display: flex;
-    align-items: baseline;
-    gap: 10px;
-    margin-top: 14px;
-    padding-top: 12px;
-    border-top: 1px solid var(--ss-ink);
+  h1 a { color: var(--ss-ink); }
+  .une-resume {
+    max-width: 760px;
+    margin: 16px 0 0;
+    font: 400 17px/1.5 var(--ss-font-sans);
+    color: var(--ss-mid);
   }
-  .une-verdict-label {
-    font: 500 9.5px/1 var(--ss-font-mono);
-    letter-spacing: 0.1em;
+  .une-bas {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+    margin-top: 20px;
+  }
+  .une-bas > span {
+    font: 500 9.5px/1.4 var(--ss-font-mono);
+    letter-spacing: .04em;
     text-transform: uppercase;
     color: var(--ss-mid);
-    white-space: nowrap;
   }
-  .une-verdict-mot {
-    font: 400 24px/1 var(--ss-font-serif);
-    font-style: italic;
-    color: var(--ss-ink);
+  .cta {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0 16px;
+    background: var(--ss-ink);
+    color: var(--ss-paper);
+    font: 700 10px/1 var(--ss-font-mono);
+    letter-spacing: .08em;
+    text-transform: uppercase;
   }
-  /* Résumé très court — Public Sans */
-  .une-resume {
-    margin: 14px 0 0;
-    font: 400 16px/1.6 var(--ss-font-sans);
-    color: var(--ss-ink-80);
-    text-wrap: pretty;
-  }
-  .une-pied {
+  .cta:hover { opacity: .86; }
+  .suite { padding-top: 36px; }
+  .section-entete {
     display: flex;
-    flex-wrap: wrap;
     align-items: baseline;
     justify-content: space-between;
-    gap: 8px 16px;
-    margin-top: 16px;
+    gap: 18px;
+    margin-bottom: 18px;
   }
-  .une-pieces {
-    font: 400 10px/1.4 var(--ss-font-mono);
-    letter-spacing: 0.05em;
+  .section-entete h2 {
+    margin: 0;
+    font: 400 28px/1 var(--ss-font-serif);
+  }
+  .section-entete span {
+    display: none;
+    font: 500 9px/1 var(--ss-font-mono);
+    letter-spacing: .07em;
     text-transform: uppercase;
     color: var(--ss-mid);
-  }
-  .une-lien {
-    font: 500 10px/1 var(--ss-font-mono);
-    letter-spacing: 0.07em;
-    text-transform: uppercase;
-    color: var(--ss-ochre);
-    white-space: nowrap;
-  }
-  .une-lien:hover {
-    text-decoration: underline;
-    text-decoration-thickness: 1px;
-    text-underline-offset: 3px;
-  }
-
-  /* ===== Grille des dossiers suivants ===== */
-  .suite {
-    margin-top: 32px;
-    padding-top: 18px;
-    border-top: 1px solid var(--ss-ink);
-  }
-  .suite-titre {
-    display: block;
-    margin-bottom: 16px;
   }
   .grille {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 28px;
+    gap: 26px;
   }
-
-  .accueil-cta {
-    max-width: 1200px;
-    margin: 24px auto 0;
-  }
-  /* CTA éditorial desktop : masqué en mobile (bandeau existant conservé). */
-  .cta-desktop {
-    display: none;
-  }
-
-  /* ===== Pied de la homepage — même conteneur centré que la une ===== */
   .accueil-pied {
-    width: 100%;
-    max-width: 1280px;
-    margin: 32px auto 0;
-    padding: 0 20px;
+    width: min(100% - 40px, 1200px);
+    margin: 0 auto;
+    padding: 28px 0 34px;
+    border-top: 1px solid var(--ss-ink);
   }
-  /* Bloc institutionnel : centré dans la page, texte aligné à gauche,
-     largeur de lecture maîtrisée. Filet fin, aucun aplat. */
-  .accueil-institution {
-    max-width: 620px;
-    margin-inline: auto;
-    padding-top: 22px;
-    border-top: 1px solid var(--ss-rule);
+  .pied-texte { max-width: 680px; margin-bottom: 28px; }
+  .pied-texte strong { font: 500 21px/1.15 var(--ss-font-serif); }
+  .pied-texte p { margin: 8px 0; color: var(--ss-mid); font: 400 14px/1.55 var(--ss-font-sans); }
+  .pied-texte a { font: 600 10px/1 var(--ss-font-mono); text-transform: uppercase; letter-spacing: .06em; }
+  @media (min-width: 720px) {
+    .une-bas { flex-direction: row; justify-content: space-between; align-items: center; }
+    .section-entete span { display: block; }
+    .grille { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   }
-  .institution-titre {
-    margin: 0;
-    font: 400 19px/1.3 var(--ss-font-serif);
-    letter-spacing: -0.01em;
-    color: var(--ss-ink);
-    max-width: 34ch;
-    text-wrap: pretty;
-  }
-  .institution-texte {
-    margin: 10px 0 0;
-    font: 400 14px/1.6 var(--ss-font-sans);
-    color: var(--ss-ink-60);
-    max-width: 62ch;
-    text-wrap: pretty;
-  }
-  .institution-lien {
-    display: inline-block;
-    margin-top: 14px;
-    font: 500 10px/1 var(--ss-font-mono);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--ss-ochre);
-  }
-  .institution-lien:hover {
-    text-decoration: underline;
-    text-decoration-thickness: 1px;
-    text-underline-offset: 3px;
-  }
-  /* Marque : sur la largeur utile, filet fin. */
-  .accueil-marque {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    gap: 6px 14px;
-    margin-top: 26px;
-    padding: 14px 0 24px;
-    border-top: 1px solid var(--ss-rule);
-  }
-  .marque {
-    font: 500 15px/1 var(--ss-font-serif);
-    letter-spacing: -0.01em;
-    color: var(--ss-ink);
-  }
-  .marque-accent {
-    color: var(--ss-ochre);
-  }
-  .marque-slogan {
-    font: 400 13px/1.3 var(--ss-font-serif);
-    font-style: italic;
-    color: var(--ss-ink-60);
-  }
-
-  /* ===== ≥640 — grille deux colonnes (largeur intermédiaire) ===== */
-  @media (min-width: 640px) {
-    .grille {
-      grid-template-columns: repeat(2, 1fr);
-      gap: 32px 28px;
-    }
-  }
-
-  /* ===== ≥1024 — À la une côte à côte ===== */
   @media (min-width: 1024px) {
-    /* Une verticale : conteneur ~1280, image quasi pleine largeur du contenu →
-       forte présence média, centrée. */
-    .accueil {
-      max-width: 1280px;
-      padding: 34px 48px 8px;
-    }
-    .une {
-      gap: 18px;
-    }
-    /* Le sur-titre repasse au-dessus de la grande image. */
-    .une-surtitre {
-      order: 0;
-    }
-    .une-numero,
-    .une-rubrique {
-      font-size: 11.5px;
-    }
-    /* Titre sous l'image : éditorial, largeur de lecture maîtrisée (2–3 lignes). */
-    .une-titre {
-      font-size: 44px;
-      line-height: 1.08;
-      max-width: 30ch;
-    }
-    .une-verdict {
-      margin-top: 16px;
-    }
-    .une-verdict-mot {
-      font-size: 30px;
-    }
-    .une-resume {
-      font-size: 17px;
-      max-width: 62ch;
-    }
-    .une-pied {
-      margin-top: 18px;
-    }
-    .suite {
-      margin-top: 48px;
-    }
-    /* Grille : jusqu'à 3 colonnes quand l'espace le permet. */
-    .grille {
-      grid-template-columns: repeat(3, 1fr);
-    }
-
-    /* CTA desktop éditorial : filet fin, pas d'aplat noir, hauteur réduite. */
-    .accueil-cta {
-      max-width: 1280px;
-      padding: 0 48px;
-    }
-    .cta-mobile {
-      display: none;
-    }
-    .cta-desktop {
-      display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      gap: 16px;
-      padding: 13px 0;
-      border-top: 1px solid var(--ss-ink);
-      border-bottom: 1px solid var(--ss-rule);
-    }
-    .cta-texte {
-      font: 400 15px/1.3 var(--ss-font-serif);
-      color: var(--ss-ink);
-    }
-    .cta-action {
-      font: 500 10px/1 var(--ss-font-mono);
-      letter-spacing: 0.07em;
-      text-transform: uppercase;
-      color: var(--ss-ochre);
-      white-space: nowrap;
-    }
-    .cta-desktop:hover .cta-action {
-      text-decoration: underline;
-      text-decoration-thickness: 1px;
-      text-underline-offset: 3px;
-    }
-
-    /* Pied homepage aligné sur le conteneur centré. */
-    .accueil-pied {
-      padding: 0 48px;
-    }
-    .institution-titre {
-      font-size: 22px;
-    }
-    .institution-texte {
-      font-size: 15px;
-      line-height: 1.65;
-    }
-    .marque {
-      font-size: 16px;
-    }
-    .marque-slogan {
-      font-size: 14px;
-    }
-  }
-
-  @media (min-width: 1280px) {
-    .une-titre {
-      font-size: 46px;
-      line-height: 1.06;
-    }
-  }
-
-  @media (min-width: 1440px) {
-    /* ≥1440 : titre éditorial, sans excès tabloïd. */
-    .une-titre {
-      font-size: 48px;
-    }
-    .accueil-pied {
-      padding-left: 64px;
-      padding-right: 64px;
-    }
+    .accueil { padding: 28px 48px 72px; }
+    .grille { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .accueil-pied { width: min(calc(100% - 96px), 1200px); }
   }
 </style>
