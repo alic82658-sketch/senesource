@@ -14,6 +14,7 @@
  */
 import { getCollection, type CollectionEntry } from 'astro:content';
 import type { Dossier } from '@senesource/domain';
+import { ponctuationInsecable } from '@senesource/editorial';
 
 // Type de domaine ré-exporté depuis la couche d'accès (point d'entrée unique
 // des gabarits, qui n'importent jamais `astro:content` ni les paquets).
@@ -22,6 +23,7 @@ export type { Dossier } from '@senesource/domain';
 export {
   numeroAffiche,
   fines,
+  ponctuationInsecable,
   collecte,
   segmentsRenvois,
   dateJourMois,
@@ -38,7 +40,12 @@ export {
  * domaine, TypeScript échouerait ici — le mapper est le point de contrôle.
  */
 function mapDossier(entry: CollectionEntry<'dossiers'>): Dossier {
-  return { ...entry.data, slug: entry.id };
+  return {
+    ...entry.data,
+    slug: entry.id,
+    titre: ponctuationInsecable(entry.data.titre),
+    titreCourt: entry.data.titreCourt ? ponctuationInsecable(entry.data.titreCourt) : undefined,
+  };
 }
 
 /** Dossiers visibles du public (publiés ou en instruction), plus récents d'abord. */
