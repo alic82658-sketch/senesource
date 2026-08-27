@@ -6,6 +6,8 @@ interface Props {
   meta?: string;
   rubriqueCourante?: string;
   afficherRubriques?: boolean;
+  /** Conservé pour les anciennes pages de collection ; la navigation V2 utilise rubriqueCourante. */
+  courante?: string;
 }
 const { meta = '', rubriqueCourante = '', afficherRubriques = true } = Astro.props;
 ---

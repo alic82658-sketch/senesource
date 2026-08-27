@@ -4,7 +4,7 @@ import EnTete from '../components/layout/EnTete.astro';
 import ImageDossier from '../components/editorial/ImageDossier.astro';
 import CarteDossier from '../components/editorial/CarteDossier.astro';
 import MarqueSeneSource from '../components/layout/MarqueSeneSource.astro';
-import { listeDossiers, collecte, dateComplete } from '../lib/contenu';
+import { listeDossiers, collecte, dateComplete, numeroAffiche } from '../lib/contenu';
 
 const dossiers = await listeDossiers();
 const une = dossiers.find((d) => d.pageComplete) ?? dossiers[0]!;
@@ -70,6 +70,7 @@ const dateHeader = new Intl.DateTimeFormat('fr-FR', { weekday: 'short', day: 'nu
             const jd = collecte(d);
             return (
               <CarteDossier
+                numero={numeroAffiche(d.numero)}
                 rubrique={d.rubrique}
                 categorie={d.categorie}
                 titre={d.titre}

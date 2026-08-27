@@ -3,14 +3,21 @@ import Base from '../../layouts/Base.astro';
 import EnTete from '../../components/layout/EnTete.astro';
 import ImageDossier from '../../components/editorial/ImageDossier.astro';
 import MarqueSeneSource from '../../components/layout/MarqueSeneSource.astro';
-import { dossiersAvecPage, dateComplete, type Dossier } from '../../lib/contenu';
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import { dateComplete, type Dossier } from '../../lib/contenu';
 
 export async function getStaticPaths() {
-  return (await dossiersAvecPage()).map((d) => ({ params: { slug: d.slug }, props: { dossier: d } }));
+  const entrees = await getCollection('dossiers', ({ data }) =>
+    ['publie', 'en_instruction'].includes(data.statut) && data.pageComplete,
+  );
+  return entrees.map((entree) => ({ params: { slug: entree.id }, props: { entree } }));
 }
 
-interface Props { dossier: Dossier; }
-const { dossier: d } = Astro.props;
+interface Props { entree: CollectionEntry<'dossiers'>; }
+const { entree } = Astro.props;
+const d: Dossier = { ...entree.data, slug: entree.id };
+const { Content } = await render(entree);
+const hasNarrative = (entree.body ?? '').trim().length > 0;
 const date = d.misAJourLe ? dateComplete(d.misAJourLe) : d.ouvertLe ? dateComplete(d.ouvertLe) : '';
 const intro = d.resume ?? d.verdict?.resumeCourt ?? '';
 const etablies = d.preuves.filter((p) => p.etabli);
@@ -52,7 +59,11 @@ const description = intro || d.titre;
     )}
 
     <div class="lecture">
-      {d.affirmation && (
+      {hasNarrative ? (
+        <div class="article-body">
+          <Content />
+        </div>
+      ) : d.affirmation && (
         <section>
           <h2>Ce qui a été affirmé</h2>
           <blockquote>
@@ -64,14 +75,14 @@ const description = intro || d.titre;
         </section>
       )}
 
-      {d.verdict && (
+      {!hasNarrative && d.verdict && (
         <section>
           <h2>Ce que montrent les faits</h2>
           <p class="constat">{d.verdict.resume}</p>
         </section>
       )}
 
-      {d.texteOfficiel && (
+      {!hasNarrative && d.texteOfficiel && (
         <section>
           <h2>Ce que dit le texte officiel</h2>
           <p>{d.texteOfficiel.texte}</p>
@@ -79,7 +90,7 @@ const description = intro || d.titre;
         </section>
       )}
 
-      {etablies.length > 0 && (
+      {!hasNarrative && etablies.length > 0 && (
         <section>
           <h2>Ce qui est établi</h2>
           <ul>
@@ -88,7 +99,7 @@ const description = intro || d.titre;
         </section>
       )}
 
-      {d.consequenceDossier && (
+      {!hasNarrative && d.consequenceDossier && (
         <section class="impact">
           <p class="impact-label">Ce que ça change</p>
           <p class="impact-chiffre">{d.consequenceDossier.chiffre}</p>
@@ -97,7 +108,7 @@ const description = intro || d.titre;
         </section>
       )}
 
-      {nonEtablies.length > 0 && (
+      {!hasNarrative && nonEtablies.length > 0 && (
         <section>
           <h2>Ce qu’on ne peut pas encore affirmer</h2>
           <ul>
@@ -163,6 +174,15 @@ const description = intro || d.titre;
   .sources a { text-decoration: underline; text-underline-offset: 3px; }
   .sources small { display: block; margin-top: 4px; color: var(--ss-mid); font: 400 10px/1.4 var(--ss-font-mono); }
   .transparence { padding-top: 24px; border-top: 1px solid var(--ss-ink); }
+  :global(.article-body > :first-child) { margin-top: 0; }
+  :global(.article-body h2) { margin: 42px 0 14px; font: 500 26px/1.08 var(--ss-font-serif); letter-spacing: -.015em; }
+  :global(.article-body p), :global(.article-body li) { font: 400 17px/1.72 var(--ss-font-sans); }
+  :global(.article-body p) { margin: 0 0 18px; }
+  :global(.article-body ul), :global(.article-body ol) { padding-left: 22px; }
+  :global(.article-body li + li) { margin-top: 10px; }
+  :global(.article-body strong) { font-weight: 600; }
+  :global(.article-body blockquote) { margin: 24px 0; padding: 18px 20px; border-left: 3px solid var(--ss-ink); background: var(--ss-paper-2); }
+  :global(.article-body blockquote p) { margin: 0; font: 500 19px/1.55 var(--ss-font-serif); }
   .bas-page { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 12px 20px; width: min(calc(100% - 40px), 1060px); margin: 0 auto; padding: 28px 0 36px; border-top: 1px solid var(--ss-ink); }
   .pied-contact { font: 500 10px/1.4 var(--ss-font-mono); letter-spacing: .06em; color: var(--ss-ink-60); }
   .pied-contact:hover { color: var(--ss-ochre); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
