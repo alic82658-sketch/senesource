@@ -91,6 +91,14 @@ Ordre de priorité pour les visuels :
 
 Pour les vidéos, priorité à la source originale de la déclaration ou de l’événement. Lorsque possible, indiquer le passage pertinent et son horodatage.
 
+### Contrôle visuel permanent avant publication
+
+- Une photographie comportant un sujet humain doit être contrôlée dans les formats réellement rendus par le site : une de la page d’accueil, page article, cartes associées, ordinateur et mobile.
+- Le point focal doit conserver le sujet humain visible et compréhensible. Un cadrage qui ne montre plus que le décor, un poteau ou un objet secondaire est refusé, même si l’image source est correcte.
+- L’image ne doit jamais être déformée. Le recadrage se règle avec le point focal et doit être revérifié après déploiement.
+- Dans les titres, l’espace avant les signes doubles `: ; ! ?` est insécable. Aucun de ces signes ne doit apparaître seul au début d’une ligne.
+- Chaque page article propose, à droite sur ordinateur et après le texte sur mobile, une sélection courte d’autres articles publiés. La priorité va aux sujets de la même catégorie, puis aux publications les plus récentes.
+
 ## 7. Suivi des dossiers
 
 Un article publié reste lié à son dossier Radar.
