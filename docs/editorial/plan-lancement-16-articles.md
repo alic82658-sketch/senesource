@@ -4,14 +4,14 @@ Date de décision : 27 août 2026
 
 ## Objectif
 
-Atteindre 16 articles publiés avant la promotion active de SeneSource, avec au moins deux articles visibles dans chacune des huit rubriques publiques.
+Atteindre 20 articles publiés avant toute promotion active de SeneSource, avec au moins deux articles visibles dans chacune des huit rubriques publiques et quatre articles supplémentaires à fort potentiel d’audience.
 
 Le site compte déjà deux articles publiés en Économie :
 
 1. « Le pétrole de Sangomar rend-il déjà le Sénégal indépendant des prix mondiaux du carburant ? »
 2. « Électricité pour tous en 2029 : le Sénégal peut-il électrifier plus de cinq localités par jour ? »
 
-Il reste donc 14 articles à produire. Tous les titres ci-dessous sont des angles de travail : aucune affirmation ne doit être publiée avant recherche, recoupement et validation.
+Il reste donc 18 articles à produire. Tous les titres ci-dessous sont des angles de travail : aucune affirmation ne doit être publiée avant recherche, recoupement et validation.
 
 ## Stock à produire
 
@@ -31,6 +31,10 @@ Il reste donc 14 articles à produire. Tous les titres ci-dessous sont des angle
 | 2 | Faits divers | À vérifier | Immeubles menaçant ruine à Dakar : combien sont identifiés, qui contrôle et qui peut ordonner une évacuation ? |
 | 1 | International | À expliquer | Plafonnement des loyers au Niger et situation au Sénégal : comparaison des règles, revenus et prix |
 | 2 | International | À vérifier | Restrictions ou nouvelles conditions de visa : ce qui change réellement pour les voyageurs sénégalais |
+| 3 | Économie | À expliquer | Crédit immobilier sur vingt ans : combien rembourse réellement un ménage pour 25 ou 40 millions de F CFA ? |
+| 3 | Société | À expliquer | Passeport sénégalais : durée, nombre de pages et comparaison avec les pays voisins |
+| 3 | Sport | À vérifier | JOJ Dakar 2026 : budgets, infrastructures promises, réalisations et héritage attendu |
+| 3 | Politique | À vérifier | Une promesse publique arrivée à échéance : objectif annoncé, résultat obtenu et suites données |
 
 ## Ordre de production
 
@@ -83,7 +87,7 @@ Premiers contenus :
 4. article sur l’électrification rurale ;
 5. article comparatif sur les loyers.
 
-Les pages peuvent être créées et habillées avant les 16 articles. La promotion payante et la communication massive attendent le seuil éditorial.
+Les pages peuvent être créées et habillées avant les 20 articles. Aucune promotion, publicité payante ou communication massive ne commence avant que ce seuil éditorial soit atteint.
 
 ## Séparation SeneSource / Hamham AI
 
