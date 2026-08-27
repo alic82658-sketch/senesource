@@ -4,18 +4,45 @@ import EnTete from '../../components/layout/EnTete.astro';
 import ImageDossier from '../../components/editorial/ImageDossier.astro';
 import MarqueSeneSource from '../../components/layout/MarqueSeneSource.astro';
 import { getCollection, render, type CollectionEntry } from 'astro:content';
-import { dateComplete, type Dossier } from '../../lib/contenu';
+import { dateComplete, ponctuationInsecable, type Dossier } from '../../lib/contenu';
 
 export async function getStaticPaths() {
   const entrees = await getCollection('dossiers', ({ data }) =>
     ['publie', 'en_instruction'].includes(data.statut) && data.pageComplete,
   );
-  return entrees.map((entree) => ({ params: { slug: entree.id }, props: { entree } }));
+  return entrees.map((entree) => {
+    const recommandations = entrees
+      .filter((candidate) => candidate.id !== entree.id)
+      .sort((a, b) => {
+        const memeCategorieA = a.data.categorie === entree.data.categorie ? 1 : 0;
+        const memeCategorieB = b.data.categorie === entree.data.categorie ? 1 : 0;
+        return memeCategorieB - memeCategorieA || b.data.numero - a.data.numero;
+      })
+      .slice(0, 3);
+
+    return { params: { slug: entree.id }, props: { entree, recommandations } };
+  });
 }
 
-interface Props { entree: CollectionEntry<'dossiers'>; }
-const { entree } = Astro.props;
-const d: Dossier = { ...entree.data, slug: entree.id };
+interface Props {
+  entree: CollectionEntry<'dossiers'>;
+  recommandations: CollectionEntry<'dossiers'>[];
+}
+const { entree, recommandations: entreesRecommandees } = Astro.props;
+const d: Dossier = {
+  ...entree.data,
+  slug: entree.id,
+  titre: ponctuationInsecable(entree.data.titre),
+  titreCourt: entree.data.titreCourt ? ponctuationInsecable(entree.data.titreCourt) : undefined,
+};
+const recommandations: Dossier[] = entreesRecommandees.map((recommandation) => ({
+  ...recommandation.data,
+  slug: recommandation.id,
+  titre: ponctuationInsecable(recommandation.data.titre),
+  titreCourt: recommandation.data.titreCourt
+    ? ponctuationInsecable(recommandation.data.titreCourt)
+    : undefined,
+}));
 const { Content } = await render(entree);
 const hasNarrative = (entree.body ?? '').trim().length > 0;
 const date = d.misAJourLe ? dateComplete(d.misAJourLe) : d.ouvertLe ? dateComplete(d.ouvertLe) : '';
@@ -58,85 +85,120 @@ const description = intro || d.titre;
       </figure>
     )}
 
-    <div class="lecture">
-      {hasNarrative ? (
-        <div class="article-body">
-          <Content />
-        </div>
-      ) : d.affirmation && (
-        <section>
-          <h2>Ce qui a été affirmé</h2>
-          <blockquote>
-            <p>{d.affirmation.texte}</p>
-            {(d.affirmation.provenanceLongue || d.affirmation.provenance) && (
-              <footer>{d.affirmation.provenanceLongue ?? d.affirmation.provenance}</footer>
-            )}
-          </blockquote>
-        </section>
-      )}
+    <div class="lecture-zone">
+      <div class="lecture">
+        {hasNarrative ? (
+          <div class="article-body">
+            <Content />
+          </div>
+        ) : d.affirmation && (
+          <section>
+            <h2>Ce qui a été affirmé</h2>
+            <blockquote>
+              <p>{d.affirmation.texte}</p>
+              {(d.affirmation.provenanceLongue || d.affirmation.provenance) && (
+                <footer>{d.affirmation.provenanceLongue ?? d.affirmation.provenance}</footer>
+              )}
+            </blockquote>
+          </section>
+        )}
 
-      {!hasNarrative && d.verdict && (
-        <section>
-          <h2>Ce que montrent les faits</h2>
-          <p class="constat">{d.verdict.resume}</p>
-        </section>
-      )}
+        {!hasNarrative && d.verdict && (
+          <section>
+            <h2>Ce que montrent les faits</h2>
+            <p class="constat">{d.verdict.resume}</p>
+          </section>
+        )}
 
-      {!hasNarrative && d.texteOfficiel && (
-        <section>
-          <h2>Ce que dit le texte officiel</h2>
-          <p>{d.texteOfficiel.texte}</p>
-          <p class="source-note">{d.texteOfficiel.cote}</p>
-        </section>
-      )}
+        {!hasNarrative && d.texteOfficiel && (
+          <section>
+            <h2>Ce que dit le texte officiel</h2>
+            <p>{d.texteOfficiel.texte}</p>
+            <p class="source-note">{d.texteOfficiel.cote}</p>
+          </section>
+        )}
 
-      {!hasNarrative && etablies.length > 0 && (
-        <section>
-          <h2>Ce qui est établi</h2>
-          <ul>
-            {etablies.map((p) => <li>{p.texte}</li>)}
-          </ul>
-        </section>
-      )}
+        {!hasNarrative && etablies.length > 0 && (
+          <section>
+            <h2>Ce qui est établi</h2>
+            <ul>
+              {etablies.map((p) => <li>{p.texte}</li>)}
+            </ul>
+          </section>
+        )}
 
-      {!hasNarrative && d.consequenceDossier && (
-        <section class="impact">
-          <p class="impact-label">Ce que ça change</p>
-          <p class="impact-chiffre">{d.consequenceDossier.chiffre}</p>
-          <p>{d.consequenceDossier.qualificationDesktop ?? d.consequenceDossier.qualification}</p>
-          {d.consequenceDossier.hypothese && <p class="hypothese">Hypothèse : {d.consequenceDossier.hypothese}</p>}
-        </section>
-      )}
+        {!hasNarrative && d.consequenceDossier && (
+          <section class="impact">
+            <p class="impact-label">Ce que ça change</p>
+            <p class="impact-chiffre">{d.consequenceDossier.chiffre}</p>
+            <p>{d.consequenceDossier.qualificationDesktop ?? d.consequenceDossier.qualification}</p>
+            {d.consequenceDossier.hypothese && <p class="hypothese">Hypothèse : {d.consequenceDossier.hypothese}</p>}
+          </section>
+        )}
 
-      {!hasNarrative && nonEtablies.length > 0 && (
-        <section>
-          <h2>Ce qu’on ne peut pas encore affirmer</h2>
-          <ul>
-            {nonEtablies.map((p) => <li>{p.texte}</li>)}
-          </ul>
-        </section>
-      )}
+        {!hasNarrative && nonEtablies.length > 0 && (
+          <section>
+            <h2>Ce qu’on ne peut pas encore affirmer</h2>
+            <ul>
+              {nonEtablies.map((p) => <li>{p.texte}</li>)}
+            </ul>
+          </section>
+        )}
 
-      {d.pieces.length > 0 && (
-        <section class="sources" id="sources">
-          <h2>Nos sources</h2>
-          <ol>
-            {d.pieces.map((p) => (
-              <li>
-                {p.url ? <a href={p.url} rel="noopener noreferrer">{p.titre}</a> : <span>{p.titre}</span>}
-                {p.meta && <small>{p.meta}</small>}
-              </li>
+        {d.pieces.length > 0 && (
+          <section class="sources" id="sources">
+            <h2>Nos sources</h2>
+            <ol>
+              {d.pieces.map((p) => (
+                <li>
+                  {p.url ? <a href={p.url} rel="noopener noreferrer">{p.titre}</a> : <span>{p.titre}</span>}
+                  {p.meta && <small>{p.meta}</small>}
+                </li>
+              ))}
+            </ol>
+          </section>
+        )}
+
+        <section class="transparence">
+          <h2>Ce qu’on suit encore</h2>
+          <p>
+            Cet article sera mis à jour si de nouveaux documents officiels, décisions ou données plus solides modifient ce que l’on sait aujourd’hui.
+          </p>
+        </section>
+      </div>
+
+      {recommandations.length > 0 && (
+        <aside class="associes" aria-labelledby="titre-associes">
+          <div class="associes-entete">
+            <h2 id="titre-associes">À lire aussi</h2>
+            <span>Pour poursuivre</span>
+          </div>
+          <div class="associes-liste">
+            {recommandations.map((recommandation) => (
+              <article class="associe">
+                <a href={`/article/${recommandation.slug}/`} aria-label={`Lire : ${recommandation.titre}`}>
+                  {recommandation.illustration && (
+                    <div class="associe-media">
+                      <ImageDossier
+                        src={recommandation.illustration.src}
+                        alt={recommandation.illustration.alt}
+                        largeur={recommandation.illustration.largeur}
+                        hauteur={recommandation.illustration.hauteur}
+                        focal={recommandation.illustration.focal}
+                        ratio="4 / 3"
+                      />
+                    </div>
+                  )}
+                  <p class="associe-categorie">{recommandation.categorie}</p>
+                  <h3>{recommandation.titreCourt ?? recommandation.titre}</h3>
+                  {recommandation.resume && <p class="associe-resume">{recommandation.resume}</p>}
+                  <span class="associe-action">Lire l’analyse →</span>
+                </a>
+              </article>
             ))}
-          </ol>
-        </section>
+          </div>
+        </aside>
       )}
-
-      <section class="transparence">
-        <h2>Ce qu’on suit encore</h2>
-        <p>
-          Cet article sera mis à jour si de nouveaux documents officiels, décisions ou données plus solides modifient ce que l’on sait aujourd’hui.
-        </p>
-      </section>
     </div>
   </article>
 
@@ -155,7 +217,8 @@ const description = intro || d.titre;
   .meta { display: flex; flex-wrap: wrap; gap: 8px 16px; margin-top: 18px; font: 500 9.5px/1.3 var(--ss-font-mono); text-transform: uppercase; letter-spacing: .06em; color: var(--ss-mid); }
   .hero { margin: 26px 0 0; }
   figcaption { margin-top: 8px; font: 400 10px/1.45 var(--ss-font-sans); color: var(--ss-mid); }
-  .lecture { max-width: 720px; margin: 42px auto 0; }
+  .lecture-zone { max-width: 720px; margin: 42px auto 0; }
+  .lecture { min-width: 0; }
   .lecture section { margin-top: 42px; }
   .lecture section:first-child { margin-top: 0; }
   h2 { margin: 0 0 14px; font: 500 26px/1.08 var(--ss-font-serif); letter-spacing: -.015em; }
@@ -174,6 +237,19 @@ const description = intro || d.titre;
   .sources a { text-decoration: underline; text-underline-offset: 3px; }
   .sources small { display: block; margin-top: 4px; color: var(--ss-mid); font: 400 10px/1.4 var(--ss-font-mono); }
   .transparence { padding-top: 24px; border-top: 1px solid var(--ss-ink); }
+  .associes { margin-top: 56px; padding-top: 22px; border-top: 1px solid var(--ss-ink); }
+  .associes-entete { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 20px; }
+  .associes-entete h2 { margin: 0; font: 500 24px/1 var(--ss-font-serif); }
+  .associes-entete span { font: 500 9px/1 var(--ss-font-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--ss-mid); }
+  .associe { padding-bottom: 22px; border-bottom: 1px solid var(--ss-rule); }
+  .associe + .associe { margin-top: 22px; }
+  .associe a { display: block; color: var(--ss-ink); }
+  .associe-media { margin-bottom: 12px; }
+  .associe-categorie { margin: 0 0 8px; font: 600 9px/1 var(--ss-font-mono); letter-spacing: .09em; text-transform: uppercase; color: var(--ss-mid); }
+  .associe h3 { margin: 0; font: 500 21px/1.16 var(--ss-font-serif); letter-spacing: -.015em; text-wrap: pretty; }
+  .associe-resume { display: -webkit-box; overflow: hidden; margin: 10px 0 0; color: var(--ss-mid); font: 400 13px/1.48 var(--ss-font-sans); -webkit-box-orient: vertical; -webkit-line-clamp: 3; }
+  .associe-action { display: inline-block; margin-top: 12px; font: 600 9px/1 var(--ss-font-mono); letter-spacing: .07em; text-transform: uppercase; }
+  .associe a:hover h3, .associe a:hover .associe-action { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
   :global(.article-body > :first-child) { margin-top: 0; }
   :global(.article-body h2) { margin: 42px 0 14px; font: 500 26px/1.08 var(--ss-font-serif); letter-spacing: -.015em; }
   :global(.article-body p), :global(.article-body li) { font: 400 17px/1.72 var(--ss-font-sans); }
@@ -186,5 +262,13 @@ const description = intro || d.titre;
   .bas-page { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 12px 20px; width: min(calc(100% - 40px), 1060px); margin: 0 auto; padding: 28px 0 36px; border-top: 1px solid var(--ss-ink); }
   .pied-contact { font: 500 10px/1.4 var(--ss-font-mono); letter-spacing: .06em; color: var(--ss-ink-60); }
   .pied-contact:hover { color: var(--ss-ochre); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
-  @media (min-width: 1024px) { .article { padding: 42px 48px 80px; } }
+  @media (min-width: 1024px) {
+    .article { padding: 42px 48px 80px; }
+    .lecture-zone { display: grid; grid-template-columns: minmax(0, 1fr) 250px; align-items: start; gap: 36px; max-width: none; }
+    .associes { position: sticky; top: 24px; margin: 0; padding: 0 0 0 24px; border-top: 0; border-left: 1px solid var(--ss-rule); }
+    .associes-entete { display: block; margin-bottom: 18px; }
+    .associes-entete h2 { font-size: 22px; }
+    .associes-entete span { display: block; margin-top: 7px; }
+    .associe h3 { font-size: 19px; }
+  }
 </style>
