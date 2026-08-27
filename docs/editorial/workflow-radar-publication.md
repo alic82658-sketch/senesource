@@ -97,6 +97,7 @@ Pour les vidéos, priorité à la source originale de la déclaration ou de l’
 - Le point focal doit conserver le sujet humain visible et compréhensible. Un cadrage qui ne montre plus que le décor, un poteau ou un objet secondaire est refusé, même si l’image source est correcte.
 - L’image ne doit jamais être déformée. Le recadrage se règle avec le point focal et doit être revérifié après déploiement.
 - Dans les titres, l’espace avant les signes doubles `: ; ! ?` est insécable. Aucun de ces signes ne doit apparaître seul au début d’une ligne.
+- Les libellés placés au-dessus d’un grand titre doivent conserver un espace visuel suffisant avec les capitales accentuées et leurs signes diacritiques. Aucun accent ne doit toucher ou sembler appartenir au libellé supérieur.
 - Chaque page article propose, à droite sur ordinateur et après le texte sur mobile, une sélection courte d’autres articles publiés. La priorité va aux sujets de la même catégorie, puis aux publications les plus récentes.
 
 ## 7. Suivi des dossiers
