@@ -25,10 +25,12 @@ const { courante = '' } = Astro.props;
   }
   .rubriques-interieur {
     display: flex;
-    gap: 22px;
+    gap: 30px;
     width: 100%;
-    padding: 11px 20px 12px;
+    padding: 12px max(24px, env(safe-area-inset-right)) 13px max(24px, env(safe-area-inset-left));
     overflow-x: auto;
+    overscroll-behavior-inline: contain;
+    -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
     scroll-snap-type: x proximity;
   }
@@ -39,14 +41,14 @@ const { courante = '' } = Astro.props;
     right: 0;
     top: 0;
     bottom: 1px;
-    width: 34px;
+    width: 24px;
     pointer-events: none;
     background: linear-gradient(90deg, transparent, var(--ss-paper));
   }
   .rubrique-lien {
     flex: 0 0 auto;
     scroll-snap-align: start;
-    font: 600 9.5px/1 var(--ss-font-mono);
+    font: 600 10px/1 var(--ss-font-mono);
     letter-spacing: .075em;
     text-transform: uppercase;
     color: var(--ss-mid);
