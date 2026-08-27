@@ -129,7 +129,10 @@ const description = intro || d.titre;
     </div>
   </article>
 
-  <footer class="bas-page"><MarqueSeneSource format="pied" /></footer>
+  <footer class="bas-page">
+    <MarqueSeneSource format="pied" />
+    <a class="pied-contact" href="mailto:contact@senesource.com">contact@senesource.com</a>
+  </footer>
 </Base>
 
 <style>
@@ -160,6 +163,8 @@ const description = intro || d.titre;
   .sources a { text-decoration: underline; text-underline-offset: 3px; }
   .sources small { display: block; margin-top: 4px; color: var(--ss-mid); font: 400 10px/1.4 var(--ss-font-mono); }
   .transparence { padding-top: 24px; border-top: 1px solid var(--ss-ink); }
-  .bas-page { width: min(calc(100% - 40px), 1060px); margin: 0 auto; padding: 28px 0 36px; border-top: 1px solid var(--ss-ink); }
+  .bas-page { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 12px 20px; width: min(calc(100% - 40px), 1060px); margin: 0 auto; padding: 28px 0 36px; border-top: 1px solid var(--ss-ink); }
+  .pied-contact { font: 500 10px/1.4 var(--ss-font-mono); letter-spacing: .06em; color: var(--ss-ink-60); }
+  .pied-contact:hover { color: var(--ss-ochre); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
   @media (min-width: 1024px) { .article { padding: 42px 48px 80px; } }
 </style>
