@@ -92,7 +92,10 @@ const dateHeader = new Intl.DateTimeFormat('fr-FR', { weekday: 'short', day: 'nu
       <p>SeneSource corrige et met à jour ses articles lorsque de nouveaux éléments documentés l’exigent.</p>
       <a href="/methode">Voir notre méthode →</a>
     </div>
-    <MarqueSeneSource format="pied" />
+    <div class="pied-identite">
+      <MarqueSeneSource format="pied" />
+      <a class="pied-contact" href="mailto:contact@senesource.com">contact@senesource.com</a>
+    </div>
   </footer>
 </Base>
 
@@ -206,6 +209,9 @@ const dateHeader = new Intl.DateTimeFormat('fr-FR', { weekday: 'short', day: 'nu
   .pied-texte strong { font: 500 21px/1.15 var(--ss-font-serif); }
   .pied-texte p { margin: 8px 0; color: var(--ss-mid); font: 400 14px/1.55 var(--ss-font-sans); }
   .pied-texte a { font: 600 10px/1 var(--ss-font-mono); text-transform: uppercase; letter-spacing: .06em; }
+  .pied-identite { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 12px 20px; }
+  .pied-contact { font: 500 10px/1.4 var(--ss-font-mono); letter-spacing: .06em; color: var(--ss-ink-60); }
+  .pied-contact:hover { color: var(--ss-ochre); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
   @media (min-width: 720px) {
     .une-bas { flex-direction: row; justify-content: space-between; align-items: center; }
     .section-entete span { display: block; }
