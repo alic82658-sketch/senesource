@@ -14,6 +14,27 @@ Le Radar surveille l’actualité sénégalaise et les sources primaires/officie
 
 Chaque sujet retenu doit comporter : faits établis, allégations, éléments en attente, parole publique à vérifier, conséquence concrète pour la population, calcul chiffré lorsque possible, sources primaires, chronologie et prochaine échéance.
 
+
+### Classement obligatoire
+
+Le Radar ne dépend jamais d'une source unique. Il recoupe les sources primaires, institutions, documents, déclarations, médias, réseaux sociaux et données disponibles, puis rattache les reprises au même événement d'origine.
+
+Chaque alerte reçoit obligatoirement :
+
+- un type : `ACTU`, `QUESTION`, `À VÉRIFIER` ou `À EXPLIQUER` ;
+- une rubrique publique : `Politique`, `Économie`, `Société`, `Justice`, `Santé`, `Sport`, `Faits divers` ou `International` ;
+- un score éditorial ;
+- les sources primaires disponibles et les incertitudes restantes.
+
+Le sport fait partie du Radar à part entière : sélections, fédérations, infrastructures, finances, contrats, carrières, décisions disciplinaires et déclarations vérifiables. Le Radar ne se limite pas aux résultats de rencontres.
+
+Les sujets technologiques restent rattachés à `Économie` ou `Société` avec une étiquette `TECH` tant que leur volume ne justifie pas une rubrique publique autonome. SeneSource traite leurs conséquences collectives ; Hamham AI conserve les usages, outils et contenus spécialisés sur l'intelligence artificielle.
+
+### Seuil de lancement public
+
+La promotion active de SeneSource commence lorsque 16 articles sont publiés, avec au moins deux articles visibles dans chacune des huit rubriques. Avant ce seuil, LinkedIn et Facebook peuvent être configurés et alimentés discrètement, sans campagne d'acquisition.
+
+
 ## 2. Préparation éditoriale
 
 Quand un sujet est retenu, ChatGPT prépare automatiquement :
