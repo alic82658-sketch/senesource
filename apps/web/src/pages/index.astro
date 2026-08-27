@@ -10,7 +10,7 @@ const dossiers = await listeDossiers();
 const une = dossiers.find((d) => d.pageComplete) ?? dossiers[0]!;
 const autres = dossiers.filter((d) => d.slug !== une.slug).sort((a, b) => b.numero - a.numero);
 const jUne = collecte(une);
-const urlUne = `/dossier/${une.slug}/`;
+const urlUne = `/article/${une.slug}/`;
 const uneResume = une.verdict?.resumeCourt ?? une.resume ?? '';
 const uneDate = une.misAJourLe ? `Mis à jour le ${dateComplete(une.misAJourLe)}` : '';
 const dateHeader = new Intl.DateTimeFormat('fr-FR', { weekday: 'short', day: 'numeric', month: 'long' }).format(new Date());
@@ -73,7 +73,7 @@ const dateHeader = new Intl.DateTimeFormat('fr-FR', { weekday: 'short', day: 'nu
                 rubrique={d.rubrique}
                 categorie={d.categorie}
                 titre={d.titre}
-                href={d.pageComplete ? `/dossier/${d.slug}/` : undefined}
+                href={d.pageComplete ? `/article/${d.slug}/` : undefined}
                 verdict={null}
                 statutLibelle={d.pageComplete ? 'Lire l’analyse' : 'En cours de vérification'}
                 meta={`${jd.total} sources et pièces`}
