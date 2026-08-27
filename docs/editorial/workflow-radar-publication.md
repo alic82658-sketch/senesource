@@ -32,7 +32,7 @@ Les sujets technologiques restent rattachés à `Économie` ou `Société` avec 
 
 ### Seuil de lancement public
 
-La promotion active de SeneSource commence lorsque 16 articles sont publiés, avec au moins deux articles visibles dans chacune des huit rubriques. Avant ce seuil, LinkedIn et Facebook peuvent être configurés et alimentés discrètement, sans campagne d'acquisition.
+La promotion active de SeneSource commence lorsque 20 articles sont publiés, avec au moins deux articles visibles dans chacune des huit rubriques. Avant ce seuil, LinkedIn et Facebook peuvent être créés et habillés, mais aucune promotion, publicité payante ou communication massive n'est lancée.
 
 
 ## 2. Préparation éditoriale
