@@ -1,185 +1,60 @@
 ---
 import Rubriques from './Rubriques.astro';
 import MarqueSeneSource from './MarqueSeneSource.astro';
-/**
- * En-tête SeneSource.
- * Logo final monochrome S¹ + signature « L’actualité qui vous instruit. »
- */
+
 interface Props {
-  courante?: 'verifications' | 'pieces' | 'consequences' | 'methode';
   meta?: string;
   rubriqueCourante?: string;
   afficherRubriques?: boolean;
 }
-const { courante, meta = '', rubriqueCourante = '', afficherRubriques = true } = Astro.props;
-const entrees = [
-  { id: 'verifications', label: 'Vérifications', href: '/verifications' },
-  { id: 'pieces', label: 'Pièces', href: '/documents' },
-  { id: 'consequences', label: 'Ce que ça change', href: '/ce-que-ca-change' },
-  { id: 'methode', label: 'Méthode', href: '/methode', desktopSeul: true },
-];
+const { meta = '', rubriqueCourante = '', afficherRubriques = true } = Astro.props;
 ---
 
 <header class="entete">
   <div class="entete-haut">
     <MarqueSeneSource />
-    <nav class="nav nav--desktop" aria-label="Navigation principale">
-      {
-        entrees.map((e) => (
-          <a
-            class:list={['nav-lien', { 'nav-lien--courant': e.id === courante }]}
-            href={e.href}
-            aria-current={e.id === courante ? 'page' : undefined}
-          >
-            {e.label}
-          </a>
-        ))
-      }
-    </nav>
-    {meta && <span class="entete-meta">{meta}</span>}
+    <div class="entete-actions">
+      {meta && <span class="entete-meta">{meta}</span>}
+      <a class="methode" href="/methode">Méthode</a>
+    </div>
   </div>
-  <nav class="nav nav--mobile" aria-label="Navigation principale">
-    {
-      entrees
-        .filter((e) => !e.desktopSeul)
-        .map((e) => (
-          <a
-            class:list={['nav-lien', { 'nav-lien--courant': e.id === courante }]}
-            href={e.href}
-            aria-current={e.id === courante ? 'page' : undefined}
-          >
-            {e.label}
-          </a>
-        ))
-    }
-  </nav>
   {afficherRubriques && <Rubriques courante={rubriqueCourante} />}
 </header>
 
 <style>
+  .entete {
+    background: var(--ss-paper);
+  }
   .entete-haut {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 16px;
-    padding: 14px 20px 11px;
+    padding: 14px 20px 12px;
+    border-bottom: 1px solid color-mix(in srgb, var(--ss-ink) 16%, transparent);
   }
-  .marque {
-    display: inline-flex;
+  .entete-actions {
+    display: flex;
     align-items: center;
-    flex: 0 0 auto;
-    color: var(--ss-ink);
+    gap: 14px;
   }
-  .marque-symbole {
-    position: relative;
-    font: 700 34px/0.82 var(--ss-font-serif);
-    letter-spacing: -0.06em;
-  }
-  .marque-symbole sup {
-    position: absolute;
-    top: -0.17em;
-    right: -0.55em;
-    font: 700 10px/1 var(--ss-font-sans);
-    letter-spacing: 0;
-  }
-  .marque-separateur {
-    width: 1px;
-    height: 37px;
-    margin: 0 13px 0 16px;
-    background: currentColor;
-  }
-  .marque-identite {
-    display: flex;
-    flex-direction: column;
-    gap: 3px;
-  }
-  .marque-nom {
-    font: 500 20px/0.9 var(--ss-font-serif);
-    letter-spacing: -0.035em;
-  }
-  .marque-signature {
-    font: 600 5.8px/1 var(--ss-font-sans);
-    letter-spacing: 0.13em;
+  .entete-meta,
+  .methode {
+    font: 500 9px/1 var(--ss-font-mono);
+    letter-spacing: .08em;
     text-transform: uppercase;
     white-space: nowrap;
   }
-  .entete-meta {
-    font: 400 9.5px/1 var(--ss-font-mono);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--ss-mid);
-    white-space: nowrap;
-  }
-  .nav-lien {
-    font: 400 9.5px/1 var(--ss-font-mono);
-    letter-spacing: 0.09em;
-    text-transform: uppercase;
-    color: var(--ss-mid);
-    white-space: nowrap;
-  }
-  .nav-lien--courant {
-    font-weight: 500;
-    color: var(--ss-ink);
-  }
-  .nav-lien:hover {
-    color: var(--ss-ink);
-  }
-  .nav--mobile {
-    display: flex;
-    gap: 16px;
-    padding: 0 20px 12px;
-    overflow-x: auto;
-  }
-  .nav--desktop {
-    display: none;
-  }
-  @media (max-width: 359px) {
-    .marque-signature {
-      display: none;
-    }
-    .marque-separateur {
-      height: 30px;
-    }
+  .entete-meta { color: var(--ss-mid); }
+  .methode { color: var(--ss-ink); }
+  .methode:hover { text-decoration: underline; text-underline-offset: 4px; }
+  @media (max-width: 430px) {
+    .entete-meta { display: none; }
   }
   @media (min-width: 1024px) {
-    .entete-haut {
-      padding: 17px 48px 14px;
-    }
-    .marque-symbole {
-      font-size: 42px;
-    }
-    .marque-symbole sup {
-      font-size: 12px;
-    }
-    .marque-separateur {
-      height: 45px;
-      margin-left: 20px;
-      margin-right: 16px;
-    }
-    .marque-nom {
-      font-size: 26px;
-    }
-    .marque-signature {
-      font-size: 7px;
-    }
-    .entete-meta {
-      font-size: 10.5px;
-    }
-    .nav--mobile {
-      display: none;
-    }
-    .nav--desktop {
-      display: flex;
-      gap: 26px;
-    }
-    .nav--desktop .nav-lien {
-      font-size: 10.5px;
-    }
+    .entete-haut { padding: 17px 48px 14px; }
   }
   @media (min-width: 1440px) {
-    .entete-haut {
-      padding-left: 64px;
-      padding-right: 64px;
-    }
+    .entete-haut { padding-left: 64px; padding-right: 64px; }
   }
 </style>
