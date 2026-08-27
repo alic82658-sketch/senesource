@@ -44,6 +44,15 @@ export function fines(s: string): string {
 }
 
 /**
+ * Ponctuation française haute : le signe reste attaché au mot qui le précède.
+ * Cette règle évite notamment qu'un « : », « ; », « ! » ou « ? » se retrouve
+ * seul au début d'une ligne dans un titre, sur le web comme dans la future app.
+ */
+export function ponctuationInsecable(s: string): string {
+  return s.replace(/[ \u00a0\u202f]+([:;!?])/g, '\u00a0$1');
+}
+
+/**
  * Nombre de pièces obtenues sur le total — journal de collecte documentaire,
  * JAMAIS un score de vérité (règle produit).
  */
