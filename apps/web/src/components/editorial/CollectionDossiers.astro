@@ -11,11 +11,13 @@ interface Props {
   dossiers: Dossier[];
   courante?: 'verifications' | 'pieces' | 'consequences' | 'methode';
   rubriqueCourante?: string;
+  /** Directive robots optionnelle (ex. rubrique vide → « noindex, follow »). */
+  robots?: string;
 }
-const { titre, description, dossiers, courante, rubriqueCourante } = Astro.props;
+const { titre, description, dossiers, courante, rubriqueCourante, robots } = Astro.props;
 ---
 
-<Base titre={titre} description={description}>
+<Base titre={titre} description={description} robots={robots}>
   <EnTete courante={courante} rubriqueCourante={rubriqueCourante} />
   <main class="collection">
     <header class="collection-tete">

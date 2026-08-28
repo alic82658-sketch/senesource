@@ -5,11 +5,21 @@ interface Props {
   titre: string;
   description?: string;
   noindex?: boolean;
+  /**
+   * Directive `robots` explicite (ex. « noindex, follow »). Prioritaire sur
+   * `noindex`. Permet aux rubriques vides de rester suivies (follow) tout en
+   * n'étant pas indexées.
+   */
+  robots?: string;
   /** URL canonique (chemin ou absolu). Par défaut : l'URL de la page courante. */
   canonical?: string;
 }
 
-const { titre, description, noindex = false, canonical } = Astro.props;
+const { titre, description, noindex = false, robots, canonical } = Astro.props;
+
+// `noindex` conserve son comportement historique (noindex, nofollow) ; une
+// directive `robots` explicite la remplace quand elle est fournie.
+const robotsContent = robots ?? (noindex ? 'noindex, nofollow' : undefined);
 
 // La marque n'est suffixée que si le titre de la page ne la contient pas déjà.
 // Évite le doublon « … — SeneSource — SeneSource » quand une page (l'accueil)
@@ -30,7 +40,7 @@ const canonicalURL = new URL(canonical ?? Astro.url.pathname, Astro.site);
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{titreComplet}</title>
     {description && <meta name="description" content={description} />}
-    {noindex && <meta name="robots" content="noindex, nofollow" />}
+    {robotsContent && <meta name="robots" content={robotsContent} />}
     <link rel="canonical" href={canonicalURL.href} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link
