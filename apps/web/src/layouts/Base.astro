@@ -8,6 +8,12 @@ interface Props {
 }
 
 const { titre, description, noindex = false } = Astro.props;
+
+// La marque n'est suffixée que si le titre de la page ne la contient pas déjà.
+// Évite le doublon « … — SeneSource — SeneSource » quand une page (l'accueil)
+// porte déjà « SeneSource » dans son titre. Règle valable pour toutes les pages.
+const MARQUE = 'SeneSource';
+const titreComplet = titre.includes(MARQUE) ? titre : `${titre} — ${MARQUE}`;
 ---
 
 <!doctype html>
@@ -15,7 +21,7 @@ const { titre, description, noindex = false } = Astro.props;
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{titre} — SeneSource</title>
+    <title>{titreComplet}</title>
     {description && <meta name="description" content={description} />}
     {noindex && <meta name="robots" content="noindex, nofollow" />}
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
