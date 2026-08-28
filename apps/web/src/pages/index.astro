@@ -5,6 +5,10 @@ import ImageDossier from '../components/editorial/ImageDossier.astro';
 import CarteDossier from '../components/editorial/CarteDossier.astro';
 import MarqueSeneSource from '../components/layout/MarqueSeneSource.astro';
 import { listeDossiers, collecte, dateComplete, numeroAffiche } from '../lib/contenu';
+import { organisationEtSiteLD } from '../lib/jsonld';
+
+// Données structurées de l'accueil (invisibles) : Organization + WebSite.
+const jsonLd = organisationEtSiteLD(Astro.site!);
 
 const dossiers = await listeDossiers();
 const une = dossiers.find((d) => d.pageComplete) ?? dossiers[0]!;
@@ -20,6 +24,12 @@ const dateHeader = new Intl.DateTimeFormat('fr-FR', { weekday: 'short', day: 'nu
   titre="SeneSource — L’actualité qui vous instruit"
   description="SeneSource explique l’actualité sénégalaise à partir des faits, des documents et de leurs conséquences concrètes."
 >
+  <Fragment slot="head">
+    {jsonLd.map((objet) => (
+      <script is:inline type="application/ld+json" set:html={JSON.stringify(objet)} />
+    ))}
+  </Fragment>
+
   <EnTete meta={dateHeader} />
 
   <main class="accueil">

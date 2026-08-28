@@ -5,15 +5,22 @@ interface Props {
   titre: string;
   description?: string;
   noindex?: boolean;
+  /** URL canonique (chemin ou absolu). Par défaut : l'URL de la page courante. */
+  canonical?: string;
 }
 
-const { titre, description, noindex = false } = Astro.props;
+const { titre, description, noindex = false, canonical } = Astro.props;
 
 // La marque n'est suffixée que si le titre de la page ne la contient pas déjà.
 // Évite le doublon « … — SeneSource — SeneSource » quand une page (l'accueil)
 // porte déjà « SeneSource » dans son titre. Règle valable pour toutes les pages.
 const MARQUE = 'SeneSource';
 const titreComplet = titre.includes(MARQUE) ? titre : `${titre} — ${MARQUE}`;
+
+// Lien canonique — signal d'indexation, invisible. Résolu en absolu sur le
+// domaine du site (astro.config.mjs `site`). Une page peut le surcharger
+// (ex. /dossier/* pointe vers sa version /article/* pour éviter le doublon).
+const canonicalURL = new URL(canonical ?? Astro.url.pathname, Astro.site);
 ---
 
 <!doctype html>
@@ -24,6 +31,7 @@ const titreComplet = titre.includes(MARQUE) ? titre : `${titre} — ${MARQUE}`;
     <title>{titreComplet}</title>
     {description && <meta name="description" content={description} />}
     {noindex && <meta name="robots" content="noindex, nofollow" />}
+    <link rel="canonical" href={canonicalURL.href} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link
       rel="preload"
@@ -53,6 +61,8 @@ const titreComplet = titre.includes(MARQUE) ? titre : `${titre} — ${MARQUE}`;
       type="font/woff2"
       crossorigin
     />
+    <!-- Données structurées et métadonnées propres à la page (JSON-LD…). -->
+    <slot name="head" />
   </head>
   <body>
     <slot />

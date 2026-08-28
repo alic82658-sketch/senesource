@@ -5,6 +5,7 @@ import ImageDossier from '../../components/editorial/ImageDossier.astro';
 import MarqueSeneSource from '../../components/layout/MarqueSeneSource.astro';
 import { getCollection, render, type CollectionEntry } from 'astro:content';
 import { dateComplete, ponctuationInsecable, type Dossier } from '../../lib/contenu';
+import { articleLD } from '../../lib/jsonld';
 
 export async function getStaticPaths() {
   const entrees = await getCollection('dossiers', ({ data }) =>
@@ -50,9 +51,27 @@ const intro = d.resume ?? d.verdict?.resumeCourt ?? '';
 const etablies = d.preuves.filter((p) => p.etabli);
 const nonEtablies = d.preuves.filter((p) => !p.etabli);
 const description = intro || d.titre;
+
+// Aperçu (WhatsApp/moteurs) et données structurées — invisibles.
+// L'image d'aperçu est la conversion PNG de l'illustration (public/og/<slug>.png).
+const ogImage = `/og/${entree.id}.png`;
+const urlCanonique = new URL(Astro.url.pathname, Astro.site).href;
+const jsonLd = articleLD({
+  site: Astro.site!,
+  urlCanonique,
+  titre: d.titre,
+  description,
+  image: d.illustration ? ogImage : undefined,
+  datePublication: d.ouvertLe,
+  dateMiseAJour: d.misAJourLe,
+});
 ---
 
 <Base titre={d.titre} description={description}>
+  <Fragment slot="head">
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  </Fragment>
+
   <EnTete rubriqueCourante={d.categorie.toLowerCase()} />
 
   <article class="article">
