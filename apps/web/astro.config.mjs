@@ -5,7 +5,7 @@ import mdx from '@astrojs/mdx';
 
 // V0.1 : sortie statique pure, contenu en collections MDX locales.
 export default defineConfig({
-  site: 'https://senesource.sn',
+  site: 'https://senesource.com',
   integrations: [mdx()],
   vite: {
     plugins: [tailwindcss()],
