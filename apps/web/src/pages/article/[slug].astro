@@ -78,7 +78,14 @@ const jsonLd = articleLD({
 });
 ---
 
-<Base titre={d.titre} description={description}>
+<Base
+  titre={d.titre}
+  description={description}
+  ogType="article"
+  ogImage={d.illustration ? ogImage : undefined}
+  publishedTime={d.ouvertLe}
+  modifiedTime={d.misAJourLe}
+>
   <Fragment slot="head">
     <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
   </Fragment>
