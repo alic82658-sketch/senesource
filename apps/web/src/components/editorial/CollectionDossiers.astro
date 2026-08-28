@@ -35,9 +35,9 @@ const { titre, description, dossiers, courante, rubriqueCourante } = Astro.props
                 categorie={d.categorie}
                 type={d.type}
                 titre={d.titre}
-                href={d.pageComplete ? `/dossier/${d.slug}/` : undefined}
+                href={d.pageComplete ? `/article/${d.slug}/` : undefined}
                 verdict={d.verdict?.mot ?? null}
-                statutLibelle={d.verdict ? undefined : 'En instruction'}
+                statutLibelle={d.pageComplete ? 'Lire l’analyse' : d.verdict ? undefined : 'En instruction'}
                 meta={`${pieces.obtenues} / ${pieces.total} pièces`}
                 illustration={d.illustration}
               />
