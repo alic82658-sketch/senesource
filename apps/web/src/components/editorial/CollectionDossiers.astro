@@ -2,6 +2,7 @@
 import type { Dossier } from '@senesource/domain';
 import Base from '../../layouts/Base.astro';
 import EnTete from '../layout/EnTete.astro';
+import PiedDeSite from '../layout/PiedDeSite.astro';
 import CarteDossier from './CarteDossier.astro';
 import { collecte, numeroAffiche } from '../../lib/contenu';
 
@@ -55,6 +56,8 @@ const { titre, description, dossiers, courante, rubriqueCourante, robots } = Ast
       )
     }
   </main>
+
+  <PiedDeSite />
 </Base>
 
 <style>
