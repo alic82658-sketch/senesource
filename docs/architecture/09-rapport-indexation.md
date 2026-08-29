@@ -9,9 +9,11 @@ l'indexation**. Un commit par tâche.
 | Décision | Valeur |
 |---|---|
 | Domaine canonique | **senesource.com** (config `site` corrigée : elle pointait sur `.sn`) |
-| NOM_AUTEUR | **Non fourni** → auteur provisoire = Organisation SeneSource ; tâche 3 sautée |
+| NOM_AUTEUR | **Mouhamadou Fadal Diouf** (signataire + directeur de la publication) |
 | VOCABULAIRE | **Défaut** → enrichir la page méthode (articles non modifiés) |
 | NUMEROTATION | **RENUMEROTER** (par ordre de première publication) |
+| Éditeur (mentions légales) | **Mouhamadou Fadal Diouf**, personne physique |
+| Hébergeur (mentions légales) | **Cloudflare, Inc.** (San Francisco, CA, États-Unis) |
 
 ## Ce qui a été fait, tâche par tâche
 
@@ -24,8 +26,8 @@ l'indexation**. Un commit par tâche.
     `datePublished`, `dateModified`, author, publisher avec logo,
     `mainEntityOfPage`, `inLanguage: fr`).
   - Accueil : `Organization` (nom, url, logo, e-mail) + `WebSite`.
-  - `author` = Organisation SeneSource **à titre provisoire** (NOM_AUTEUR non
-    défini). À revoir avec la tâche 3.
+  - `author` = **Person « Mouhamadou Fadal Diouf »** (mis à jour en tâche 3),
+    avec `url` vers `/qui-sommes-nous/`.
   - Infrastructure de tête partagée : `<link rel="canonical">` absolu + slot
     `<head>`. Les vues `/dossier/*` (non liées publiquement) pointent leur
     canonical vers `/article/*` pour éviter le contenu dupliqué.
@@ -37,11 +39,22 @@ l'indexation**. Un commit par tâche.
   *Sur les trois articles actuels, publication et mise à jour tombent le même
   jour : seule « Publié le … » s'affiche pour l'instant.*
 
-- **Tâche 3 — Identité éditoriale. NON RÉALISÉE (décision manquante).**
-  NOM_AUTEUR n'ayant pas été fourni : pas de byline « Par … », pas de page
-  `/qui-sommes-nous`, pas de page `/mentions-legales`. À exécuter dès que le
-  directeur de la publication sera fixé. *Rappel : les mentions légales d'un
-  média nécessitent un directeur de la publication nommé.*
+- **Tâche 3 — Identité éditoriale. RÉALISÉE** (NOM_AUTEUR fourni :
+  Mouhamadou Fadal Diouf).
+  - **Byline** : « Par Mouhamadou Fadal Diouf » ajoutée dans la ligne méta
+    existante des articles, dans la même balise/classe/style que le reste.
+  - **`/qui-sommes-nous`** créée sur le **gabarit exact de `/methode`**
+    (structure + feuille de style copiées à l'identique) : qui édite
+    SeneSource, qui répond des contenus (directeur de la publication), la
+    mission en trois points cohérents avec la méthode, le contact.
+  - **`/mentions-legales`** créée sur le même gabarit : éditeur du site
+    (Mouhamadou Fadal Diouf, personne physique), directeur de la publication,
+    hébergeur (**Cloudflare, Inc.**, 101 Townsend Street, San Francisco, CA
+    94107, États-Unis), contact.
+  - **Liens de pied de page : NON ajoutés** (voir « améliorations non
+    appliquées »). Les deux pages sont référencées dans le sitemap, reliées
+    entre elles et à `/methode`, et `/qui-sommes-nous` est la cible de
+    `author.url` du JSON-LD.
 
 - **Tâche 4 — Title dupliqué.** La marque n'est suffixée que si le titre ne la
   contient pas déjà. L'accueil affichait « … — SeneSource — SeneSource » ; il
@@ -122,14 +135,18 @@ l'indexation**. Un commit par tâche.
 
 ## En attente d'une décision
 
-- **NOM_AUTEUR** (tâche 3) : byline, `/qui-sommes-nous`, `/mentions-legales`,
-  et remplacement de l'auteur provisoire dans le JSON-LD.
+- **Liens de pied de page** vers `/qui-sommes-nous` et `/mentions-legales` :
+  à ajouter si vous le souhaitez (une ligne réutilisant le style de lien
+  existant `.pied-contact`). Non fait par défaut (voir ci-dessous).
 
 ## Améliorations repérées, volontairement NON appliquées
 
 - **Liens de pied de page** vers `/qui-sommes-nous` et `/mentions-legales` :
-  non ajoutés (pages non créées, et l'ajout de liens visibles au pied
-  toucherait l'apparence — hors périmètre « aucune modification visuelle »).
+  non ajoutés. Le pied dispose pourtant d'un style de lien réutilisable
+  (`.pied-contact`), mais ajouter des liens visibles modifierait l'apparence
+  du pied — écarté au titre de la règle « aucune modification visuelle ». Les
+  pages restent accessibles par URL et par le sitemap. **À faire sur simple
+  accord.**
 - **Vue `/dossier/*` en doublon de `/article/*`** : neutralisée par un
   canonical, mais la route existe toujours. Sa suppression éventuelle est une
   décision éditoriale, non faite ici.

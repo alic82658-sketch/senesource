@@ -23,6 +23,8 @@ export const GET: APIRoute = async ({ site }) => {
   const entrees: Array<{ loc: string; lastmod?: string }> = [
     { loc: abs('/') },
     { loc: abs('/methode/') },
+    { loc: abs('/qui-sommes-nous/') },
+    { loc: abs('/mentions-legales/') },
     { loc: abs('/contribuer/') },
     { loc: abs('/verifications/') },
     { loc: abs('/documents/') },

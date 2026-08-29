@@ -5,7 +5,7 @@ import ImageDossier from '../../components/editorial/ImageDossier.astro';
 import MarqueSeneSource from '../../components/layout/MarqueSeneSource.astro';
 import { getCollection, render, type CollectionEntry } from 'astro:content';
 import { dateComplete, ponctuationInsecable, type Dossier } from '../../lib/contenu';
-import { articleLD } from '../../lib/jsonld';
+import { articleLD, AUTEUR } from '../../lib/jsonld';
 
 export async function getStaticPaths() {
   const entrees = await getCollection('dossiers', ({ data }) =>
@@ -98,6 +98,7 @@ const jsonLd = articleLD({
       <h1>{d.titre}</h1>
       {intro && <p class="chapô">{intro}</p>}
       <div class="meta">
+        <span>Par {AUTEUR}</span>
         {ligneDate && <span>{ligneDate}</span>}
         <span>{d.rubrique}</span>
       </div>

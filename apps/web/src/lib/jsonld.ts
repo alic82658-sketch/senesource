@@ -4,13 +4,11 @@
  * Ces balises n'affichent rien ; elles décrivent le site et les articles aux
  * moteurs de recherche et d'actualité. Toutes les URL sont résolues en absolu
  * sur le domaine du site (`Astro.site`, cf. astro.config.mjs).
- *
- * NOM_AUTEUR n'étant pas encore décidé, l'auteur des articles est
- * provisoirement l'organisation SeneSource (à revoir quand le directeur de la
- * publication sera fixé — cf. tâche 3 du brief d'indexation).
  */
 
 export const SITE_NOM = 'SeneSource';
+/** Signataire des articles et directeur de la publication (tâche 3). */
+export const AUTEUR = 'Mouhamadou Fadal Diouf';
 export const SITE_SLOGAN = 'L’actualité qui vous instruit.';
 export const SITE_DESCRIPTION =
   'SeneSource explique l’actualité sénégalaise à partir des faits, des documents et de leurs conséquences concrètes.';
@@ -85,8 +83,7 @@ export function articleLD(e: ArticleLDEntree) {
     ...(e.image ? { image: [abs(e.image, e.site)] } : {}),
     ...(datePub ? { datePublished: datePub } : {}),
     ...(dateMaj ? { dateModified: dateMaj } : {}),
-    // Auteur provisoire = organisation SeneSource (NOM_AUTEUR non défini).
-    author: { '@type': 'Organization', name: SITE_NOM, url: abs('/', e.site) },
+    author: { '@type': 'Person', name: AUTEUR, url: abs('/qui-sommes-nous/', e.site) },
     publisher: editeurLD(e.site),
     mainEntityOfPage: { '@type': 'WebPage', '@id': e.urlCanonique },
     inLanguage: 'fr',
