@@ -43,7 +43,11 @@ const description = d.verdict
   : `${d.titre} Dossier en instruction : ${j.obtenues} pièces obtenues sur ${j.total}.`;
 ---
 
-<Base titre={`Dossier ${num} — ${d.titre}`} description={description}>
+<Base
+  titre={`Dossier ${num} — ${d.titre}`}
+  description={description}
+  canonical={`/article/${d.slug}/`}
+>
   <EnTete afficherRubriques={false} />
   <article class="dossier">
     <!-- Barre de navigation fine (retour + statut de collecte) -->

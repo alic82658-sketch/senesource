@@ -12,10 +12,14 @@ const rubrique = rubriqueParSlug(slug!);
 if (!rubrique) return Astro.redirect('/');
 
 const dossiers = (await listeDossiers()).filter((d) => d.categorie === rubrique.nom);
+// Rubrique sans article publié : noindex, follow. La balise disparaît d'elle-même
+// dès qu'un premier dossier y est publié (tâche 7).
+const robots = dossiers.length === 0 ? 'noindex, follow' : undefined;
 ---
 <CollectionDossiers
   titre={rubrique.nom}
   description={`Tous les dossiers SeneSource classés dans la rubrique ${rubrique.nom}.`}
   dossiers={dossiers}
   rubriqueCourante={rubrique.slug}
+  robots={robots}
 />

@@ -1,0 +1,15 @@
+# SeneSource — robots.txt
+#
+# ÉTAT ACTUEL : site volontairement NON indexé (phase de préparation).
+# Le crawl est fermé pour préserver cet état ; le sitemap est déjà référencé
+# afin d'être prêt le jour de l'ouverture.
+#
+# POUR OUVRIR L'INDEXATION (à faire hors de cette session, quand décidé) :
+# remplacer la ligne « Disallow: / » ci-dessous par « Disallow: » (vide),
+# et lever tout blocage éventuel au niveau de l'hébergeur (en-tête
+# X-Robots-Tag, protection d'accès…).
+
+User-agent: *
+Disallow: /
+
+Sitemap: https://senesource.com/sitemap.xml

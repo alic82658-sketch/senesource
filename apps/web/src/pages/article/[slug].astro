@@ -5,6 +5,7 @@ import ImageDossier from '../../components/editorial/ImageDossier.astro';
 import MarqueSeneSource from '../../components/layout/MarqueSeneSource.astro';
 import { getCollection, render, type CollectionEntry } from 'astro:content';
 import { dateComplete, ponctuationInsecable, type Dossier } from '../../lib/contenu';
+import { articleLD, AUTEUR } from '../../lib/jsonld';
 
 export async function getStaticPaths() {
   const entrees = await getCollection('dossiers', ({ data }) =>
@@ -45,14 +46,50 @@ const recommandations: Dossier[] = entreesRecommandees.map((recommandation) => (
 }));
 const { Content } = await render(entree);
 const hasNarrative = (entree.body ?? '').trim().length > 0;
-const date = d.misAJourLe ? dateComplete(d.misAJourLe) : d.ouvertLe ? dateComplete(d.ouvertLe) : '';
+// Double date : « Publié le … » précède « Mis à jour le … ». La mention de mise
+// à jour n'apparaît que si elle diffère de la date de publication (sinon la même
+// date serait affichée deux fois). Même balise/classe/style que l'existant.
+const datePub = d.ouvertLe ? dateComplete(d.ouvertLe) : '';
+const dateMaj = d.misAJourLe && d.misAJourLe !== d.ouvertLe ? dateComplete(d.misAJourLe) : '';
+const ligneDate = datePub
+  ? dateMaj
+    ? `Publié le ${datePub} · Mis à jour le ${dateMaj}`
+    : `Publié le ${datePub}`
+  : dateMaj
+    ? `Mis à jour le ${dateMaj}`
+    : '';
 const intro = d.resume ?? d.verdict?.resumeCourt ?? '';
 const etablies = d.preuves.filter((p) => p.etabli);
 const nonEtablies = d.preuves.filter((p) => !p.etabli);
 const description = intro || d.titre;
+
+// Aperçu (WhatsApp/moteurs) et données structurées — invisibles.
+// L'image d'aperçu est la conversion PNG de l'illustration (public/og/<slug>.png).
+const ogImage = `/og/${entree.id}.png`;
+const urlCanonique = new URL(Astro.url.pathname, Astro.site).href;
+const jsonLd = articleLD({
+  site: Astro.site!,
+  urlCanonique,
+  titre: d.titre,
+  description,
+  image: d.illustration ? ogImage : undefined,
+  datePublication: d.ouvertLe,
+  dateMiseAJour: d.misAJourLe,
+});
 ---
 
-<Base titre={d.titre} description={description}>
+<Base
+  titre={d.titre}
+  description={description}
+  ogType="article"
+  ogImage={d.illustration ? ogImage : undefined}
+  publishedTime={d.ouvertLe}
+  modifiedTime={d.misAJourLe}
+>
+  <Fragment slot="head">
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  </Fragment>
+
   <EnTete rubriqueCourante={d.categorie.toLowerCase()} />
 
   <article class="article">
@@ -61,7 +98,8 @@ const description = intro || d.titre;
       <h1>{d.titre}</h1>
       {intro && <p class="chapô">{intro}</p>}
       <div class="meta">
-        {date && <span>Mis à jour le {date}</span>}
+        <span>Par {AUTEUR}</span>
+        {ligneDate && <span>{ligneDate}</span>}
         <span>{d.rubrique}</span>
       </div>
     </header>

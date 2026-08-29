@@ -1,13 +1,61 @@
 ---
 import '../styles/globals.css';
+import { SITE_NOM, SITE_DESCRIPTION } from '../lib/jsonld';
 
 interface Props {
   titre: string;
   description?: string;
   noindex?: boolean;
+  /** Type Open Graph : « website » (défaut) ou « article ». */
+  ogType?: 'website' | 'article';
+  /** Image d'aperçu (chemin ou absolu). Défaut : /og/default.png. */
+  ogImage?: string;
+  /** Article : date de publication ISO (og article:published_time). */
+  publishedTime?: string;
+  /** Article : date de mise à jour ISO (og article:modified_time). */
+  modifiedTime?: string;
+  /**
+   * Directive `robots` explicite (ex. « noindex, follow »). Prioritaire sur
+   * `noindex`. Permet aux rubriques vides de rester suivies (follow) tout en
+   * n'étant pas indexées.
+   */
+  robots?: string;
+  /** URL canonique (chemin ou absolu). Par défaut : l'URL de la page courante. */
+  canonical?: string;
 }
 
-const { titre, description, noindex = false } = Astro.props;
+const {
+  titre,
+  description,
+  noindex = false,
+  robots,
+  canonical,
+  ogType = 'website',
+  ogImage,
+  publishedTime,
+  modifiedTime,
+} = Astro.props;
+
+// Partage social (Open Graph / Twitter) — invisible, contrôle l'aperçu des
+// liens (WhatsApp, canal de distribution principal ; l'image d'aperçu est un
+// PNG car WhatsApp n'affiche pas les SVG). Image par défaut : logo sur fond.
+const ogDescription = description ?? SITE_DESCRIPTION;
+const ogImageURL = new URL(ogImage ?? '/og/default.png', Astro.site);
+
+// `noindex` conserve son comportement historique (noindex, nofollow) ; une
+// directive `robots` explicite la remplace quand elle est fournie.
+const robotsContent = robots ?? (noindex ? 'noindex, nofollow' : undefined);
+
+// La marque n'est suffixée que si le titre de la page ne la contient pas déjà.
+// Évite le doublon « … — SeneSource — SeneSource » quand une page (l'accueil)
+// porte déjà « SeneSource » dans son titre. Règle valable pour toutes les pages.
+const MARQUE = 'SeneSource';
+const titreComplet = titre.includes(MARQUE) ? titre : `${titre} — ${MARQUE}`;
+
+// Lien canonique — signal d'indexation, invisible. Résolu en absolu sur le
+// domaine du site (astro.config.mjs `site`). Une page peut le surcharger
+// (ex. /dossier/* pointe vers sa version /article/* pour éviter le doublon).
+const canonicalURL = new URL(canonical ?? Astro.url.pathname, Astro.site);
 ---
 
 <!doctype html>
@@ -15,10 +63,35 @@ const { titre, description, noindex = false } = Astro.props;
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{titre} — SeneSource</title>
+    <title>{titreComplet}</title>
     {description && <meta name="description" content={description} />}
-    {noindex && <meta name="robots" content="noindex, nofollow" />}
+    {robotsContent && <meta name="robots" content={robotsContent} />}
+    <link rel="canonical" href={canonicalURL.href} />
+
+    <!-- Open Graph / Twitter — aperçu des liens partagés (invisible). -->
+    <meta property="og:site_name" content={SITE_NOM} />
+    <meta property="og:locale" content="fr_FR" />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:title" content={titreComplet} />
+    <meta property="og:description" content={ogDescription} />
+    <meta property="og:url" content={canonicalURL.href} />
+    <meta property="og:image" content={ogImageURL.href} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={titre} />
+    {ogType === 'article' && publishedTime && (
+      <meta property="article:published_time" content={publishedTime} />
+    )}
+    {ogType === 'article' && modifiedTime && (
+      <meta property="article:modified_time" content={modifiedTime} />
+    )}
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={titreComplet} />
+    <meta name="twitter:description" content={ogDescription} />
+    <meta name="twitter:image" content={ogImageURL.href} />
+
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="alternate" type="application/rss+xml" title="SeneSource" href="/feed.xml" />
     <link
       rel="preload"
       href="/fonts/newsreader-normal-400-500-latin.woff2"
@@ -47,6 +120,8 @@ const { titre, description, noindex = false } = Astro.props;
       type="font/woff2"
       crossorigin
     />
+    <!-- Données structurées et métadonnées propres à la page (JSON-LD…). -->
+    <slot name="head" />
   </head>
   <body>
     <slot />
