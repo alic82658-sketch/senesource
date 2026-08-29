@@ -16,7 +16,7 @@ const { meta = '', rubriqueCourante = '', afficherRubriques = true } = Astro.pro
   <div class="entete-haut">
     <MarqueSeneSource />
     <div class="entete-actions">
-      {meta && <span class="entete-meta">{meta}</span>}
+      {meta && <span class="entete-meta" id="entete-date">{meta}</span>}
       <a class="methode" href="/methode">Méthode</a>
     </div>
   </div>
