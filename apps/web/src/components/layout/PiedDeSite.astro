@@ -26,9 +26,13 @@ const centre = contenu === 'centre';
   <PolitiqueCorrection centre={centre} />
   <div class="pied-bas">
     <MarqueSeneSource format="pied" />
-    <a class="pied-contact" href="mailto:contact@senesource.com">
-      contact@senesource.com
-    </a>
+    <nav class="pied-liens" aria-label="Informations">
+      <a class="pied-contact" href="/qui-sommes-nous">Qui sommes-nous</a>
+      <a class="pied-contact" href="/mentions-legales">Mentions légales</a>
+      <a class="pied-contact" href="mailto:contact@senesource.com">
+        contact@senesource.com
+      </a>
+    </nav>
   </div>
 </footer>
 
@@ -41,6 +45,14 @@ const centre = contenu === 'centre';
     gap: 6px 14px;
     padding: 14px 20px 24px;
     border-top: 1px solid var(--ss-rule); /* filet fin : même niveau */
+  }
+
+  /* Groupe de liens texte du pied — réutilise le style de lien existant. */
+  .pied-liens {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 6px 14px;
   }
 
   .pied-contact {

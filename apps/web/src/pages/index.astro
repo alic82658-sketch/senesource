@@ -105,7 +105,11 @@ const dateHeader = new Intl.DateTimeFormat('fr-FR', { weekday: 'short', day: 'nu
     </div>
     <div class="pied-identite">
       <MarqueSeneSource format="pied" />
-      <a class="pied-contact" href="mailto:contact@senesource.com">contact@senesource.com</a>
+      <nav class="pied-liens" aria-label="Informations">
+        <a class="pied-contact" href="/qui-sommes-nous">Qui sommes-nous</a>
+        <a class="pied-contact" href="/mentions-legales">Mentions légales</a>
+        <a class="pied-contact" href="mailto:contact@senesource.com">contact@senesource.com</a>
+      </nav>
     </div>
   </footer>
 </Base>
@@ -221,6 +225,7 @@ const dateHeader = new Intl.DateTimeFormat('fr-FR', { weekday: 'short', day: 'nu
   .pied-texte p { margin: 8px 0; color: var(--ss-mid); font: 400 14px/1.55 var(--ss-font-sans); }
   .pied-texte a { font: 600 10px/1 var(--ss-font-mono); text-transform: uppercase; letter-spacing: .06em; }
   .pied-identite { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 12px 20px; }
+  .pied-liens { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 16px; }
   .pied-contact { font: 500 10px/1.4 var(--ss-font-mono); letter-spacing: .06em; color: var(--ss-ink-60); }
   .pied-contact:hover { color: var(--ss-ochre); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
   @media (min-width: 720px) {

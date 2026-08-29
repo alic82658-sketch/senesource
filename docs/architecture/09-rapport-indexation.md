@@ -51,9 +51,15 @@ l'indexation**. Un commit par tâche.
     (Mouhamadou Fadal Diouf, personne physique), directeur de la publication,
     hébergeur (**Cloudflare, Inc.**, 101 Townsend Street, San Francisco, CA
     94107, États-Unis), contact.
-  - **Liens de pied de page : NON ajoutés** (voir « améliorations non
-    appliquées »). Les deux pages sont référencées dans le sitemap, reliées
-    entre elles et à `/methode`, et `/qui-sommes-nous` est la cible de
+  - **Liens de pied de page : AJOUTÉS** (sur accord explicite). « Qui
+    sommes-nous » et « Mentions légales » figurent désormais dans le pied de
+    chaque page qui en possède un — pied partagé `PiedDeSite` (méthode,
+    qui-sommes-nous, mentions-legales, dossier), pied de l'accueil et pied des
+    articles — en réutilisant le style de lien existant `.pied-contact`,
+    groupés à droite avec le lien de contact. Les pages de collection
+    (`/verifications`, `/documents`, `/ce-que-ca-change`) et `/contribuer` ne
+    possèdent pas de pied et n'en reçoivent pas (hors périmètre). Les deux
+    pages sont aussi dans le sitemap ; `/qui-sommes-nous` est la cible de
     `author.url` du JSON-LD.
 
 - **Tâche 4 — Title dupliqué.** La marque n'est suffixée que si le titre ne la
@@ -135,18 +141,13 @@ l'indexation**. Un commit par tâche.
 
 ## En attente d'une décision
 
-- **Liens de pied de page** vers `/qui-sommes-nous` et `/mentions-legales` :
-  à ajouter si vous le souhaitez (une ligne réutilisant le style de lien
-  existant `.pied-contact`). Non fait par défaut (voir ci-dessous).
+- Aucune. Toutes les décisions du brief sont tranchées et appliquées.
 
 ## Améliorations repérées, volontairement NON appliquées
 
-- **Liens de pied de page** vers `/qui-sommes-nous` et `/mentions-legales` :
-  non ajoutés. Le pied dispose pourtant d'un style de lien réutilisable
-  (`.pied-contact`), mais ajouter des liens visibles modifierait l'apparence
-  du pied — écarté au titre de la règle « aucune modification visuelle ». Les
-  pages restent accessibles par URL et par le sitemap. **À faire sur simple
-  accord.**
+- **Pages de collection et `/contribuer` sans pied de page** : elles n'ont pas
+  de pied, donc ne portent pas les liens « Qui sommes-nous » / « Mentions
+  légales ». Y ajouter un pied serait un ajout visuel plus large, non demandé.
 - **Vue `/dossier/*` en doublon de `/article/*`** : neutralisée par un
   canonical, mais la route existe toujours. Sa suppression éventuelle est une
   décision éditoriale, non faite ici.
