@@ -2,11 +2,20 @@ import { dossier } from './dossier';
 import { document, extraitDocument } from './document';
 import { illustration } from './illustration';
 import { objectTypes } from './objects';
+import { editorialItem } from './editorialItem';
+import { editorialSource } from './editorialSource';
 
 /**
- * Types du Studio SeneSource : deux documents (`dossier`, `document`) + leurs
- * sous-objets, miroir de `@senesource/domain`. `document` est réutilisable
- * entre dossiers ; une pièce le référence. Pas d'entité `Organisation`
- * (l'émetteur reste une chaîne — V1).
+ * Le Studio conserve les types SeneSource existants et ajoute une couche
+ * éditoriale transverse destinée à piloter plusieurs médias depuis une seule
+ * rédaction : SeneSource, XamXam et Lions.
  */
-export const schemaTypes = [dossier, document, extraitDocument, illustration, ...objectTypes];
+export const schemaTypes = [
+  dossier,
+  document,
+  extraitDocument,
+  illustration,
+  editorialItem,
+  editorialSource,
+  ...objectTypes,
+];
