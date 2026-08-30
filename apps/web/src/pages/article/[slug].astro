@@ -53,7 +53,7 @@ const datePub = d.publieA
   : d.ouvertLe
     ? dateComplete(d.ouvertLe)
     : '';
-const dateMaj = d.misAJourA
+const dateMaj = d.misAJourA && d.misAJourA !== d.publieA
   ? `${dateHeureDakar(d.misAJourA)} — heure de Dakar`
   : d.misAJourLe && d.misAJourLe !== d.ouvertLe
     ? dateComplete(d.misAJourLe)
