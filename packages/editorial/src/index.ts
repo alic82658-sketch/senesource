@@ -76,7 +76,10 @@ export function fines(s: string): string {
  * seul au début d'une ligne dans un titre, sur le web comme dans la future app.
  */
 export function ponctuationInsecable(s: string): string {
-  return s.replace(/[ \u00a0\u202f]+([:;!?])/g, '\u00a0$1');
+  // Un titre passe toujours par les deux protections : ponctuation haute et
+  // nombres groupés. Ainsi « 1 000 » ne peut jamais devenir « 1 » en fin de
+  // ligne puis « 000 » au début de la suivante sur un écran étroit.
+  return fines(s).replace(/[ \u00a0\u202f]+([:;!?])/g, '\u00a0$1');
 }
 
 /**
