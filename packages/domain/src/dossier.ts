@@ -22,6 +22,9 @@
  */
 export type DateISO = string;
 
+/** Date et heure ISO 8601 avec fuseau, utilisée quand l'heure est connue. */
+export type DateHeureISO = string;
+
 /** Les cinq verdicts autorisés (handoff §4.1) — jamais d'autres. */
 export const VERDICTS = [
   'Exact',
@@ -212,6 +215,7 @@ export interface ChiffreCle {
 export interface EntreeHistorique {
   version: number;
   date: DateISO;
+  horodatage?: DateHeureISO;
   note: string;
 }
 
@@ -228,8 +232,10 @@ export interface DossierChamps {
   categorie: Categorie;
   statut: StatutDossier;
   ouvertLe?: DateISO;
+  publieA?: DateHeureISO;
   version?: number;
   misAJourLe?: DateISO;
+  misAJourA?: DateHeureISO;
   resume?: string;
 
   affirmation?: Affirmation;

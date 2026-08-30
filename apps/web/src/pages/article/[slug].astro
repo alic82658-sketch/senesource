@@ -4,7 +4,7 @@ import EnTete from '../../components/layout/EnTete.astro';
 import ImageDossier from '../../components/editorial/ImageDossier.astro';
 import MarqueSeneSource from '../../components/layout/MarqueSeneSource.astro';
 import { getCollection, render, type CollectionEntry } from 'astro:content';
-import { dateComplete, ponctuationInsecable, type Dossier } from '../../lib/contenu';
+import { dateComplete, dateHeureDakar, ponctuationInsecable, type Dossier } from '../../lib/contenu';
 import { articleLD, AUTEUR } from '../../lib/jsonld';
 
 export async function getStaticPaths() {
@@ -46,17 +46,24 @@ const recommandations: Dossier[] = entreesRecommandees.map((recommandation) => (
 }));
 const { Content } = await render(entree);
 const hasNarrative = (entree.body ?? '').trim().length > 0;
-// Double date : « Publié le … » précède « Mis à jour le … ». La mention de mise
-// à jour n'apparaît que si elle diffère de la date de publication (sinon la même
-// date serait affichée deux fois). Même balise/classe/style que l'existant.
-const datePub = d.ouvertLe ? dateComplete(d.ouvertLe) : '';
-const dateMaj = d.misAJourLe && d.misAJourLe !== d.ouvertLe ? dateComplete(d.misAJourLe) : '';
+// L'heure n'est affichée que si un horodatage réel existe. Les anciens contenus
+// restent datés sans heure : aucune heure de publication n'est reconstituée.
+const datePub = d.publieA
+  ? `${dateHeureDakar(d.publieA)} — heure de Dakar`
+  : d.ouvertLe
+    ? dateComplete(d.ouvertLe)
+    : '';
+const dateMaj = d.misAJourA
+  ? `${dateHeureDakar(d.misAJourA)} — heure de Dakar`
+  : d.misAJourLe && d.misAJourLe !== d.ouvertLe
+    ? dateComplete(d.misAJourLe)
+    : '';
 const ligneDate = datePub
   ? dateMaj
-    ? `Publié le ${datePub} · Mis à jour le ${dateMaj}`
+    ? `Publié le ${datePub} · Dernière mise à jour le ${dateMaj}`
     : `Publié le ${datePub}`
   : dateMaj
-    ? `Mis à jour le ${dateMaj}`
+    ? `Dernière mise à jour le ${dateMaj}`
     : '';
 const intro = d.resume ?? d.verdict?.resumeCourt ?? '';
 const etablies = d.preuves.filter((p) => p.etabli);
@@ -73,8 +80,8 @@ const jsonLd = articleLD({
   titre: d.titre,
   description,
   image: d.illustration ? ogImage : undefined,
-  datePublication: d.ouvertLe,
-  dateMiseAJour: d.misAJourLe,
+  datePublication: d.publieA ?? d.ouvertLe,
+  dateMiseAJour: d.misAJourA ?? d.misAJourLe,
 });
 ---
 
@@ -83,8 +90,8 @@ const jsonLd = articleLD({
   description={description}
   ogType="article"
   ogImage={d.illustration ? ogImage : undefined}
-  publishedTime={d.ouvertLe}
-  modifiedTime={d.misAJourLe}
+  publishedTime={d.publieA ?? d.ouvertLe}
+  modifiedTime={d.misAJourA ?? d.misAJourLe}
 >
   <Fragment slot="head">
     <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />

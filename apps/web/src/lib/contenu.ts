@@ -28,6 +28,7 @@ export {
   segmentsRenvois,
   dateJourMois,
   dateComplete,
+  dateHeureDakar,
   type Segment,
 } from '@senesource/editorial';
 

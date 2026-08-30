@@ -4,6 +4,12 @@ import { CATEGORIES, VERDICTS } from '@senesource/domain';
 
 /** Date ISO `YYYY-MM-DD` — représentation unique des dates du domaine. */
 const dateISO = z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Date attendue au format ISO YYYY-MM-DD.');
+const dateHeureISO = z
+  .string()
+  .regex(
+    /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})$/,
+    'Date et heure attendues au format ISO 8601 avec fuseau.',
+  );
 
 /**
  * Collection « dossiers » — modèle MULTI-TYPE (docs/architecture/05-contenu-mdx.md).
@@ -44,8 +50,10 @@ const dossiers = defineCollection({
       categorie: z.enum(CATEGORIES),
       statut: z.enum(['en_instruction', 'publie', 'archive']),
       ouvertLe: dateISO.optional(),
+      publieA: dateHeureISO.optional(),
       version: z.number().int().positive().optional(),
       misAJourLe: dateISO.optional(),
+      misAJourA: dateHeureISO.optional(),
       resume: z.string().optional(),
 
       affirmation: z
@@ -142,7 +150,14 @@ const dossiers = defineCollection({
         .optional(),
 
       historique: z
-        .array(z.object({ version: z.number().int(), date: dateISO, note: z.string() }))
+        .array(
+          z.object({
+            version: z.number().int(),
+            date: dateISO,
+            horodatage: dateHeureISO.optional(),
+            note: z.string(),
+          }),
+        )
         .default([]),
 
       // V0.1 : seuls les dossiers complets génèrent une page

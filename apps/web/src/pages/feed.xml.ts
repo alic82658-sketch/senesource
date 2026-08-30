@@ -11,10 +11,10 @@ function echapper(s: string): string {
     .replace(/"/g, '&quot;');
 }
 
-/** ISO `YYYY-MM-DD` → date RFC-822 (le Sénégal est à l'heure GMT). */
+/** ISO date ou date-heure → date RFC-822 (le Sénégal est à l'heure GMT). */
 function rfc822(iso?: string): string | undefined {
   if (!iso) return undefined;
-  const d = new Date(`${iso}T08:00:00Z`);
+  const d = new Date(iso.includes('T') ? iso : `${iso}T08:00:00Z`);
   return Number.isNaN(d.getTime()) ? undefined : d.toUTCString();
 }
 
@@ -28,7 +28,7 @@ export const GET: APIRoute = async ({ site }) => {
     .map((d) => {
       const lien = abs(`/article/${d.slug}/`);
       const desc = d.resume ?? d.verdict?.resumeCourt ?? d.titre;
-      const pub = rfc822(d.ouvertLe ?? d.misAJourLe);
+      const pub = rfc822(d.publieA ?? d.ouvertLe ?? d.misAJourA ?? d.misAJourLe);
       return [
         '    <item>',
         `      <title>${echapper(d.titre)}</title>`,

@@ -22,7 +22,6 @@ interface Illu {
   hauteur?: number;
 }
 interface Props {
-  numero: string;
   rubrique: string;
   categorie?: string;
   type?: string;
@@ -34,7 +33,6 @@ interface Props {
   illustration?: Illu;
 }
 const {
-  numero,
   rubrique,
   categorie,
   type,
@@ -66,7 +64,6 @@ const surligne = type ? `${rubrique} · ${type}` : rubrique;
   }
   <div class="carte-corps">
     <p class="carte-meta">
-      <span class="carte-numero">Dossier {numero}</span>
       <span class="carte-rubrique">{surligne}</span>
     </p>
     <h3 class="carte-titre">
@@ -134,13 +131,6 @@ const surligne = type ? `${rubrique} · ${type}` : rubrique;
     gap: 4px 10px;
     align-items: baseline;
     margin: 0 0 8px;
-  }
-  .carte-numero {
-    font: 600 10px/1 var(--ss-font-mono);
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: var(--ss-ochre);
-    white-space: nowrap;
   }
   .carte-rubrique {
     font: 400 10px/1 var(--ss-font-mono);

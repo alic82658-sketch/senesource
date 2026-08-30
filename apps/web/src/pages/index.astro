@@ -4,7 +4,7 @@ import EnTete from '../components/layout/EnTete.astro';
 import ImageDossier from '../components/editorial/ImageDossier.astro';
 import CarteDossier from '../components/editorial/CarteDossier.astro';
 import MarqueSeneSource from '../components/layout/MarqueSeneSource.astro';
-import { listeDossiers, collecte, dateComplete, numeroAffiche } from '../lib/contenu';
+import { listeDossiers, collecte, dateComplete, dateHeureDakar } from '../lib/contenu';
 import { organisationEtSiteLD } from '../lib/jsonld';
 
 // Données structurées de l'accueil (invisibles) : Organization + WebSite.
@@ -16,7 +16,11 @@ const autres = dossiers.filter((d) => d.slug !== une.slug).sort((a, b) => b.nume
 const jUne = collecte(une);
 const urlUne = `/article/${une.slug}/`;
 const uneResume = une.verdict?.resumeCourt ?? une.resume ?? '';
-const uneDate = une.misAJourLe ? `Mis à jour le ${dateComplete(une.misAJourLe)}` : '';
+const uneDate = une.misAJourA
+  ? `Mis à jour le ${dateHeureDakar(une.misAJourA)} — heure de Dakar`
+  : une.misAJourLe
+    ? `Mis à jour le ${dateComplete(une.misAJourLe)}`
+    : '';
 // Date du bandeau d'en-tête. Calculée au build : elle sert de valeur de repli
 // (les visiteurs sans JS voient la date du dernier déploiement). Un petit
 // script en ligne la réactualise au jour réel du visiteur (voir plus bas).
@@ -99,7 +103,6 @@ const dateHeader = new Intl.DateTimeFormat('fr-FR', { weekday: 'short', day: 'nu
             const jd = collecte(d);
             return (
               <CarteDossier
-                numero={numeroAffiche(d.numero)}
                 rubrique={d.rubrique}
                 categorie={d.categorie}
                 titre={d.titre}

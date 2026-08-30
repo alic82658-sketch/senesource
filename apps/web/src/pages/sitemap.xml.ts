@@ -31,7 +31,7 @@ export const GET: APIRoute = async ({ site }) => {
     { loc: abs('/ce-que-ca-change/') },
     ...articles.map((d) => ({
       loc: abs(`/article/${d.slug}/`),
-      lastmod: d.misAJourLe ?? d.ouvertLe,
+      lastmod: d.misAJourA ?? d.misAJourLe ?? d.publieA ?? d.ouvertLe,
     })),
     ...rubriquesNonVides.map((r) => ({ loc: abs(`/rubrique/${r.slug}/`) })),
   ];

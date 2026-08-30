@@ -36,6 +36,33 @@ export function dateComplete(iso: string): string {
 }
 
 /**
+ * ISO avec fuseau → « 30 août 2026 à 15 h 49 », toujours à l'heure de Dakar.
+ * À utiliser uniquement lorsqu'un véritable horodatage est disponible.
+ */
+export function dateHeureDakar(iso: string): string {
+  const date = new Date(iso);
+  if (Number.isNaN(date.getTime())) return iso;
+
+  const fuseau = 'Africa/Dakar';
+  const dateLisible = new Intl.DateTimeFormat('fr-FR', {
+    timeZone: fuseau,
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  }).format(date);
+  const heure = new Intl.DateTimeFormat('fr-FR', {
+    timeZone: fuseau,
+    hour: '2-digit',
+    minute: '2-digit',
+    hourCycle: 'h23',
+  }).formatToParts(date);
+  const h = heure.find((p) => p.type === 'hour')?.value;
+  const min = heure.find((p) => p.type === 'minute')?.value;
+
+  return h && min ? `${dateLisible} à ${h} h ${min}` : dateLisible;
+}
+
+/**
  * Espaces fines insécables (U+202F) : séparateur de milliers et espace avant
  * « F ». Un montant ne se coupe jamais en fin de ligne (handoff §2).
  */

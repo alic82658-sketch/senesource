@@ -13,11 +13,11 @@ import EnTete from '../../components/layout/EnTete.astro';
 import {
   dossiersAvecPage,
   collecte,
-  numeroAffiche,
   fines,
   segmentsRenvois,
   dateJourMois,
   dateComplete,
+  dateHeureDakar,
   type Dossier,
 } from '../../lib/contenu';
 
@@ -30,21 +30,25 @@ interface Props {
 }
 const { dossier } = Astro.props;
 const d = dossier;
-const num = numeroAffiche(d.numero);
 const j = collecte(dossier);
 const preuvesMobiles = d.preuves.filter((p) => p.mobile);
 const etablies = d.preuves.filter((p) => p.etabli);
 const nonEtablies = d.preuves.filter((p) => !p.etabli);
 const consequence = d.consequenceDossier;
 const illustration = d.illustration;
-const metaLigne = `Dossier ${num} · ${d.rubrique}`;
+const metaLigne = d.rubrique;
 const description = d.verdict
   ? `${d.affirmation?.texte ?? d.titre} — Verdict : ${d.verdict.mot}. ${d.resume ?? ''}`.trim()
-  : `${d.titre} Dossier en instruction : ${j.obtenues} pièces obtenues sur ${j.total}.`;
+  : `${d.titre} En instruction : ${j.obtenues} pièces obtenues sur ${j.total}.`;
+const miseAJour = d.misAJourA
+  ? `${dateHeureDakar(d.misAJourA)} — heure de Dakar`
+  : d.misAJourLe
+    ? dateComplete(d.misAJourLe)
+    : '';
 ---
 
 <Base
-  titre={`Dossier ${num} — ${d.titre}`}
+  titre={d.titre}
   description={description}
   canonical={`/article/${d.slug}/`}
 >
@@ -56,7 +60,7 @@ const description = d.verdict
       <span class="barre-meta">
         {
           d.version
-            ? `Version ${d.version} · ${d.misAJourLe ? `Mise à jour le ${dateComplete(d.misAJourLe)}` : ''} · ${j.total} pièces`
+            ? `Version ${d.version}${miseAJour ? ` · Mise à jour le ${miseAJour}` : ''} · ${j.total} pièces`
             : d.ouvertLe
               ? `Ouvert le ${dateJourMois(d.ouvertLe)} · ${j.total} pièces`
               : `${j.total} pièces`
@@ -300,7 +304,9 @@ const description = d.verdict
               <ol class="rail-historique">
                 {d.historique.map((h) => (
                   <li class="rail-histo-entree">
-                    <span class="rail-histo-repere">V{h.version} · {dateComplete(h.date)}</span>
+                    <span class="rail-histo-repere">
+                      V{h.version} · {h.horodatage ? `${dateHeureDakar(h.horodatage)} — heure de Dakar` : dateComplete(h.date)}
+                    </span>
                     <span class="rail-histo-note">{h.note}</span>
                   </li>
                 ))}

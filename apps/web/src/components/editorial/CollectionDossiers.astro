@@ -4,7 +4,7 @@ import Base from '../../layouts/Base.astro';
 import EnTete from '../layout/EnTete.astro';
 import PiedDeSite from '../layout/PiedDeSite.astro';
 import CarteDossier from './CarteDossier.astro';
-import { collecte, numeroAffiche } from '../../lib/contenu';
+import { collecte } from '../../lib/contenu';
 
 interface Props {
   titre: string;
@@ -33,7 +33,6 @@ const { titre, description, dossiers, courante, rubriqueCourante, robots } = Ast
             const pieces = collecte(d);
             return (
               <CarteDossier
-                numero={numeroAffiche(d.numero)}
                 rubrique={d.rubrique}
                 categorie={d.categorie}
                 type={d.type}

@@ -1,12 +1,10 @@
 ---
 /**
- * Étiquette de dossier + titre-question (§4.6).
- * Le numéro de dossier est le seul élément ocre de l'en-tête.
+ * Étiquette de rubrique + titre-question (§4.6).
  * Un titre de dossier est TOUJOURS une question, ≤ 140 caractères (§7).
  * Un dossier sans verdict affiche EN INSTRUCTION à droite de la rubrique.
  */
 interface Props {
-  numero: string; // « 041 »
   rubrique: string; // « FISCALITÉ · CARBURANT »
   enInstruction?: boolean;
   titre: string;
@@ -15,7 +13,6 @@ interface Props {
   href?: string;
 }
 const {
-  numero,
   rubrique,
   enInstruction = false,
   titre,
@@ -29,7 +26,6 @@ const classeTitre = tailleTitre === 'display' ? 'typo-display' : 'typo-titre';
 
 <div>
   <div class="etiquette">
-    <span class="etiquette-numero">Dossier {numero}</span>
     <span class="etiquette-rubrique">{rubrique}{enInstruction && ' · En instruction'}</span>
   </div>
   {
@@ -52,13 +48,6 @@ const classeTitre = tailleTitre === 'display' ? 'typo-display' : 'typo-titre';
     align-items: baseline;
     margin-bottom: 10px;
   }
-  .etiquette-numero {
-    font: 600 10px/1 var(--ss-font-mono);
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: var(--ss-ochre);
-    white-space: nowrap;
-  }
   .etiquette-rubrique {
     font: 400 10px/1 var(--ss-font-mono);
     letter-spacing: 0.06em;
@@ -70,7 +59,6 @@ const classeTitre = tailleTitre === 'display' ? 'typo-display' : 'typo-titre';
       gap: 12px;
       margin-bottom: 16px;
     }
-    .etiquette-numero,
     .etiquette-rubrique {
       font-size: 11px;
     }
