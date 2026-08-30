@@ -72,7 +72,7 @@ const description = intro || d.titre;
 
 // Aperçu (WhatsApp/moteurs) et données structurées — invisibles.
 // L'image d'aperçu est la conversion PNG de l'illustration (public/og/<slug>.png).
-const ogImage = `/og/${entree.id}.png`;
+const ogImage = `/og/${entree.id}.png${d.version ? `?v=${d.version}` : ''}`;
 const urlCanonique = new URL(Astro.url.pathname, Astro.site).href;
 const jsonLd = articleLD({
   site: Astro.site!,
