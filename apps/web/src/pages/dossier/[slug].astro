@@ -48,7 +48,7 @@ const miseAJour = d.misAJourA
 // L’aperçu social reprend automatiquement l’illustration du dossier.
 // Le numéro de version invalide le cache de WhatsApp après une mise à jour.
 const ogImage = illustration
-  ? `${illustration.src}${d.version ? `?v=${d.version}` : ''}`
+  ? `${illustration.partageSrc ?? illustration.src}${d.version ? `?v=${d.version}` : ''}`
   : undefined;
 ---
 

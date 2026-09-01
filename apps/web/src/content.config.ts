@@ -138,6 +138,8 @@ const dossiers = defineCollection({
       illustration: z
         .object({
           src: z.string(),
+          // Image légère dédiée aux aperçus WhatsApp, Facebook, X et LinkedIn.
+          partageSrc: z.string().optional(),
           alt: z.string(),
           largeur: z.number().int().positive().optional(),
           hauteur: z.number().int().positive().optional(),

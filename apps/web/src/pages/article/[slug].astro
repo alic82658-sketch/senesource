@@ -74,7 +74,7 @@ const description = intro || d.titre;
 // L’illustration éditoriale de l’article devient directement son image sociale.
 // Le numéro de version invalide le cache après une mise à jour.
 const ogImage = d.illustration
-  ? `${d.illustration.src}${d.version ? `?v=${d.version}` : ''}`
+  ? `${d.illustration.partageSrc ?? d.illustration.src}${d.version ? `?v=${d.version}` : ''}`
   : undefined;
 const urlCanonique = new URL(Astro.url.pathname, Astro.site).href;
 const jsonLd = articleLD({

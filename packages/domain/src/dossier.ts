@@ -135,6 +135,8 @@ export interface PointFocal {
  */
 export interface Illustration {
   src: string; // URL de l'image (résolue par l'adapter)
+  /** Version légère recadrée pour les aperçus sociaux (Open Graph). */
+  partageSrc?: string;
   alt: string; // texte alternatif — requis si image présente
   largeur?: number;
   hauteur?: number;
