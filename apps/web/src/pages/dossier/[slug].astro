@@ -45,12 +45,21 @@ const miseAJour = d.misAJourA
   : d.misAJourLe
     ? dateComplete(d.misAJourLe)
     : '';
+// L’aperçu social reprend automatiquement l’illustration du dossier.
+// Le numéro de version invalide le cache de WhatsApp après une mise à jour.
+const ogImage = illustration
+  ? `${illustration.src}${d.version ? `?v=${d.version}` : ''}`
+  : undefined;
 ---
 
 <Base
   titre={d.titre}
   description={description}
   canonical={`/article/${d.slug}/`}
+  ogType="article"
+  ogImage={ogImage}
+  publishedTime={d.publieA ?? d.ouvertLe}
+  modifiedTime={d.misAJourA ?? d.misAJourLe}
 >
   <EnTete afficherRubriques={false} />
   <article class="dossier">

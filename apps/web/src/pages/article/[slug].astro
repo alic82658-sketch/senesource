@@ -71,15 +71,18 @@ const nonEtablies = d.preuves.filter((p) => !p.etabli);
 const description = intro || d.titre;
 
 // Aperçu (WhatsApp/moteurs) et données structurées — invisibles.
-// L'image d'aperçu est la conversion PNG de l'illustration (public/og/<slug>.png).
-const ogImage = `/og/${entree.id}.png${d.version ? `?v=${d.version}` : ''}`;
+// L’illustration éditoriale de l’article devient directement son image sociale.
+// Le numéro de version invalide le cache après une mise à jour.
+const ogImage = d.illustration
+  ? `${d.illustration.src}${d.version ? `?v=${d.version}` : ''}`
+  : undefined;
 const urlCanonique = new URL(Astro.url.pathname, Astro.site).href;
 const jsonLd = articleLD({
   site: Astro.site!,
   urlCanonique,
   titre: d.titre,
   description,
-  image: d.illustration ? ogImage : undefined,
+  image: ogImage,
   datePublication: d.publieA ?? d.ouvertLe,
   dateMiseAJour: d.misAJourA ?? d.misAJourLe,
 });
@@ -89,7 +92,7 @@ const jsonLd = articleLD({
   titre={d.titre}
   description={description}
   ogType="article"
-  ogImage={d.illustration ? ogImage : undefined}
+  ogImage={ogImage}
   publishedTime={d.publieA ?? d.ouvertLe}
   modifiedTime={d.misAJourA ?? d.misAJourLe}
 >
