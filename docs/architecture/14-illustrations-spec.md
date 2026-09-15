@@ -56,12 +56,15 @@ export interface Illustration {
   credit?: string;
   sourceUrl?: string; // URL de la source
   droits?: string;    // information de droits / licence
+  marqueSeneSource?: boolean; // signature de marque si elle n'est pas déjà dans le fichier
 }
 ```
 
-Les sept informations demandées sont couvertes : **image** (`src`), **texte alternatif**
+Les informations demandées sont couvertes : **image** (`src`), **texte alternatif**
 (`alt`), **légende** (`legende`), **crédit** (`credit`), **URL de source** (`sourceUrl`),
-**information de droits** (`droits`), **point focal/cadrage** (`focal`, + `hotspot` Sanity).
+**information de droits** (`droits`), **point focal/cadrage** (`focal`, + `hotspot` Sanity)
+et **signature de marque** (`marqueSeneSource`). Cette dernière reste désactivée quand
+le logo est déjà intégré au fichier afin d'éviter un doublon.
 
 ### 2.1 Les trois usages distincts (FAIT)
 

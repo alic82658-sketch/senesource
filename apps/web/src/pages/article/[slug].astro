@@ -65,7 +65,7 @@ const ligneDate = datePub
   : dateMaj
     ? `Dernière mise à jour le ${dateMaj}`
     : '';
-const intro = d.resume ?? d.verdict?.resumeCourt ?? '';
+const intro = ponctuationInsecable(d.resume ?? d.verdict?.resumeCourt ?? '');
 const etablies = d.preuves.filter((p) => p.etabli);
 const nonEtablies = d.preuves.filter((p) => !p.etabli);
 const description = intro || d.titre;
@@ -121,6 +121,7 @@ const jsonLd = articleLD({
           alt={d.illustration.alt}
           largeur={d.illustration.largeur}
           hauteur={d.illustration.hauteur}
+          marqueSeneSource={d.illustration.marqueSeneSource}
           focal={d.illustration.focal}
           ratio="16 / 9"
         />
@@ -232,6 +233,7 @@ const jsonLd = articleLD({
                         alt={recommandation.illustration.alt}
                         largeur={recommandation.illustration.largeur}
                         hauteur={recommandation.illustration.hauteur}
+                        marqueSeneSource={recommandation.illustration.marqueSeneSource}
                         focal={recommandation.illustration.focal}
                         ratio="4 / 3"
                       />

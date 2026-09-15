@@ -4,7 +4,7 @@ import EnTete from '../components/layout/EnTete.astro';
 import ImageDossier from '../components/editorial/ImageDossier.astro';
 import CarteDossier from '../components/editorial/CarteDossier.astro';
 import MarqueSeneSource from '../components/layout/MarqueSeneSource.astro';
-import { listeDossiers, collecte, dateComplete, dateHeureDakar } from '../lib/contenu';
+import { listeDossiers, collecte, dateComplete, dateHeureDakar, ponctuationInsecable } from '../lib/contenu';
 import { organisationEtSiteLD } from '../lib/jsonld';
 
 // Données structurées de l'accueil (invisibles) : Organization + WebSite.
@@ -15,7 +15,7 @@ const une = dossiers.find((d) => d.pageComplete) ?? dossiers[0]!;
 const autres = dossiers.filter((d) => d.slug !== une.slug).sort((a, b) => b.numero - a.numero);
 const jUne = collecte(une);
 const urlUne = `/article/${une.slug}/`;
-const uneResume = une.verdict?.resumeCourt ?? une.resume ?? '';
+const uneResume = ponctuationInsecable(une.verdict?.resumeCourt ?? une.resume ?? '');
 const uneDate = une.misAJourA
   ? `Mis à jour le ${dateHeureDakar(une.misAJourA)} — heure de Dakar`
   : une.misAJourLe
@@ -72,6 +72,7 @@ const dateHeader = new Intl.DateTimeFormat('fr-FR', { weekday: 'short', day: 'nu
               alt={une.illustration.alt}
               largeur={une.illustration.largeur}
               hauteur={une.illustration.hauteur}
+              marqueSeneSource={une.illustration.marqueSeneSource}
               focal={une.illustration.focal ?? { x: .5, y: .5 }}
               ratio="2 / 1"
               ratioMobile="3 / 2"

@@ -145,6 +145,8 @@ export interface Illustration {
   credit?: string;
   sourceUrl?: string;
   droits?: string; // information de droits / licence
+  /** Affiche la signature SeneSource quand elle n'est pas déjà intégrée au visuel. */
+  marqueSeneSource?: boolean;
 }
 
 /** Vue calculée : un document + les dossiers qui le citent (non stockée). */

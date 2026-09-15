@@ -67,7 +67,9 @@ export function dateHeureDakar(iso: string): string {
  * « F ». Un montant ne se coupe jamais en fin de ligne (handoff §2).
  */
 export function fines(s: string): string {
-  return s.replace(/(\d) (?=\d)/g, '$1 ').replace(/(\d) F/g, '$1 F');
+  return s
+    .replace(/(\d) (?=\d)/g, '$1 ')
+    .replace(/(\d) (?=(?:F(?:\s+CFA)?|FCFA|%|milliards?|millions?|milliers?|km|kWh)\b)/g, '$1 ');
 }
 
 /**

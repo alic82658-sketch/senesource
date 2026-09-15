@@ -148,6 +148,8 @@ const dossiers = defineCollection({
           credit: z.string().optional(),
           sourceUrl: z.string().url().optional(),
           droits: z.string().optional(),
+          // Signature ajoutée au rendu quand le fichier source n'est pas déjà marqué.
+          marqueSeneSource: z.boolean().optional(),
         })
         .optional(),
 

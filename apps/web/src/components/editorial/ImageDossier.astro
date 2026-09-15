@@ -26,6 +26,7 @@ interface Props {
   credit?: string;
   sourceUrl?: string;
   droits?: string;
+  marqueSeneSource?: boolean;
   ratio?: string; // ex. "16 / 9", "3 / 2", "4 / 3" — appliqué ≥1024
   ratioMobile?: string; // cadrage < 1024 (par défaut : identique à `ratio`)
   avecLegende?: boolean; // rend la légende/crédit/source sous l'image
@@ -42,6 +43,7 @@ const {
   credit,
   sourceUrl,
   droits,
+  marqueSeneSource = false,
   ratio = '3 / 2',
   ratioMobile,
   avecLegende = false,
@@ -77,6 +79,11 @@ const credLigne = [credit, droits].filter(Boolean).join(' · ');
           loading="lazy"
           decoding="async"
         />
+        {marqueSeneSource && (
+          <span class="img-marque" aria-hidden="true">
+            <img src="/logo-senesource.svg" alt="" loading="eager" decoding="async" />
+          </span>
+        )}
       </div>
       {aLegende && (
         <figcaption class="img-legende">
@@ -101,6 +108,7 @@ const credLigne = [credit, droits].filter(Boolean).join(' · ');
      Zéro radius, zéro ombre. Ratio piloté par l'appelant, distinct possible
      en mobile / desktop. */
   .img-cadre {
+    position: relative;
     overflow: hidden;
     aspect-ratio: var(--imgRatioMobile);
   }
@@ -115,6 +123,22 @@ const credLigne = [credit, droits].filter(Boolean).join(' · ');
     height: 100%;
     object-fit: cover;
     /* object-position : point focal (inline) */
+  }
+  .img-marque {
+    position: absolute;
+    right: clamp(8px, 1.5vw, 16px);
+    bottom: clamp(8px, 1.5vw, 16px);
+    z-index: 1;
+    display: block;
+    width: clamp(108px, 23%, 230px);
+    padding: 5px 7px 4px;
+    background: rgba(250, 249, 246, 0.94);
+    pointer-events: none;
+  }
+  .img-marque img {
+    display: block;
+    width: 100%;
+    height: auto;
   }
   .img-legende {
     display: flex;

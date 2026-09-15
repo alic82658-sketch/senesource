@@ -23,5 +23,12 @@ export const illustration = defineType({
     defineField({ name: 'credit', title: 'Crédit', type: 'string' }),
     defineField({ name: 'sourceUrl', title: 'URL de la source', type: 'url' }),
     defineField({ name: 'droits', title: 'Information de droits', type: 'string', description: 'Licence, autorisation, mention obligatoire…' }),
+    defineField({
+      name: 'marqueSeneSource',
+      title: 'Afficher la signature SeneSource',
+      type: 'boolean',
+      initialValue: false,
+      description: 'Activer uniquement si le visuel source ne contient pas déjà le logo.',
+    }),
   ],
 });
