@@ -54,7 +54,12 @@ export async function listeDossiers(): Promise<Dossier[]> {
   const tous = await getCollection('dossiers', ({ data }) =>
     ['publie', 'en_instruction'].includes(data.statut),
   );
-  return tous.map(mapDossier).sort((a, b) => b.numero - a.numero);
+  // Une actualisation documentée remonte le dossier sans changer son identité.
+  const dateEditoriale = (d: Dossier) =>
+    d.misAJourA ?? d.misAJourLe ?? d.publieA ?? d.ouvertLe ?? '';
+  return tous.map(mapDossier).sort((a, b) =>
+    dateEditoriale(b).localeCompare(dateEditoriale(a)) || b.numero - a.numero,
+  );
 }
 
 /** Dossiers disposant d'une page complète (V0.1 : le 041 uniquement). */

@@ -12,7 +12,7 @@ const jsonLd = organisationEtSiteLD(Astro.site!);
 
 const dossiers = await listeDossiers();
 const une = dossiers.find((d) => d.pageComplete) ?? dossiers[0]!;
-const autres = dossiers.filter((d) => d.slug !== une.slug).sort((a, b) => b.numero - a.numero);
+const autres = dossiers.filter((d) => d.slug !== une.slug);
 const jUne = collecte(une);
 const urlUne = `/article/${une.slug}/`;
 const uneResume = ponctuationInsecable(une.verdict?.resumeCourt ?? une.resume ?? '');
